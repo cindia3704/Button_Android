@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".startApp_1.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:layout_gravity="center">
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/person__icon1" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="정보를 입력해 주세요."
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="#000000"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아이디"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="66dp"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/initial_enter_ID"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint=" 아이디를 입력해 주세요."
+                    android:textSize="15dp"
+                    android:textColorHint="#000000"
+                    android:background="@drawable/edit"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="패스워드"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="66dp"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/initial_enter_PW"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint=" 영문 + 숫자 6 ~16자"
+                    android:textSize="15dp"
+                    android:textColorHint="#000000"
+                    android:background="@drawable/edit"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="패스워드 확인"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="66dp"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/recheck_pw"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint=" 패스워드를 다시 입력해 주세요."
+                    android:textSize="15dp"
+                    android:textColorHint="#000000"
+                    android:background="@drawable/edit"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="닉네임"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="66dp"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/nickname"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint=" 닉네임을 입력해 주세요."
+                    android:textSize="15dp"
+                    android:textColorHint="#000000"
+                    android:background="@drawable/edit"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="성별"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="66dp"
+                    android:textColor="#000000"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/gender_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="여성"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="15dp"/>
+
+                    <RadioButton
+                        android:id="@+id/gender_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="35dp"
+                        android:text="남성"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="15dp"/>
+
+                    <RadioButton
+                        android:id="@+id/gender_etc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="35dp"
+                        android:text="기타"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="15dp"/>
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+        <Button
+            android:id="@+id/make_account"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:layout_marginTop="15dp"
+            android:text="계정 만들기"
+            android:textSize="16dp" />
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
