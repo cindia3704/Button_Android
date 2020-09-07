@@ -1,10 +1,10 @@
 package com.example.button.startApp_1
 
-import android.provider.ContactsContract
+import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
+
 
 interface RetrofitService_Login {
     @POST("login/")
@@ -14,4 +14,8 @@ interface RetrofitService_Login {
     @POST("register/")
     @FormUrlEncoded
     fun register(@Field("userEmail") userEmail: String,@Field("password") passward:String,@Field("userNickName") userNickName:String,@Field("userGender") userGender:String): Call<Void>
+
+    @GET("user/findEmail/{userEmail}/")
+    fun findUserEmail(@Path("userEmail")userEmail:String):Call<ExistsOrNot>
+
 }

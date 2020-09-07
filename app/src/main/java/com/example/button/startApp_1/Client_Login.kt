@@ -22,6 +22,5 @@ object Client_Login {
 
         retrofitService = retrofit.create(RetrofitService_Login::class.java)
 
-
     }
 }
