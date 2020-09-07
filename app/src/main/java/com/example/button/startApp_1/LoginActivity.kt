@@ -47,10 +47,12 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         })
 
+
         // 아이디 찾기
-//        lost_id.setOnClickListener {
-//
-//        }
+        lost_id.setOnClickListener {
+            val intent = Intent(this, FindEmailActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
 

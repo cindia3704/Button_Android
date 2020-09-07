@@ -50,7 +50,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:hint=" 아이디를 입력해 주세요."
+                    android:hint=" 이메일 주소를 입력해 주세요."
                     android:textSize="15dp"
                     android:textColorHint="#000000"
                     android:background="@drawable/edit"
