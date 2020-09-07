@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
@@ -20,35 +23,9 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         val PREFERENCE = "com.example.button"
-        //gender_all.checkedRadioButtonId
-//        if (gender_all.getCheckedRadioButtonId() === -1) {
-//            Toast.makeText(applicationContext, "Please select Gender", Toast.LENGTH_SHORT)
-//                .show()
-//        } else {
-//            // get selected radio button from radioGroup
-//            val selectedId: Int = gender_all.getCheckedRadioButtonId()
-//            // find the radiobutton by returned id
-//            var selectedRadioButton = findViewById<View>(selectedId) as RadioButton
-//            if(selectedRadioButton.getText().toString().toString()=="여성")
-//            Toast.makeText(
-//                applicationContext,
-//                selectedRadioButton.getText().toString().toString() + " is selected",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//        if(gender_female.isChecked){
-//           var gender="FEMALE"
-//            Log.d("gender","female")
-//        }
-//        else if(gender_male){
-//            var gender="MALE"
-//            Log.d("gender","male")
-//        }
-//        else{
-//           var gender="ETC"
-//            Log.d("gender","etc")
-//        }
-        var gender ="ETC"
+
+        lateinit var radioGroup: RadioGroup
+        radioGroup = findViewById(R.id.gender_all)
 
         // 비밀번호 check!
         var passwordValid:Boolean=false
@@ -65,6 +42,22 @@ class RegisterActivity : AppCompatActivity() {
 
         make_account.setOnClickListener {
             Log.d("pass",passwordValid.toString())
+            //Gender 변환
+            val gender_id = radioGroup.checkedRadioButtonId
+            val radioButton = findViewById<RadioButton>(gender_id)
+            var gender ="ETC"
+
+            if(radioButton.text.equals("여성")){
+                gender="FEMALE"
+            }
+            else if(radioButton.text.equals("남성")){
+                gender="MALE"
+            }
+            else{
+                gender="ETC"
+            }
+            //Toast.makeText(this@RegisterActivity, radioButton.text, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this@RegisterActivity, gender, Toast.LENGTH_SHORT).show()
             if(passwordValid==false) {
                 Toast.makeText(this@RegisterActivity,"비밀번호가 틀렸습니다!!!", Toast.LENGTH_SHORT).show()
             }
