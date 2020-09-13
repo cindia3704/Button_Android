@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".startApp_1.FindEmailActivity"></activity>
-        <activity android:name=".startApp_1.MyCloset" />
+        <activity android:name=".startApp_1.FragmenyMycloset" />
         <activity android:name=".startApp_1.RegisterActivity" />
         <activity android:name=".startApp_1.LoginActivity" />
         <activity android:name=".startApp_1.SplashActivity">

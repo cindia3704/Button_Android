@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
                         editor.putString("username", enter_ID.text.toString())
                         editor.commit()
                         finish()
-                        val intent1=Intent(this@LoginActivity,MyCloset::class.java)
+                        val intent1=Intent(this@LoginActivity,FragmenyMycloset::class.java)
                         startActivity(intent1)
                         }
                     else{

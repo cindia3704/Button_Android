@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:elevation="5dp"
+    android:weightSum="3"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/btn_bottom_navi_calendar_tab"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/tab_calendar"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_bottom_navi_mycloset_tab"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/tab_button_icon"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_bottom_navi_recommend_tab"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/tab_recommend"/>
+    </RelativeLayout>
+
+
+</LinearLayout>
