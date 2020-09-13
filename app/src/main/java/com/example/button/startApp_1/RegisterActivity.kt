@@ -2,10 +2,7 @@ package com.example.button.startApp_1
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
@@ -76,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
                             editor.putString("username", initial_enter_ID.text.toString())
                             editor.commit()
                             finish()
-                            val intent1 = Intent(this@RegisterActivity, MyCloset::class.java)
+                            val intent1 = Intent(this@RegisterActivity, FragmenyMycloset::class.java)
                             startActivity(intent1)
 
                         } else {
