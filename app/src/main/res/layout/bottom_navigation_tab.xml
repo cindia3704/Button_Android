@@ -12,7 +12,7 @@
         android:id="@+id/btn_bottom_navi_calendar_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_weight="1">
+        android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:id="@+id/btn_bottom_navi_mycloset_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_weight="1">
+        android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:id="@+id/btn_bottom_navi_recommend_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_weight="1">
+        android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
