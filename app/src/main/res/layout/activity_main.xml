@@ -17,7 +17,7 @@
         android:id="@+id/tl_ac_main_bottom_menu"
         android:background="#ffffff"
         android:elevation="5dp"
-        app:tabIndicatorColor="@color/buttonColor"
+        app:tabIndicatorColor="@color/themeColor"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_alignParentBottom="true">
