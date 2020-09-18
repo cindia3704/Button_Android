@@ -5,12 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".startApp_1.MainActivity">
+    <LinearLayout
+        android:id="@+id/top_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/main_logo" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#302F2F" />
+
+    </LinearLayout>
     <androidx.viewpager.widget.ViewPager
+        android:layout_below="@+id/top_logo"
         android:id="@+id/vp_ac_main_frag_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/tl_ac_main_bottom_menu">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.example.button.startApp_1.MyclosetFragment"
+            android:id="@+id/fragmentOne"/>
     </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.tabs.TabLayout
