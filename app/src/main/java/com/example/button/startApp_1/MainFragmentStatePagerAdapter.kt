@@ -7,9 +7,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 class MainFragmentStatePagerAdapter(fm: FragmentManager, val fragmentCount : Int) : FragmentStatePagerAdapter(fm){
     override fun getItem(position: Int): Fragment {
         when(position){
-            0->return CalendarFragment()
+            0->return RecommendFragment()
             1->return MyclosetFragment()
-            else->return RecommendFragment()
+            else->return CalendarFragment()
         }
     }
 
