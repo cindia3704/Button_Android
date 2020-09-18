@@ -6,6 +6,7 @@
     android:background="#ffffff"
     android:elevation="5dp"
     android:weightSum="3"
+    android:layout_gravity="bottom"
     android:orientation="horizontal">
 
     <RelativeLayout
