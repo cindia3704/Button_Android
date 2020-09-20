@@ -42,4 +42,6 @@ dependencies {
 
     implementation 'gun0912.ted:tedpermission:2.2.3'
 
+    implementation 'com.google.code.gson:gson:2.8.5'
+
 }

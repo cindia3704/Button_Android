@@ -5,7 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.button.startApp_1.fileprovider"
@@ -21,21 +25,22 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path"></meta-data>
+                android:resource="@xml/file_path" />
         </provider>
-        <activity android:name=".startApp_1.RecyclerView"></activity>
+
         <activity android:name=".startApp_1.FindEmailActivity" />
         <activity android:name=".startApp_1.RegisterActivity" />
         <activity android:name=".startApp_1.LoginActivity" />
-        <activity android:name=".startApp_1.SplashActivity">
-        </activity>
-        <activity android:name=".startApp_1.MainActivity">
+        <activity android:name=".startApp_1.SplashActivity"/>
+        <activity android:name=".startApp_1.MainActivity"/>
+
+        <activity android:name=".startApp_1.NetworkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
