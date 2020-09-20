@@ -27,7 +27,8 @@
         <activity android:name=".startApp_1.FindEmailActivity" />
         <activity android:name=".startApp_1.RegisterActivity" />
         <activity android:name=".startApp_1.LoginActivity" />
-        <activity android:name=".startApp_1.SplashActivity" />
+        <activity android:name=".startApp_1.SplashActivity">
+        </activity>
         <activity android:name=".startApp_1.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

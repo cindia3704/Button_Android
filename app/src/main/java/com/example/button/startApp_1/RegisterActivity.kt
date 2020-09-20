@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
                             editor.putString("username", initial_enter_ID.text.toString())
                             editor.commit()
                             finish()
-                            val intent1 = Intent(this@RegisterActivity, MyclosetFragment::class.java)
+                            val intent1 = Intent(this@RegisterActivity, LoginActivity::class.java)
                             startActivity(intent1)
 
                         } else {
