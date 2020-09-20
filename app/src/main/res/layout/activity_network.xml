@@ -8,13 +8,9 @@
     tools:context=".startApp_1.NetworkActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvrview"
+        android:id="@+id/recycler_person"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        >
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
