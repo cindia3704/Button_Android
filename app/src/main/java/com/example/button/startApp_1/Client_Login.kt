@@ -8,11 +8,12 @@ import java.util.concurrent.TimeUnit
 
 object Client_Login {
     var retrofitService: RetrofitService_Login
+    var token = ""
 
     init {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val logger = OkHttpClient.Builder().addInterceptor(interceptor).readTimeout(20, TimeUnit.SECONDS).writeTimeout(20, TimeUnit.SECONDS).build()
+        val logger = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://18.191.146.76:9999/")

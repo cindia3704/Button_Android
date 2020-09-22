@@ -1,7 +1,8 @@
 package com.example.button.startApp_1
 
+import com.example.button.startApp_1.data.LoginResponse
+import com.example.button.startApp_1.data.User
 import com.google.gson.JsonObject
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -9,7 +10,7 @@ import retrofit2.http.*
 interface RetrofitService_Login {
     @POST("login/")
     @FormUrlEncoded
-    fun logIn(@Field("username") username: String,@Field("password") passward:String): Call<Void>
+    fun logIn(@Field("username") username: String,@Field("password") passward:String): Call<LoginResponse>
 
     @POST("register/")
     @FormUrlEncoded
@@ -18,4 +19,10 @@ interface RetrofitService_Login {
     @GET("user/findEmail/{userEmail}/")
     fun findUserEmail(@Path("userEmail")userEmail:String):Call<ExistsOrNot>
 
+    @GET("user")
+    fun getUser():Call<MutableList<User>>
+
+    @GET("closet/{id}")
+    fun getCloth(@Path("id")id:Int,
+                 @Header("WWW-Authenticate") token : String):Call<JsonObject>
 }

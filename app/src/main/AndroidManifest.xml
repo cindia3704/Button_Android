@@ -13,6 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -26,15 +27,17 @@
         <activity android:name=".startApp_1.RecyclerView"></activity>
         <activity android:name=".startApp_1.FindEmailActivity" />
         <activity android:name=".startApp_1.RegisterActivity" />
-        <activity android:name=".startApp_1.LoginActivity" />
-        <activity android:name=".startApp_1.SplashActivity">
-        </activity>
-        <activity android:name=".startApp_1.MainActivity">
+        <activity android:name=".startApp_1.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".startApp_1.SplashActivity">
+        </activity>
+        <activity android:name=".startApp_1.MainActivity">
+
         </activity>
     </application>
 

@@ -1,30 +1,16 @@
 package com.example.button.startApp_1
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
-import com.google.android.material.tabs.TabLayout
+import com.example.button.startApp_1.data.User
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.bottom_navigation_tab.*
-import kotlinx.android.synthetic.main.fragment_mycloset.*
-import kotlinx.android.synthetic.main.mycloset_category.*
-import java.lang.reflect.Array.set
-import com.example.button.startApp_1.Clothes
-import com.example.button.startApp_1.ClothList
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 class  MainActivity : AppCompatActivity() {
 
@@ -62,7 +48,37 @@ class  MainActivity : AppCompatActivity() {
 
         configureBottomNavigation()
         vp_ac_main_frag_pager.setCurrentItem(1)
+        reqUser()
 
+    }
+
+    private fun reqUser(){
+        Client_Login.retrofitService.getUser().enqueue(object : retrofit2.Callback<MutableList<User>>{
+            override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                call: Call<MutableList<User>>,
+                response: Response<MutableList<User>>
+            ) {
+                val data = response.body()?.get(0)
+                reqCloth(data?.id?:1)
+            }
+        })
+    }
+
+    private fun reqCloth(id : Int){
+        println("test="+Client_Login.token)
+        Client_Login.retrofitService.getCloth(id,Client_Login.token).enqueue(object : retrofit2.Callback<JsonObject>{
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                println("data="+response.body())
+            }
+
+        })
     }
 
     // 옷 객체 만들어서 옷 리스트에 추가하는 함수
