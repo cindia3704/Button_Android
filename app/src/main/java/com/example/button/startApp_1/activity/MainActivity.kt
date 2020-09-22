@@ -1,30 +1,12 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
-import com.google.android.material.tabs.TabLayout
+import com.example.button.startApp_1.adapter.MainFragmentStatePagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.bottom_navigation_tab.*
-import kotlinx.android.synthetic.main.fragment_mycloset.*
-import kotlinx.android.synthetic.main.mycloset_category.*
-import java.lang.reflect.Array.set
-import com.example.button.startApp_1.Clothes
-import com.example.button.startApp_1.ClothList
 
 class  MainActivity : AppCompatActivity() {
 
@@ -33,7 +15,11 @@ class  MainActivity : AppCompatActivity() {
 
 
     private fun configureBottomNavigation() {
-        vp_ac_main_frag_pager.adapter = MainFragmentStatePagerAdapter(supportFragmentManager, 3)
+        vp_ac_main_frag_pager.adapter =
+            MainFragmentStatePagerAdapter(
+                supportFragmentManager,
+                3
+            )
         tl_ac_main_bottom_menu.setupWithViewPager(vp_ac_main_frag_pager)
 
         val bottomNaviLayout: View =
@@ -62,8 +48,9 @@ class  MainActivity : AppCompatActivity() {
 
         configureBottomNavigation()
         vp_ac_main_frag_pager.setCurrentItem(1)
-
     }
+
+
 
     // 옷 객체 만들어서 옷 리스트에 추가하는 함수
 //    fun createFakeClothList(numberOfItems:Int=5, clothList:ClothList= ClothList()):ClothList{

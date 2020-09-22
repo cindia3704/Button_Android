@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".startApp_1.MainActivity">
+    tools:context=".startApp_1.activity.MainActivity">
     <LinearLayout
         android:id="@+id/top_logo"
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.example.button.startApp_1.MyclosetFragment"
+            android:name="com.example.button.startApp_1.fragment.MyclosetFragment"
             android:id="@+id/fragmentOne"/>
     </androidx.viewpager.widget.ViewPager>
 
