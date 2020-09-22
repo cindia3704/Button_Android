@@ -1,26 +1,27 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-object Client_Login {
-    var retrofitService: RetrofitService_Login
+object RetrofitClient {
+    var retrofitService: RetrofitService
+    var token = ""
+    val baseUrl = "http://18.191.146.76:9999"
 
     init {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val logger = OkHttpClient.Builder().addInterceptor(interceptor).readTimeout(20, TimeUnit.SECONDS).writeTimeout(20, TimeUnit.SECONDS).build()
+        val logger = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://18.191.146.76:9999/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(logger)
             .build()
 
-        retrofitService = retrofit.create(RetrofitService_Login::class.java)
+        retrofitService = retrofit.create(RetrofitService::class.java)
 
     }
 }

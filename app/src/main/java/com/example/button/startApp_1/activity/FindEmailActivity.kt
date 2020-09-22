@@ -1,4 +1,4 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.button.R
-import com.google.gson.JsonObject
+import com.example.button.startApp_1.network.RetrofitService
 import kotlinx.android.synthetic.main.activity_find_email.*
-import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +25,7 @@ class FindEmailActivity : AppCompatActivity() {
             .build()
 
         yes_to_find_id.setOnClickListener {
-            val service = retrofit.create(RetrofitService_Login::class.java)
+            val service = retrofit.create(RetrofitService::class.java)
             var userEmail = enter_email_to_find_id.text.toString()
 
             service.findUserEmail(userEmail.toString()).enqueue(object : Callback<ExistsOrNot> {
