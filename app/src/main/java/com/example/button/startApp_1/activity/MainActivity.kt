@@ -1,16 +1,12 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.activity
 
 import android.os.Bundle
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
-import com.example.button.startApp_1.data.User
-import com.google.gson.JsonObject
+import com.example.button.startApp_1.adapter.MainFragmentStatePagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 class  MainActivity : AppCompatActivity() {
 
@@ -19,7 +15,11 @@ class  MainActivity : AppCompatActivity() {
 
 
     private fun configureBottomNavigation() {
-        vp_ac_main_frag_pager.adapter = MainFragmentStatePagerAdapter(supportFragmentManager, 3)
+        vp_ac_main_frag_pager.adapter =
+            MainFragmentStatePagerAdapter(
+                supportFragmentManager,
+                3
+            )
         tl_ac_main_bottom_menu.setupWithViewPager(vp_ac_main_frag_pager)
 
         val bottomNaviLayout: View =
@@ -48,38 +48,9 @@ class  MainActivity : AppCompatActivity() {
 
         configureBottomNavigation()
         vp_ac_main_frag_pager.setCurrentItem(1)
-        reqUser()
-
     }
 
-    private fun reqUser(){
-        Client_Login.retrofitService.getUser().enqueue(object : retrofit2.Callback<MutableList<User>>{
-            override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
-            }
 
-            override fun onResponse(
-                call: Call<MutableList<User>>,
-                response: Response<MutableList<User>>
-            ) {
-                val data = response.body()?.get(0)
-                reqCloth(data?.id?:1)
-            }
-        })
-    }
-
-    private fun reqCloth(id : Int){
-        println("test="+Client_Login.token)
-        Client_Login.retrofitService.getCloth(id,Client_Login.token).enqueue(object : retrofit2.Callback<JsonObject>{
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-
-            }
-
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                println("data="+response.body())
-            }
-
-        })
-    }
 
     // 옷 객체 만들어서 옷 리스트에 추가하는 함수
 //    fun createFakeClothList(numberOfItems:Int=5, clothList:ClothList= ClothList()):ClothList{

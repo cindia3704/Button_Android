@@ -5,7 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".startApp_1.MyclosetFragment">
+    tools:context=".startApp_1.fragment.MyclosetFragment">
+
+    <ProgressBar android:id="@+id/progress"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
 <LinearLayout
     android:layout_width="match_parent"

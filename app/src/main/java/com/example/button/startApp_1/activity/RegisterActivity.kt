@@ -1,4 +1,4 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
+import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this@RegisterActivity,"비밀번호가 틀렸습니다!!!", Toast.LENGTH_SHORT).show()
             }
             else {
-                Client_Login.retrofitService.register(
+                RetrofitClient.retrofitService.register(
                     userEmail = initial_enter_ID.text.toString(),
                     passward = initial_enter_PW.text.toString(),
                     userNickName = nickname.text.toString(),

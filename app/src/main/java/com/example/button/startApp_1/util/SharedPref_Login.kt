@@ -1,4 +1,4 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.util
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,10 +10,11 @@ object SharedPref_Login {
     private var sharedPref: SharedPreferences? = null
 
     fun openSharedPrep(context: Context) {
-        this.sharedPref = context.getSharedPreferences(LOGIN_SESSION, Context.MODE_PRIVATE)
+        sharedPref = context.getSharedPreferences(
+            LOGIN_SESSION, Context.MODE_PRIVATE)
     }
     fun writeLoginSession(data: String) {
-        if(this.sharedPref == null) {
+        if(sharedPref == null) {
             Log.e("DSMAD", "Plz start openSahredPrep() !")
         } else {
             sharedPref?.edit()?.putString("session", data)?.apply()
@@ -21,7 +22,7 @@ object SharedPref_Login {
     }
 
     fun readLoginSession() : String? {
-        return if(this.sharedPref == null) {
+        return if(sharedPref == null) {
             Log.e("DSMAD", "Plz start openSahredPrep() !")
             null
         } else sharedPref?.getString("session", null)

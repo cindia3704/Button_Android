@@ -1,13 +1,12 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.button.R
 import com.example.button.startApp_1.data.LoginResponse
-import com.google.gson.JsonObject
+import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun requestLogin(){
-        Client_Login.retrofitService.logIn(enter_ID.text.toString(), enter_PW.text.toString()).enqueue(object : Callback<LoginResponse>{
+        RetrofitClient.retrofitService.logIn(enter_ID.text.toString(), enter_PW.text.toString()).enqueue(object : Callback<LoginResponse>{
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 t.printStackTrace()
                 Toast.makeText(this@LoginActivity,"실패!!!",Toast.LENGTH_SHORT).show()
@@ -68,12 +67,13 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if(response.body()?.token!=null) {
-                    Client_Login.token = response.body()?.token?:""
+                    RetrofitClient.token = response.body()?.token?:""
                     /*val pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
                     val editor = pref.edit()
                     editor.putString("username", enter_ID.text.toString())
                     editor.commit()*/
-                    val intent1=Intent(this@LoginActivity,MainActivity::class.java)
+                    val intent1=Intent(this@LoginActivity,
+                        MainActivity::class.java)
                     startActivity(intent1)
                     finish()
                 }

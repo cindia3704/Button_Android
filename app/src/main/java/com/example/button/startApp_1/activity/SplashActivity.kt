@@ -1,4 +1,4 @@
-package com.example.button.startApp_1
+package com.example.button.startApp_1.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
