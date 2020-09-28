@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".startApp_1.activity.AddClosetActivity">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="옷 정보 입력"
+            android:textColor="#000000" />
+
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:text="저장"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/closet"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="색상"
+        android:textColor="#000000"
+        android:textSize="13dp" />
+    <EditText
+        android:id="@+id/closet_color"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edit"
+        android:hint="색상을 입력해주세요."
+        android:textSize="13dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="계절"
+        android:textColor="#000000"
+        android:textSize="13dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/spring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="봄"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/summer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="여름"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/fall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="가을"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/winter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="겨울"
+            android:textSize="13dp" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="카테고리"
+        android:textColor="#000000"
+        android:textSize="13dp" />
+    <TextView
+        android:id="@+id/closer_category"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edit"
+        android:gravity="center_vertical"
+        android:text="카테고리를 선택해주세요"
+        android:textSize="13dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="구입 날짜"
+        android:textColor="#000000"
+        android:textSize="13dp" />
+    <TextView
+        android:id="@+id/closer_buy_day"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edit"
+        android:gravity="center_vertical"
+        android:text="구입한 날짜를 선택해주세요"
+        android:textSize="13dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="착용 날짜 "
+        android:textColor="#000000"
+        android:textSize="13dp" />
+    <TextView
+        android:id="@+id/closer_dress_day"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edit"
+        android:gravity="center_vertical"
+        android:text="착용날짜를 선택해주세요"
+        android:textSize="13dp" />
+
+</LinearLayout>
