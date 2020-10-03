@@ -8,7 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     var retrofitService: RetrofitService
     var token = ""
-    val baseUrl = "http://18.191.146.76:9999"
+//    val baseUrl = "http://18.191.146.76:9999/"
+    val baseUrl = "http://141.223.121.111:9999/admin/"
 
     init {
         val interceptor = HttpLoggingInterceptor()
