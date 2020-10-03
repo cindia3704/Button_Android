@@ -4,8 +4,6 @@ import com.example.button.startApp_1.activity.ExistsOrNot
 import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.LoginResponse
 import com.example.button.startApp_1.data.User
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -28,18 +26,4 @@ interface RetrofitService {
     @GET("/closet/{id}")
     fun getCloth(@Path("id")id:Int,
                  @Header("Authorization") token : String):Call<MutableList<Cloth>>
-
-
-    @Multipart
-    @POST("/closet/{id}/")
-    fun updateCloset(@Header("Authorization") token : String,
-                     @Path("id") id : Int,
-                     @Part("id") user_id: RequestBody,
-                     @Part("color") color: RequestBody,
-                     @Part("category") category:RequestBody,
-                     @Part("season") season:MutableList<RequestBody>,
-                     @Part("dateBought") dateBought:RequestBody,
-                     @Part("dateLastWorn") dateLastWorn:RequestBody,
-                     @Part photo : MultipartBody.Part?) : Call<Void>
-
 }

@@ -1,7 +1,6 @@
 package com.example.button.startApp_1.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.button.R
-import com.example.button.startApp_1.activity.AddClosetActivity
 import com.example.button.startApp_1.adapter.ClothAdapter
 import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.User
@@ -27,8 +25,6 @@ class MyclosetFragment : Fragment() {
     private var adapterList = mutableListOf<ClothAdapter>()
     private lateinit var mContext : Context
     private val categoryList = mutableListOf("TOP","BOTTOM","OUTER","DRESS")
-
-    private var userId = 1
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +41,7 @@ class MyclosetFragment : Fragment() {
 
     private fun layoutInit(){
         topClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext,userId
+            LayoutInflater.from(activity), mContext
         )
         adapterList.add(topClothadapter)
         recyclerView_category_top.apply {
@@ -54,7 +50,7 @@ class MyclosetFragment : Fragment() {
         }
 
         bottomClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext,userId
+            LayoutInflater.from(activity), mContext
         )
         recyclerView_category_bottom.apply {
             adapter = bottomClothadapter
@@ -62,7 +58,7 @@ class MyclosetFragment : Fragment() {
         }
         adapterList.add(bottomClothadapter)
         outerClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext,userId
+            LayoutInflater.from(activity), mContext
         )
 
         recyclerView_category_outer.apply {
@@ -72,39 +68,13 @@ class MyclosetFragment : Fragment() {
         adapterList.add(outerClothadapter)
         onepieceClothadapter =
             ClothAdapter(
-                LayoutInflater.from(activity), mContext,userId
+                LayoutInflater.from(activity), mContext
             )
         recyclerView_category_onepiece.apply {
             adapter = onepieceClothadapter
             layoutManager=GridLayoutManager(activity,2,RecyclerView.HORIZONTAL,false)
         }
         adapterList.add(onepieceClothadapter)
-
-
-        add_clothes_top.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","TOP")
-            startActivity(intent)
-        }
-        add_clothes_bottom.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","BOTTOM")
-            startActivity(intent)
-        }
-        add_clothes_outer.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","OUTER")
-            startActivity(intent)
-        }
-        add_clothes_onepiece.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","ONEPIECE")
-            startActivity(intent)
-        }
     }
 
     private fun reqUser(){
@@ -118,8 +88,7 @@ class MyclosetFragment : Fragment() {
                 response: Response<MutableList<User>>
             ) {
                 val data = response.body()?.get(0)
-                userId = data?.id?:1
-                reqCloth(userId)
+                reqCloth(data?.id?:1)
             }
         })
     }
