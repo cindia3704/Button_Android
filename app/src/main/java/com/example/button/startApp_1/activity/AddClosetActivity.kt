@@ -92,7 +92,7 @@ class AddClosetActivity : AppCompatActivity() {
         }
 
         Glide.with(this@AddClosetActivity)
-            .load(RetrofitClient.baseUrl.substring(0,RetrofitClient.baseUrl.length-1)+item.photo)
+            .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
             .apply(RequestOptions.circleCropTransform()).into(closet);
 
@@ -128,11 +128,12 @@ class AddClosetActivity : AppCompatActivity() {
 
         closer_category.setOnClickListener {
 
-            var category_item = arrayOf("상의","하의","원피스","아우터")
+            var category_item = arrayOf("TOP","BOTTOM","ONEPIECE","OUTER")
             var dialog_builder = AlertDialog.Builder(this)
             dialog_builder.setTitle("카테고리 선택")
             dialog_builder.setItems(category_item,object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
+                    category = category_item[p1]
                     closer_category.text = category_item[p1]
                 }
 
@@ -177,15 +178,27 @@ class AddClosetActivity : AppCompatActivity() {
                 "$imageName"
             )
         imagePath = imageFile.absolutePath
-        Log.e("imagePath", "imagePath=${imagePath}")
         return imageFile
     }
 
 
     private fun updateCloset() {
+        var imageFile : File? = null
+        var photo : MultipartBody.Part? = null
+        var fileBody : RequestBody? = null
 
-        var imageFile = File(imagePath)
-        var fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+
+        if(!TextUtils.isEmpty(imagePath)){
+            imageFile = File(imagePath)
+            fileBody  = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+
+            photo = MultipartBody.Part.createFormData(
+                "photo",
+                URLEncoder.encode(imageFile.name, "utf-8"),
+                fileBody)
+        }else{
+
+        }
 
 
         var categoryBody = RequestBody.create(MediaType.parse("text/plain"), category)
@@ -208,27 +221,57 @@ class AddClosetActivity : AppCompatActivity() {
         }
 
 
-        RetrofitClient.retrofitService.updateCloset(
-            "Token "+ RetrofitClient.token,
-            user_id,
-            user_id = closeIdBody,
-            color = colorBody,
-            category = categoryBody,
-            season = season,
-            dateBought = dateBought,
-            dateLastWorn = dateLastWorn,
-            photo= MultipartBody.Part.createFormData(
-                "photo",
-                URLEncoder.encode(imageFile.name, "utf-8"),
-                fileBody
-            )
-        ).enqueue(object :
+        if(select_item == null){
+            // 옷 입력
+            RetrofitClient.retrofitService.insertCloset(
+                "Token "+ RetrofitClient.token,
+                user_id,
+                clothID = closeIdBody,
+                color = colorBody,
+                category = categoryBody,
+                season = season,
+                dateBought = dateBought,
+                dateLastWorn = dateLastWorn,
+                photo= photo
+            ).enqueue(object :
                 retrofit2.Callback<Void> {
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     Log.d("response", "response=${response}")
                     if (response.isSuccessful) {
 
+                        finish()
+                    } else {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("error", t.toString())
+                }
+            })
+        }else{
+
+            var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (user_id).toString())
+            // 옷 수정
+            RetrofitClient.retrofitService.updateCloset(
+                "Token "+ RetrofitClient.token,
+                user_id,
+                clothID = select_item!!.clothID,
+                id = userIdBody,
+                color = colorBody,
+                category = categoryBody,
+                season = season,
+                dateBought = dateBought,
+                dateLastWorn = dateLastWorn,
+                photo= photo
+            ).enqueue(object :
+                retrofit2.Callback<Void> {
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Log.d("response", "response=${response}")
+                    if (response.isSuccessful) {
+                        finish()
 
                     } else {
 
@@ -239,6 +282,9 @@ class AddClosetActivity : AppCompatActivity() {
                     Log.d("error", t.toString())
                 }
             })
+        }
+
+
 
 
     }
