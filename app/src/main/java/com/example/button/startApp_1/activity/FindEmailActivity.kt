@@ -20,7 +20,7 @@ class FindEmailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_find_email)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://18.191.146.76:9999/")
+            .baseUrl("http://141.223.121.111:9999/admin/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
