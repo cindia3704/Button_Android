@@ -1,6 +1,5 @@
 package com.example.button.startApp_1.data
 
-
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
