@@ -28,7 +28,6 @@ class MyclosetFragment : Fragment() {
     private lateinit var mContext : Context
     private val categoryList = mutableListOf("TOP","BOTTOM","OUTER","DRESS")
 
-
     private var userId = 1
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +45,7 @@ class MyclosetFragment : Fragment() {
 
     private fun layoutInit(){
         topClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext,userId
+            LayoutInflater.from(activity), mContext
         )
         adapterList.add(topClothadapter)
         recyclerView_category_top.apply {
@@ -55,7 +54,7 @@ class MyclosetFragment : Fragment() {
         }
 
         bottomClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext,userId
+            LayoutInflater.from(activity), mContext
         )
         recyclerView_category_bottom.apply {
             adapter = bottomClothadapter
@@ -63,7 +62,7 @@ class MyclosetFragment : Fragment() {
         }
         adapterList.add(bottomClothadapter)
         outerClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext,userId
+            LayoutInflater.from(activity), mContext
         )
 
         recyclerView_category_outer.apply {
@@ -73,7 +72,7 @@ class MyclosetFragment : Fragment() {
         adapterList.add(outerClothadapter)
         onepieceClothadapter =
             ClothAdapter(
-                LayoutInflater.from(activity), mContext,userId
+                LayoutInflater.from(activity), mContext
             )
         recyclerView_category_onepiece.apply {
             adapter = onepieceClothadapter
@@ -120,9 +119,20 @@ class MyclosetFragment : Fragment() {
             ) {
                 val data = response.body()?.get(0)
                 userId = data?.id?:1
+
+                topClothadapter.user_id = userId
+                bottomClothadapter.user_id = userId
+                outerClothadapter.user_id = userId
+                onepieceClothadapter.user_id = userId
+
                 reqCloth(userId)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reqCloth(userId)
     }
 
     private fun reqCloth(id : Int){
@@ -188,3 +198,4 @@ class MyclosetFragment : Fragment() {
 //    override fun onBindViewHolder(holder: categoryAdapter.ViewHolder, position: Int) {
 //        holder.categoryText.setText(categoryList.get(position))
 //    }
+//}
