@@ -1,201 +1,362 @@
-package com.example.button.startApp_1.fragment
+package com.example.button.startApp_1.activity
 
-import android.content.Context
+import android.Manifest
+import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.os.Environment
+import android.provider.MediaStore
+import android.text.TextUtils
+import android.util.Log
+import android.widget.DatePicker
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.button.BuildConfig
 import com.example.button.R
-import com.example.button.startApp_1.activity.AddClosetActivity
-import com.example.button.startApp_1.adapter.ClothAdapter
 import com.example.button.startApp_1.data.Cloth
-import com.example.button.startApp_1.data.User
 import com.example.button.startApp_1.network.RetrofitClient
-import kotlinx.android.synthetic.main.fragment_mycloset.*
+import com.example.button.startApp_1.network.RetrofitService
+import kotlinx.android.synthetic.main.activity_add_closet.*
+import kotlinx.android.synthetic.main.activity_register.*
+import okhttp3.Callback
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
+import java.io.File
+import java.net.URLEncoder
+import java.util.*
 
-class MyclosetFragment : Fragment() {
-    private lateinit var topClothadapter : ClothAdapter
-    private lateinit var bottomClothadapter : ClothAdapter
-    private lateinit var outerClothadapter : ClothAdapter
-    private lateinit var onepieceClothadapter : ClothAdapter
-    private var adapterList = mutableListOf<ClothAdapter>()
-    private lateinit var mContext : Context
-    private val categoryList = mutableListOf("TOP","BOTTOM","OUTER","DRESS")
+class AddClosetActivity : AppCompatActivity() {
 
-    private var userId = 1
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_mycloset, container, false)
+
+    private var REQ_CAMERA_PERMISSION = 1001
+    private var REQ_IMAGE_CAPTURE = 2001
+    private var imagePath = ""
+
+
+    private var user_id = 1
+    private var category = ""
+
+    private var select_item: Cloth? = null
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_closet)
+
+        user_id = intent.getIntExtra("id", 1)
+        category = intent.getStringExtra("category") ?: ""
+        select_item = intent.getParcelableExtra("item")
+
+        Log.e("select_item", "select_item=" + select_item?.toString())
+
+
+        initUi()
+        if (select_item == null) {
+            checkPermission()
+        }else{
+            setUi(select_item!!)
+        }
+
+
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        layoutInit()
-        reqUser()
+    private fun setUi(item : Cloth){
+        closer_category.text = item.category
+        closet_color.setText(item.color.toString())
+        closer_buy_day.text = item.dateBought
+        closer_dress_day.text = item.dateLastWorn
+
+        if( item.season.contains("SUMMER")) {
+            summer.isChecked = true
+        }
+        if( item.season.contains("SPRING")) {
+            spring.isChecked = true
+        }
+        if( item.season.contains("FALL")) {
+            fall.isChecked = true
+        }
+        if( item.season.contains("WINTER")) {
+            winter.isChecked = true
+        }
+
+        Glide.with(this@AddClosetActivity)
+            .load(RetrofitClient.imageBaseUrl+item.photo)
+            .placeholder(R.drawable.circle)
+            .apply(RequestOptions.circleCropTransform()).into(closet);
+
     }
 
-    private fun layoutInit(){
-        topClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext
-        )
-        adapterList.add(topClothadapter)
-        recyclerView_category_top.apply {
-            adapter= topClothadapter
-            layoutManager = GridLayoutManager(activity,2,RecyclerView.HORIZONTAL,false)
+    private fun initUi() {
+        save.setOnClickListener {
+            updateCloset()
         }
-
-        bottomClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext
-        )
-        recyclerView_category_bottom.apply {
-            adapter = bottomClothadapter
-            layoutManager = GridLayoutManager(activity,2,RecyclerView.HORIZONTAL,false)
+        closet.setOnClickListener {
+            checkPermission()
         }
-        adapterList.add(bottomClothadapter)
-        outerClothadapter = ClothAdapter(
-            LayoutInflater.from(activity), mContext
-        )
-
-        recyclerView_category_outer.apply {
-            adapter=outerClothadapter
-            layoutManager=GridLayoutManager(activity,2,RecyclerView.HORIZONTAL,false)
-        }
-        adapterList.add(outerClothadapter)
-        onepieceClothadapter =
-            ClothAdapter(
-                LayoutInflater.from(activity), mContext
-            )
-        recyclerView_category_onepiece.apply {
-            adapter = onepieceClothadapter
-            layoutManager=GridLayoutManager(activity,2,RecyclerView.HORIZONTAL,false)
-        }
-        adapterList.add(onepieceClothadapter)
-
-
-        add_clothes_top.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","TOP")
-            startActivity(intent)
-        }
-        add_clothes_bottom.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","BOTTOM")
-            startActivity(intent)
-        }
-        add_clothes_outer.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","OUTER")
-            startActivity(intent)
-        }
-        add_clothes_onepiece.setOnClickListener {
-            var intent = Intent(context,AddClosetActivity::class.java)
-            intent.putExtra("id",userId)
-            intent.putExtra("category","ONEPIECE")
-            startActivity(intent)
-        }
-    }
-
-    private fun reqUser(){
-        setProgress()
-        RetrofitClient.retrofitService.getUser().enqueue(object : retrofit2.Callback<MutableList<User>>{
-            override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
-            }
-
-            override fun onResponse(
-                call: Call<MutableList<User>>,
-                response: Response<MutableList<User>>
-            ) {
-                val data = response.body()?.get(0)
-                userId = data?.id?:1
-
-                topClothadapter.user_id = userId
-                bottomClothadapter.user_id = userId
-                outerClothadapter.user_id = userId
-                onepieceClothadapter.user_id = userId
-
-                reqCloth(userId)
-            }
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        reqCloth(userId)
-    }
-
-    private fun reqCloth(id : Int){
-        RetrofitClient.retrofitService.getCloth(id,"Token "+ RetrofitClient.token).enqueue(object : retrofit2.Callback<MutableList<Cloth>>{
-            override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
-                t.printStackTrace()
-            }
-
-            override fun onResponse(call: Call<MutableList<Cloth>>, response: Response<MutableList<Cloth>>) {
-                val data = response.body()
-                for(i in 0 until categoryList.size){
-                    sortData(i,data)
+        closer_dress_day.setOnClickListener {
+            var calendar = Calendar.getInstance()
+            var dialog = DatePickerDialog(this,object : DatePickerDialog.OnDateSetListener{
+                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+                    closer_dress_day.text = "${p1}-${p2+1}-${p3}"
                 }
-                setProgress()
-            }
 
-        })
-    }
+            },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_WEEK))
+            dialog.show()
+        }
+        closer_buy_day.setOnClickListener {
+            var calendar = Calendar.getInstance()
+            var dialog = DatePickerDialog(this,object : DatePickerDialog.OnDateSetListener{
+                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+                    closer_buy_day.text = "${p1}-${p2+1}-${p3}"
+                }
 
-    private fun sortData(index : Int , list:MutableList<Cloth>?){
-        val data = mutableListOf<Cloth>()
-        data.addAll(list?.filter { it.category == categoryList[index] }?: mutableListOf())
-        adapterList[index].setClothList(data)
-    }
+            },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_WEEK))
+            dialog.show()
+        }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
-    }
+        closer_category.setOnClickListener {
 
-    private fun setProgress(){
-        when(progress.visibility){
-            View.GONE -> progress.visibility = View.VISIBLE
-            View.VISIBLE -> progress.visibility = View.GONE
+            var category_item = arrayOf("TOP","BOTTOM","ONEPIECE","OUTER")
+            var dialog_builder = AlertDialog.Builder(this)
+            dialog_builder.setTitle("카테고리 선택")
+            dialog_builder.setItems(category_item,object : DialogInterface.OnClickListener{
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    category = category_item[p1]
+                    closer_category.text = category_item[p1]
+                }
+
+            })
+
+            dialog_builder.show()
+
         }
     }
 
+
+    private fun checkPermission() {
+        var permission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+
+        if (permission == PackageManager.PERMISSION_DENIED) {
+            // 권한 없는 경우
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                REQ_CAMERA_PERMISSION
+            )
+        } else {
+            // 권한 있는 경우
+            selectPhoto()
+        }
+    }
+
+    private fun createImageFile(): File { // 사진이 저장될 폴더 있는지 체크
+        var file = File(
+            getExternalFilesDir(Environment.DIRECTORY_DCIM),
+            "/path/"
+        )
+        if (!file.exists()) file.mkdir()
+        var imageName = "${System.currentTimeMillis()}.jpeg"
+        var imageFile =
+            File(
+                "${getExternalFilesDir(Environment.DIRECTORY_DCIM)?.absoluteFile}/path/",
+                "$imageName"
+            )
+        imagePath = imageFile.absolutePath
+        return imageFile
+    }
+
+
+    private fun updateCloset() {
+        var imageFile : File? = null
+        var photo : MultipartBody.Part? = null
+        var fileBody : RequestBody? = null
+
+
+        if(!TextUtils.isEmpty(imagePath)){
+            imageFile = File(imagePath)
+            fileBody  = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+
+            photo = MultipartBody.Part.createFormData(
+                "photo",
+                URLEncoder.encode(imageFile.name, "utf-8"),
+                fileBody)
+        }else{
+
+        }
+
+
+        var categoryBody = RequestBody.create(MediaType.parse("text/plain"), category)
+        var closeIdBody = RequestBody.create(MediaType.parse("text/plain"), (select_item?.clothID?:user_id).toString())
+        var colorBody = RequestBody.create(MediaType.parse("text/plain"), closet_color.text.toString())
+        var dateBought = RequestBody.create(MediaType.parse("text/plain"), closer_buy_day.text.toString())
+        var dateLastWorn = RequestBody.create(MediaType.parse("text/plain"), closer_dress_day.text.toString())
+        var season = mutableListOf<RequestBody>()
+        if(spring.isChecked){
+            season.add(RequestBody.create(MediaType.parse("text/plain"), "SPRING"))
+        }
+        if(summer.isChecked){
+            season.add(RequestBody.create(MediaType.parse("text/plain"), "SUMMER"))
+        }
+        if(fall.isChecked){
+            season.add(RequestBody.create(MediaType.parse("text/plain"), "FALL"))
+        }
+        if(winter.isChecked){
+            season.add(RequestBody.create(MediaType.parse("text/plain"), "WINTER"))
+        }
+
+
+        if(select_item == null){
+            // 옷 입력
+            RetrofitClient.retrofitService.insertCloset(
+                "Token "+ RetrofitClient.token,
+                user_id,
+                clothID = closeIdBody,
+                color = colorBody,
+                category = categoryBody,
+                season = season,
+                dateBought = dateBought,
+                dateLastWorn = dateLastWorn,
+                photo= photo
+            ).enqueue(object :
+                retrofit2.Callback<Void> {
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Log.d("response", "response=${response}")
+                    if (response.isSuccessful) {
+
+                        finish()
+                    } else {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("error", t.toString())
+                }
+            })
+        }else{
+
+            var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (user_id).toString())
+            // 옷 수정
+            RetrofitClient.retrofitService.updateCloset(
+                "Token "+ RetrofitClient.token,
+                user_id,
+                clothID = select_item!!.clothID,
+                id = userIdBody,
+                color = colorBody,
+                category = categoryBody,
+                season = season,
+                dateBought = dateBought,
+                dateLastWorn = dateLastWorn,
+                photo= photo
+            ).enqueue(object :
+                retrofit2.Callback<Void> {
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Log.d("response", "response=${response}")
+                    if (response.isSuccessful) {
+                        finish()
+
+                    } else {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("error", t.toString())
+                }
+            })
+        }
+
+
+
+
+    }
+
+    private fun selectPhoto() {
+        var state = Environment.getExternalStorageState()
+        if (TextUtils.equals(state, Environment.MEDIA_MOUNTED)) {
+            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.resolveActivity(packageManager)?.let {
+                var photoFile: File? = createImageFile()
+                photoFile?.let {
+                    var photoUri = FileProvider.getUriForFile(
+                        this,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        it
+                    )
+                    intent.putExtra(
+                        MediaStore.EXTRA_OUTPUT,
+                        photoUri
+                    )
+                    startActivityForResult(intent, REQ_IMAGE_CAPTURE)
+                }
+            }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        Log.e("imagePath2", "requestCode=${requestCode}\nresultCode=${resultCode}")
+
+        when (requestCode) {
+
+            REQ_IMAGE_CAPTURE -> {
+                imagePath.apply {
+                    Glide.with(this@AddClosetActivity)
+                        .load(this)
+                        .placeholder(R.drawable.circle)
+                        .apply(RequestOptions.circleCropTransform()).into(closet);
+
+                }
+
+
+            }
+
+        }
+
+    }
+
+    // 권한 요청한 결과 ㄱ밧 리턴
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+
+        when (requestCode) {
+            REQ_CAMERA_PERMISSION -> {
+
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 동의 했을 경우
+                    selectPhoto()
+                } else {
+                    // 동의 안했을 경우
+                    Toast.makeText(this, "권한 동의를 해야 가능합니다", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
+        }
+    }
 }
-
-
-
-//
-//class categoryAdapter(
-//    val categoryList:ArrayList<String>,
-//    val inflater: LayoutInflater
-//):RecyclerView.Adapter<categoryAdapter.ViewHolder>(){
-//    class ViewHolder(categoryView:View):RecyclerView.ViewHolder(categoryView){
-//        val categoryText:TextView
-//
-//        init{
-//            categoryText=categoryView.findViewById(R.id.category)
-//        }
-//    }
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): categoryAdapter.ViewHolder {
-//        val view=inflater.inflate(R.layout.mycloset_category,parent,false)
-//        return categoryAdapter.ViewHolder(view)
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return categoryList.size
-//    }
-//
-//    override fun onBindViewHolder(holder: categoryAdapter.ViewHolder, position: Int) {
-//        holder.categoryText.setText(categoryList.get(position))
-//    }
-//}
