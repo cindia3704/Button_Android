@@ -1,6 +1,7 @@
 package com.example.button.startApp_1.network
 
 import com.example.button.startApp_1.activity.ExistsOrNot
+import com.example.button.startApp_1.activity.LoggedUserInfo
 import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.LoginResponse
 import com.example.button.startApp_1.data.User
@@ -15,6 +16,9 @@ interface RetrofitService {
     @FormUrlEncoded
     fun logIn(@Field("username") username: String,@Field("password") passward:String): Call<LoginResponse>
 
+    @GET("/login/{userEmail}/")
+    fun getLoggedUser(@Path("userEmail")userEmail: String):Call<LoggedUserInfo>
+
     @POST("/register/")
     @FormUrlEncoded
     fun register(@Field("userEmail") userEmail: String,@Field("password") passward:String,@Field("userNickName") userNickName:String,@Field("userGender") userGender:String): Call<Void>
@@ -24,6 +28,10 @@ interface RetrofitService {
 
     @GET("/user")
     fun getUser():Call<MutableList<User>>
+
+    @GET("/user/{id}/")
+    fun getUserSpecific(@Path("id")id:Int,
+                        @Header("Authorization") token : String):Call<MutableList<User>>
 
     @GET("/closet/{id}")
     fun getCloth(@Path("id")id:Int,

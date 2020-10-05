@@ -59,6 +59,7 @@ class AddClosetActivity : AppCompatActivity() {
         category = intent.getStringExtra("category") ?: ""
         select_item = intent.getParcelableExtra("item")
 
+
         Log.e("select_item", "select_item=" + select_item?.toString())
 
 
