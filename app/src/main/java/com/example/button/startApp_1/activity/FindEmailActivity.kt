@@ -61,7 +61,7 @@ class FindEmailActivity : AppCompatActivity() {
                     Log.d("error", "에러"+t.toString())
                     Toast.makeText(
                         this@FindEmailActivity,
-                        "로그인에 실패하였습니다.",
+                        "아이디 찾기에 실패하였습니다.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -78,3 +78,4 @@ class FindEmailActivity : AppCompatActivity() {
 class ExistsOrNot(var exists:String){
 
 }
+

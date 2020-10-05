@@ -3,23 +3,30 @@ package com.example.button.startApp_1.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.button.R
 import com.example.button.startApp_1.activity.AddClosetActivity
+import com.example.button.startApp_1.activity.LoginActivity
+import com.example.button.startApp_1.activity.MainActivity
 import com.example.button.startApp_1.adapter.ClothAdapter
 import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.User
 import com.example.button.startApp_1.network.RetrofitClient
+import kotlinx.android.synthetic.main.activity_add_closet.*
 import kotlinx.android.synthetic.main.fragment_mycloset.*
 import retrofit2.Call
 import retrofit2.Response
 
 class MyclosetFragment : Fragment() {
+
+
     private lateinit var topClothadapter : ClothAdapter
     private lateinit var bottomClothadapter : ClothAdapter
     private lateinit var outerClothadapter : ClothAdapter
@@ -27,18 +34,53 @@ class MyclosetFragment : Fragment() {
     private var adapterList = mutableListOf<ClothAdapter>()
     private lateinit var mContext : Context
     private val categoryList = mutableListOf("TOP","BOTTOM","OUTER","DRESS")
+    var userId:Int?=5
+    companion object {
+        private const val MY_INT = "userId"
+        fun newInstance(userId: Int): MyclosetFragment {
+            val frag = MyclosetFragment()
+            val bundle = Bundle()
+            bundle.putInt(MY_INT, userId)
+           // this.userId=userId
+            frag.arguments = bundle
+            return frag
+        }
+//        fun newInstance(userId: Int?) = MyclosetFragment().apply {
+//            arguments =
+//                Bundle().apply { putInt(MY_INT, userId ?: Int.MIN_VALUE) }
+//        }
+    }
 
-    private var userId = 1
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        arguments?.let {
+//            this.userId = it.getInt(MY_INT, 0)
+//        }
+//        if(arguments!=null){
+//
+//            userId= arguments!!.getInt("userId")
+//        }
+//        else{
+           // Log.d("user",""+userId)
+//        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_mycloset, container, false)
+    Log.d("user id from login to fragment",""+userId)
+    return inflater.inflate(R.layout.fragment_mycloset, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        arguments?.let {
+//            userId = it.getInt(MY_INT)
+//            Log.d("userrrr","let")
+//    }
+//        Log.d("user id from login to fragment",""+userId)
         layoutInit()
         reqUser()
     }
@@ -109,33 +151,38 @@ class MyclosetFragment : Fragment() {
 
     private fun reqUser(){
         setProgress()
-        RetrofitClient.retrofitService.getUser().enqueue(object : retrofit2.Callback<MutableList<User>>{
-            override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
-            }
+        userId?.let {
+            RetrofitClient.retrofitService.getUserSpecific(it,"Token "+ RetrofitClient.token).enqueue(object : retrofit2.Callback<MutableList<User>>{
+                override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
+                }
 
-            override fun onResponse(
-                call: Call<MutableList<User>>,
-                response: Response<MutableList<User>>
-            ) {
-                val data = response.body()?.get(0)
-                userId = data?.id?:1
+                override fun onResponse(
+                    call: Call<MutableList<User>>,
+                    response: Response<MutableList<User>>
+                ) {
+                    val data = response.body()?.get(0)
+                    Toast.makeText(getActivity(),"user id is : "+userId,Toast.LENGTH_SHORT).show()
+                    Log.d("user id is: ",""+userId)
+                    topClothadapter.user_id = userId
+                    bottomClothadapter.user_id = userId
+                    outerClothadapter.user_id = userId
+                    onepieceClothadapter.user_id = userId
 
-                topClothadapter.user_id = userId
-                bottomClothadapter.user_id = userId
-                outerClothadapter.user_id = userId
-                onepieceClothadapter.user_id = userId
-
-                reqCloth(userId)
-            }
-        })
+                    reqCloth(userId!!)
+                }
+            })
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        reqCloth(userId)
+        userId?.let { reqCloth(it) }
     }
 
     private fun reqCloth(id : Int){
+        //var intent1 = Intent(context,LoginActivity::class.java)
+        //userId=intent1.getIntExtra("userId",2)
+        //startActivity(intent1)
         RetrofitClient.retrofitService.getCloth(id,"Token "+ RetrofitClient.token).enqueue(object : retrofit2.Callback<MutableList<Cloth>>{
             override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
                 t.printStackTrace()

@@ -1,5 +1,6 @@
 package com.example.button.startApp_1.network
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,7 +12,6 @@ object RetrofitClient {
     //    val baseUrl = "http://18.191.146.76:9999/"
     val baseUrl = "http://141.223.121.111:9999/"
     val imageBaseUrl = "http://141.223.121.111:9999"
-
     init {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -24,6 +24,6 @@ object RetrofitClient {
             .build()
 
         retrofitService = retrofit.create(RetrofitService::class.java)
-
+        Log.d("tokenn",token)
     }
 }

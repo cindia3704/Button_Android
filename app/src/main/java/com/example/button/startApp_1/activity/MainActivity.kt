@@ -1,18 +1,21 @@
 package com.example.button.startApp_1.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
 import com.example.button.startApp_1.adapter.MainFragmentStatePagerAdapter
+import com.example.button.startApp_1.fragment.MyclosetFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class  MainActivity : AppCompatActivity() {
 
     val REQUEST_IMAGE_CAPTURE = 1
     lateinit var currentPhotoPath: String
-
+    var userId: Int=1
 
     private fun configureBottomNavigation() {
         vp_ac_main_frag_pager.adapter =
@@ -31,20 +34,29 @@ class  MainActivity : AppCompatActivity() {
         tl_ac_main_bottom_menu.getTabAt(2)!!.customView =
             bottomNaviLayout.findViewById(R.id.btn_bottom_navi_calendar_tab) as RelativeLayout
     }
-
+    fun getUsersId():Int{
+        return this.userId
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //var intent = Intent(this@MainActivity,LoginActivity::class.java)
+         userId=getIntent().getIntExtra("userId",3)
+        Log.d("user id from login:",""+userId)
 
         super.onCreate(savedInstanceState)
+//        val bundle = Bundle().apply {
+//            putInt("userId", userId)
+//        }
+
+//        var intent2=Intent(this@MainActivity,MyclosetFragment::class.java)
+//        intent2.putExtra("userId",userId)
+//        startActivity(intent2)
+//        val fragment = MyclosetFragment.newInstance(userId)
+        //fragment.arguments= bundle
+       // Log.d("user bundle in main:",""+bundle["userId"])
+        //MyclosetFragment.newInstance(userId)
         setContentView(R.layout.activity_main)
 
-//        val clothLists=ArrayList<Clothes>()
-//        for(i in 0 until 5){
-//            clothLists.add(Clothes(name=""+i+"번째 옷"))
-//        }
-//        val adapter=clothAdapter(clothLists, LayoutInflater.from(this@MainActivity))
-//        recyclerView_category.adapter=adapter
-//        recyclerView_category.layoutManager=LinearLayoutManager(this@MainActivity)
 
         configureBottomNavigation()
         vp_ac_main_frag_pager.setCurrentItem(1)
