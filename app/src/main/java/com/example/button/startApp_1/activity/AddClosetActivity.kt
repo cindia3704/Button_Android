@@ -1,6 +1,7 @@
 package com.example.button.startApp_1.activity
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
@@ -60,7 +61,7 @@ class AddClosetActivity : AppCompatActivity() {
         select_item = intent.getParcelableExtra("item")
 
 
-        Log.e("select_item", "select_item=" + select_item?.toString())
+        Log.e("select_item", "select_item=" + select_item?.toString()+"\ncategory="+category)
 
 
         initUi()
@@ -75,7 +76,7 @@ class AddClosetActivity : AppCompatActivity() {
 
     private fun setUi(item : Cloth){
         closer_category.text = item.category
-        closet_color.setText(item.color.toString())
+        closet_color.setText(item.color?:"")
         closer_buy_day.text = item.dateBought
         closer_dress_day.text = item.dateLastWorn
 
@@ -100,6 +101,8 @@ class AddClosetActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
+        closer_category.text = category
+
         save.setOnClickListener {
             updateCloset()
         }
@@ -127,22 +130,22 @@ class AddClosetActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        closer_category.setOnClickListener {
-
-            var category_item = arrayOf("TOP","BOTTOM","ONEPIECE","OUTER")
-            var dialog_builder = AlertDialog.Builder(this)
-            dialog_builder.setTitle("카테고리 선택")
-            dialog_builder.setItems(category_item,object : DialogInterface.OnClickListener{
-                override fun onClick(p0: DialogInterface?, p1: Int) {
-                    category = category_item[p1]
-                    closer_category.text = category_item[p1]
-                }
-
-            })
-
-            dialog_builder.show()
-
-        }
+//        closer_category.setOnClickListener {
+//
+//            var category_item = arrayOf("TOP","BOTTOM","ONEPIECE","OUTER")
+//            var dialog_builder = AlertDialog.Builder(this)
+//            dialog_builder.setTitle("카테고리 선택")
+//            dialog_builder.setItems(category_item,object : DialogInterface.OnClickListener{
+//                override fun onClick(p0: DialogInterface?, p1: Int) {
+//                    category = category_item[p1]
+//                    closer_category.text = category_item[p1]
+//                }
+//
+//            })
+//
+//            dialog_builder.show()
+//
+//        }
     }
 
 
@@ -316,23 +319,26 @@ class AddClosetActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.e("imagePath2", "requestCode=${requestCode}\nresultCode=${resultCode}")
+        Log.e("imagePath2", "requestCode=${requestCode}\nresultCode=${resultCode}\nimagePath=${imagePath}")
 
-        when (requestCode) {
+        if(resultCode == Activity.RESULT_OK){
+            when (requestCode) {
 
-            REQ_IMAGE_CAPTURE -> {
-                imagePath.apply {
-                    Glide.with(this@AddClosetActivity)
-                        .load(this)
-                        .placeholder(R.drawable.circle)
-                        .apply(RequestOptions.circleCropTransform()).into(closet);
+                REQ_IMAGE_CAPTURE -> {
+                    imagePath.apply {
+                        Glide.with(this@AddClosetActivity)
+                            .load(this)
+                            .placeholder(R.drawable.circle)
+                            .apply(RequestOptions.circleCropTransform()).into(closet);
+
+                    }
+
 
                 }
 
-
             }
-
         }
+
 
     }
 
