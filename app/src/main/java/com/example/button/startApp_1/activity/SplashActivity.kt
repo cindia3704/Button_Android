@@ -11,9 +11,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        tap_to_start_button.setOnClickListener({
+        tap_to_start_button.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-        })
+            finish()
+        }
     }
 }
