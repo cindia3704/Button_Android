@@ -31,13 +31,7 @@
         android:id="@+id/vp_ac_main_frag_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tl_ac_main_bottom_menu">
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.example.button.startApp_1.fragment.MyclosetFragment"
-            android:id="@+id/fragmentOne"/>
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_above="@+id/tl_ac_main_bottom_menu"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_ac_main_bottom_menu"
