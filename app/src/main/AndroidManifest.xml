@@ -5,9 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -19,14 +17,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-
-        <activity android:name=".startApp_1.activity.AddClosetActivity">
-
-        </activity>
-
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".startApp_1.activity.CoordiDetailActivity"></activity>
+        <activity android:name=".startApp_1.activity.CoordiListActivity" />
+        <activity
+            android:name=".startApp_1.activity.ReMainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".startApp_1.activity.AddClosetActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -38,29 +36,27 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-
-
-
-        <activity android:name=".startApp_1.activity.FindEmailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".startApp_1.activity.RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".startApp_1.activity.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".startApp_1.activity.SplashActivity"
+        <activity
+            android:name=".startApp_1.activity.FindEmailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".startApp_1.activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".startApp_1.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".startApp_1.activity.SplashActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <activity android:name=".startApp_1.activity.MainActivity"
-            android:screenOrientation="portrait"/>
-
-
+        <activity
+            android:name=".startApp_1.activity.MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
