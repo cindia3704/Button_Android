@@ -5,9 +5,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ffffff"
     android:elevation="5dp"
-    android:weightSum="3"
+    android:weightSum="5"
     android:layout_gravity="bottom"
     android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/btn_bottom_navi_recommend_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/tab_recommend"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/btn_bottom_navi_calendar_tab"
@@ -19,6 +33,19 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:src="@drawable/tab_calendar"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_bottom_navi_selfcoordi_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/tab_outfit_by_myself"/>
 
     </RelativeLayout>
 
@@ -35,17 +62,19 @@
 
     </RelativeLayout>
 
+
+
+
     <RelativeLayout
-        android:id="@+id/btn_bottom_navi_recommend_tab"
+        android:id="@+id/btn_bottom_navi_friendlist_tab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/tab_recommend"/>
+            android:src="@drawable/tab_mypage"/>
 
     </RelativeLayout>
 
