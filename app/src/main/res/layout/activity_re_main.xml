@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".startApp_1.activity.MainActivity">
+    <LinearLayout
+        android:id="@+id/top_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/main_logo" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#302F2F" />
+
+    </LinearLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:layout_below="@+id/top_logo"
+        android:id="@+id/vp_ac_main_frag_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tl_ac_main_bottom_menu"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_ac_main_bottom_menu"
+        android:background="#ffffff"
+        android:elevation="5dp"
+        app:tabIndicatorColor="@color/themeColor"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true">
+    </com.google.android.material.tabs.TabLayout>
+
+</RelativeLayout>
