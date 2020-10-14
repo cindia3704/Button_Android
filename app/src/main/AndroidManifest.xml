@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".startApp_1.activity.CoordiDetailActivity"></activity>
+        <activity android:name=".startApp_1.activity.AddCoordiActivity"></activity>
+        <activity android:name=".startApp_1.activity.CoordiDetailActivity" />
         <activity android:name=".startApp_1.activity.CoordiListActivity" />
         <activity
             android:name=".startApp_1.activity.ReMainActivity"
