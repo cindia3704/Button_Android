@@ -51,50 +51,49 @@ class AddClosetActivity : AppCompatActivity() {
     private var select_item: Cloth? = null
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_closet)
 
-        user_id = intent.getIntExtra("id", 1)
+        user_id = intent.getIntExtra("userId", 1)
+        Log.e("user_id","AddClosetActivity user_id="+user_id)
         category = intent.getStringExtra("category") ?: ""
         select_item = intent.getParcelableExtra("item")
 
 
-        Log.e("select_item", "select_item=" + select_item?.toString()+"\ncategory="+category)
+        Log.e("select_item", "select_item=" + select_item?.toString() + "\ncategory=" + category)
 
 
         initUi()
         if (select_item == null) {
             checkPermission()
-        }else{
+        } else {
             setUi(select_item!!)
         }
 
 
     }
 
-    private fun setUi(item : Cloth){
+    private fun setUi(item: Cloth) {
         closer_category.text = item.category
-        closet_color.setText(item.color?:"")
         closer_buy_day.text = item.dateBought
         closer_dress_day.text = item.dateLastWorn
 
-        if( item.season.contains("SUMMER")) {
+        if (item.season.contains("SUMMER")) {
             summer.isChecked = true
         }
-        if( item.season.contains("SPRING")) {
+        if (item.season.contains("SPRING")) {
             spring.isChecked = true
         }
-        if( item.season.contains("FALL")) {
+        if (item.season.contains("FALL")) {
             fall.isChecked = true
         }
-        if( item.season.contains("WINTER")) {
+        if (item.season.contains("WINTER")) {
             winter.isChecked = true
         }
 
         Glide.with(this@AddClosetActivity)
-            .load(RetrofitClient.imageBaseUrl+item.photo)
+            .load(RetrofitClient.imageBaseUrl + item.photo)
             .placeholder(R.drawable.circle)
             .apply(RequestOptions.circleCropTransform()).into(closet);
 
@@ -111,22 +110,34 @@ class AddClosetActivity : AppCompatActivity() {
         }
         closer_dress_day.setOnClickListener {
             var calendar = Calendar.getInstance()
-            var dialog = DatePickerDialog(this,object : DatePickerDialog.OnDateSetListener{
-                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-                    closer_dress_day.text = "${p1}-${p2+1}-${p3}"
-                }
+            var dialog = DatePickerDialog(
+                this,
+                object : DatePickerDialog.OnDateSetListener {
+                    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+                        closer_dress_day.text = "${p1}-${p2 + 1}-${p3}"
+                    }
 
-            },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_WEEK))
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_WEEK)
+            )
             dialog.show()
         }
         closer_buy_day.setOnClickListener {
             var calendar = Calendar.getInstance()
-            var dialog = DatePickerDialog(this,object : DatePickerDialog.OnDateSetListener{
-                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-                    closer_buy_day.text = "${p1}-${p2+1}-${p3}"
-                }
+            var dialog = DatePickerDialog(
+                this,
+                object : DatePickerDialog.OnDateSetListener {
+                    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+                        closer_buy_day.text = "${p1}-${p2 + 1}-${p3}"
+                    }
 
-            },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_WEEK))
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_WEEK)
+            )
             dialog.show()
         }
 
@@ -187,62 +198,75 @@ class AddClosetActivity : AppCompatActivity() {
 
 
     private fun updateCloset() {
-        var imageFile : File? = null
-        var photo : MultipartBody.Part? = null
-        var fileBody : RequestBody? = null
+        category = closer_category.text.toString()
+
+        var imageFile: File? = null
+        var photo: MultipartBody.Part? = null
+        var fileBody: RequestBody? = null
 
 
-        if(!TextUtils.isEmpty(imagePath)){
+        if (!TextUtils.isEmpty(imagePath)) {
+            Log.e("addClosetActivity","imagePath is nmot empty imagePath="+imagePath)
             imageFile = File(imagePath)
-            fileBody  = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+            fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
 
             photo = MultipartBody.Part.createFormData(
                 "photo",
                 URLEncoder.encode(imageFile.name, "utf-8"),
-                fileBody)
+                fileBody
+            )
         }else{
-
+            Log.e("addClosetActivity","imagePath is empty imagePath="+imagePath)
         }
 
 
         var categoryBody = RequestBody.create(MediaType.parse("text/plain"), category)
-        var closeIdBody = RequestBody.create(MediaType.parse("text/plain"), (select_item?.clothID?:user_id).toString())
-        var colorBody = RequestBody.create(MediaType.parse("text/plain"), closet_color.text.toString())
-        var dateBought = RequestBody.create(MediaType.parse("text/plain"), closer_buy_day.text.toString())
-        var dateLastWorn = RequestBody.create(MediaType.parse("text/plain"), closer_dress_day.text.toString())
+        var closeIdBody = RequestBody.create(
+            MediaType.parse("text/plain"),
+            (select_item?.clothID ?: user_id).toString()
+        )
+        var dateBought =
+            RequestBody.create(MediaType.parse("text/plain"), closer_buy_day.text.toString())
+        var dateLastWorn =
+            RequestBody.create(MediaType.parse("text/plain"), closer_dress_day.text.toString())
         var season = mutableListOf<RequestBody>()
-        if(spring.isChecked){
+        if (spring.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "SPRING"))
         }
-        if(summer.isChecked){
+        if (summer.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "SUMMER"))
         }
-        if(fall.isChecked){
+        if (fall.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "FALL"))
         }
-        if(winter.isChecked){
+        if (winter.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "WINTER"))
         }
 
 
-        if(select_item == null){
+
+        if (select_item == null) {
             // 옷 입력
             RetrofitClient.retrofitService.insertCloset(
-                "Token "+ RetrofitClient.token,
+                "Token " + RetrofitClient.token,
                 user_id,
                 clothID = closeIdBody,
-                color = colorBody,
                 category = categoryBody,
                 season = season,
                 dateBought = dateBought,
                 dateLastWorn = dateLastWorn,
-                photo= photo
+                photo = photo
             ).enqueue(object :
                 retrofit2.Callback<Void> {
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     Log.d("response", "response=${response}")
                     if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@AddClosetActivity,
+                            "정상적으로 저장 되었습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                         finish()
                     } else {
@@ -254,27 +278,31 @@ class AddClosetActivity : AppCompatActivity() {
                     Log.d("error", t.toString())
                 }
             })
-        }else{
+        } else {
 
             var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (user_id).toString())
             // 옷 수정
             RetrofitClient.retrofitService.updateCloset(
-                "Token "+ RetrofitClient.token,
+                "Token " + RetrofitClient.token,
                 user_id,
                 clothID = select_item!!.clothID,
                 id = userIdBody,
-                color = colorBody,
                 category = categoryBody,
                 season = season,
                 dateBought = dateBought,
                 dateLastWorn = dateLastWorn,
-                photo= photo
+                photo = photo
             ).enqueue(object :
                 retrofit2.Callback<Void> {
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     Log.d("response", "response=${response}")
                     if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@AddClosetActivity,
+                            "정상적으로 수정 되었습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         finish()
 
                     } else {
@@ -287,8 +315,6 @@ class AddClosetActivity : AppCompatActivity() {
                 }
             })
         }
-
-
 
 
     }
@@ -319,9 +345,12 @@ class AddClosetActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.e("imagePath2", "requestCode=${requestCode}\nresultCode=${resultCode}\nimagePath=${imagePath}")
+        Log.e(
+            "imagePath2",
+            "requestCode=${requestCode}\nresultCode=${resultCode}\nimagePath=${imagePath}"
+        )
 
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
 
                 REQ_IMAGE_CAPTURE -> {
