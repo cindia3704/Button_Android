@@ -119,57 +119,61 @@ class MyclosetFragment : Fragment() {
         adapterList.add(onepieceClothadapter)
 
 
+
+        topClothadapter.user_id = userId
+        bottomClothadapter.user_id = userId
+        outerClothadapter.user_id = userId
+        onepieceClothadapter.user_id = userId
+
         add_clothes_top.setOnClickListener {
             var intent = Intent(context, AddClosetActivity::class.java)
-            intent.putExtra("id", userId)
+            Log.e("userId","MyclosetFragment userId="+userId)
+            intent.putExtra("userId", userId)
             intent.putExtra("category", "TOP")
             startActivity(intent)
         }
         add_clothes_bottom.setOnClickListener {
             var intent = Intent(context, AddClosetActivity::class.java)
-            intent.putExtra("id", userId)
+            intent.putExtra("userId", userId)
             intent.putExtra("category", "BOTTOM")
             startActivity(intent)
         }
         add_clothes_outer.setOnClickListener {
             var intent = Intent(context, AddClosetActivity::class.java)
-            intent.putExtra("id", userId)
+            intent.putExtra("userId", userId)
             intent.putExtra("category", "OUTER")
             startActivity(intent)
         }
         add_clothes_onepiece.setOnClickListener {
             var intent = Intent(context, AddClosetActivity::class.java)
-            intent.putExtra("id", userId)
+            intent.putExtra("userId", userId)
             intent.putExtra("category", "DRESS")
             startActivity(intent)
         }
     }
 
     private fun reqUser() {
-        setProgress()
-        userId?.let {
-            RetrofitClient.retrofitService.getUserSpecific(it, "Token " + RetrofitClient.token)
-                .enqueue(object : retrofit2.Callback<MutableList<User>> {
-                    override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
-                    }
 
-                    override fun onResponse(
-                        call: Call<MutableList<User>>,
-                        response: Response<MutableList<User>>
-                    ) {
-                        val data = response.body()?.get(0)
-                        Toast.makeText(getActivity(), "user id is : " + userId, Toast.LENGTH_SHORT)
-                            .show()
-                        Log.d("user id is: ", "" + userId)
-                        topClothadapter.user_id = userId
-                        bottomClothadapter.user_id = userId
-                        outerClothadapter.user_id = userId
-                        onepieceClothadapter.user_id = userId
-
-                        reqCloth(userId!!)
-                    }
-                })
-        }
+        Log.e("user_id","reqUser user_id="+userId)
+//        userId?.let {
+//            RetrofitClient.retrofitService.getUserSpecific(it, "Token " + RetrofitClient.token)
+//                .enqueue(object : retrofit2.Callback<MutableList<User>> {
+//                    override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
+//                    }
+//
+//                    override fun onResponse(
+//                        call: Call<MutableList<User>>,
+//                        response: Response<MutableList<User>>
+//                    ) {
+//                        val data = response.body()?.get(0)
+//                        Toast.makeText(getActivity(), "user id is : " + userId, Toast.LENGTH_SHORT)
+//                            .show()
+//                        Log.e("user_id","reqUser res user_id="+userId)
+//
+//                        reqCloth(userId!!)
+//                    }
+//                })
+//        }
     }
 
     override fun onResume() {
@@ -192,7 +196,6 @@ class MyclosetFragment : Fragment() {
                     for (i in 0 until categoryList.size) {
                         sortData(i, data)
                     }
-                    setProgress()
                 }
 
             })
@@ -207,13 +210,6 @@ class MyclosetFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-    }
-
-    private fun setProgress() {
-        when (progress.visibility) {
-            View.GONE -> progress.visibility = View.VISIBLE
-            View.VISIBLE -> progress.visibility = View.GONE
-        }
     }
 
 }
