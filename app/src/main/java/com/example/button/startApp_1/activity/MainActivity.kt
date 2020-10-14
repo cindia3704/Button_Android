@@ -28,9 +28,9 @@ class  MainActivity : AppCompatActivity() {
         tl_ac_main_bottom_menu.getTabAt(1)!!.customView =
             bottomNaviLayout.findViewById(R.id.btn_bottom_navi_mycloset_tab) as RelativeLayout
         tl_ac_main_bottom_menu.getTabAt(2)!!.customView =
-            bottomNaviLayout.findViewById(R.id.btn_bottom_navi_calendar_tab) as RelativeLayout
+            bottomNaviLayout.findViewById(R.id.btn_bottom_navi_selfcoordi_tab) as RelativeLayout
         tl_ac_main_bottom_menu.getTabAt(3)!!.customView =
-            bottomNaviLayout.findViewById(R.id.btn_bottom_navi_calendar_tab) as RelativeLayout
+            bottomNaviLayout.findViewById(R.id.btn_bottom_navi_friendlist_tab) as RelativeLayout
         tl_ac_main_bottom_menu.getTabAt(4)!!.customView =
             bottomNaviLayout.findViewById(R.id.btn_bottom_navi_calendar_tab) as RelativeLayout
     }
