@@ -135,7 +135,7 @@ class CoordiFragment : Fragment() {
             return
         }
 //        var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (userId).toString())
-        RetrofitClient.retrofitService.getOutfitId(userId, userId,outfitName)
+        RetrofitClient.retrofitService.getOutfitId(userId, userId,"Token " + RetrofitClient.token,outfitName)
             .enqueue(object : retrofit2.Callback<GetOutfitIdResponse> {
                 override fun onFailure(call: Call<GetOutfitIdResponse>, t: Throwable) {
                     t.printStackTrace()
