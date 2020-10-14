@@ -41,24 +41,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="색상"
-        android:textColor="#000000"
-        android:textSize="13dp" />
-    <EditText
-        android:id="@+id/closet_color"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edit"
-        android:hint="색상을 입력해주세요."
-        android:textSize="13dp" />
+
 
 
     <TextView
