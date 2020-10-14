@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class CoordiDetailActivity : AppCompatActivity() {
     companion object {
         const val KEY_COORDI_ID = "KEY_COORDI_ID"
         const val KEY_USER_ID = "KEY_USER_ID"
+        const val KEY_FRIEND_ID = "KEY_FRIEND_ID"
     }
 
     private var topAdapter = CoordiDetailItemAdapter(this, CoordiItemAdapter.TYPE_TOP)
@@ -41,6 +43,7 @@ class CoordiDetailActivity : AppCompatActivity() {
 
     private var coordiID = 0
     private var userID = 0
+    private var friendID = 0
 
     private var selectTopId = 0
     private var selectBottomId = 0
@@ -52,11 +55,12 @@ class CoordiDetailActivity : AppCompatActivity() {
 
         coordiID = intent.getIntExtra(KEY_COORDI_ID, 0)
         userID = intent.getIntExtra(KEY_USER_ID, 0)
+        friendID = intent.getIntExtra(KEY_FRIEND_ID, 0)
 
-        Log.e("CoordiDetailActivity", "coordiID=" + coordiID + "\nuserID=" + userID)
+        Log.e("CoordiDetailActivity", "coordiID=" + coordiID + "\nuserID=" + userID+"\nfriendID="+friendID)
 
         layoutInit()
-        reqCloth(userID)
+        reqCloth(if(friendID == 0 )userID else friendID)
         reqCoordiDetail()
     }
 
@@ -71,42 +75,63 @@ class CoordiDetailActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         }
 
+        if(coordiID == 0){
+            inputCoordiname.visibility = View.VISIBLE
+            coordiName.visibility = View.INVISIBLE
+        }else{
+            inputCoordiname.visibility = View.INVISIBLE
+            coordiName.visibility = View.VISIBLE
+        }
 
         save.setOnClickListener {
             uploadClosetCount = 0
-            uploadCloth(selectTopId, coordiID)
-            uploadCloth(selectBottomId, coordiID)
+
+            if(coordiID == 0){
+                // 친구꺼 코디 추가하는 경우
+                saveCloth()
+            }else{
+
+                uploadCloth(selectTopId, coordiID)
+                uploadCloth(selectBottomId, coordiID)
+            }
         }
     }
 
     private fun saveCloth() {
 
-//        var outfitName = coordiName.text.toString()
-//        if(TextUtils.isEmpty(outfitName)){
-//            Toast.makeText(this,"코디 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        RetrofitClient.retrofitService.getOutfitId(userID, userID,outfitName)
-//            .enqueue(object : retrofit2.Callback<GetOutfitIdResponse> {
-//                override fun onFailure(call: Call<GetOutfitIdResponse>, t: Throwable) {
-//                    t.printStackTrace()
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<GetOutfitIdResponse>,
-//                    response: Response<GetOutfitIdResponse>
-//                ) {
-//                    val data = response.body()
-//                    Log.e("resopone","data="+data)
-//                }
-//
-//            })
+        var outfitName = inputCoordiname.text.toString()
+        if(TextUtils.isEmpty(outfitName)){
+            Toast.makeText(this,"코디 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return
+        }
+        RetrofitClient.retrofitService.getOutfitId(userID, userID,"Token " + RetrofitClient.token,outfitName)
+            .enqueue(object : retrofit2.Callback<GetOutfitIdResponse> {
+                override fun onFailure(call: Call<GetOutfitIdResponse>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(
+                    call: Call<GetOutfitIdResponse>,
+                    response: Response<GetOutfitIdResponse>
+                ) {
+                    val data = response.body()
+                    Log.e("resopone","data="+data)
+
+                    data?.let{
+                        uploadClosetCount = 0
+
+                        uploadCloth(selectTopId,it.outfitID)
+                        uploadCloth(selectBottomId,it.outfitID)
+                    }
+                }
+
+            })
     }
 
     private fun uploadCloth(closetID: Int, outFitID: Int) {
 
         RetrofitClient.retrofitService.uploadOutfit(
-            "Token " + RetrofitClient.token, userID, closetID, userID, outFitID
+            "Token " + RetrofitClient.token, if(friendID == 0 )userID else friendID, closetID, if(friendID == 0 )userID else friendID, outFitID
         )
             .enqueue(object : retrofit2.Callback<Void> {
                 override fun onFailure(call: Call<Void>, t: Throwable) {
@@ -121,7 +146,15 @@ class CoordiDetailActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         uploadClosetCount++
                         if (uploadClosetCount == 2) {
-                            finish()
+                            if(coordiID == 0){
+
+                                var intent = Intent(this@CoordiDetailActivity,CoordiListActivity::class.java)
+                                intent.putExtra(CoordiListActivity.KEY_USER_ID,userID)
+                                startActivity(intent)
+                            }else{
+                                finish()
+                            }
+
                         }
                     }
 
@@ -131,6 +164,7 @@ class CoordiDetailActivity : AppCompatActivity() {
     }
 
     private fun reqCoordiDetail() {
+        if(coordiID == 0) return
         RetrofitClient.retrofitService.getOutFitDetail(
             userID,
             coordiID
