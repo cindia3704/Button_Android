@@ -2,6 +2,7 @@ package com.example.button.startApp_1.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +41,10 @@ class ClothAdapter(val inflater: LayoutInflater, val context : Context) : Recycl
             .apply(RequestOptions.circleCropTransform()).into(holder.clothImage)
 
         holder.clothImage.setOnClickListener {
+            Log.e("user_id","ClothAdapter user_id="+user_id)
 
             var intent = Intent(context, AddClosetActivity::class.java)
-            intent.putExtra("id",user_id)
+            intent.putExtra("userId",user_id)
             intent.putExtra("item",clothList[position])
 
             context.startActivity(intent)
