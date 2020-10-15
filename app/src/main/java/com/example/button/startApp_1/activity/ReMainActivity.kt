@@ -1,5 +1,6 @@
 package com.example.button.startApp_1.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.RelativeLayout
@@ -42,6 +43,11 @@ class  ReMainActivity : AppCompatActivity() {
 
         configureBottomNavigation(userId)
         vp_ac_main_frag_pager.setCurrentItem(1)
+        user_profile_image.setOnClickListener {
+            val intent = Intent(this@ReMainActivity, MyProfile::class.java)
+            intent.putExtra("id", userId)
+            startActivity(intent)
+        }
     }
 }
 
