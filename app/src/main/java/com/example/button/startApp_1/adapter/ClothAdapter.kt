@@ -38,7 +38,8 @@ class ClothAdapter(val inflater: LayoutInflater, val context : Context) : Recycl
         Glide.with(context)
             .load(RetrofitClient.imageBaseUrl+clothList[position].photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(holder.clothImage)
+            .into(holder.clothImage)
+            //.apply(RequestOptions.circleCropTransform()).into(holder.clothImage)
 
         holder.clothImage.setOnClickListener {
             Log.e("user_id","ClothAdapter user_id="+user_id)
