@@ -95,7 +95,8 @@ class AddClosetActivity : AppCompatActivity() {
         Glide.with(this@AddClosetActivity)
             .load(RetrofitClient.imageBaseUrl + item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(closet);
+            .into(closet)
+           // .apply(RequestOptions.circleCropTransform()).into(closet);
 
     }
 
@@ -358,7 +359,9 @@ class AddClosetActivity : AppCompatActivity() {
                         Glide.with(this@AddClosetActivity)
                             .load(this)
                             .placeholder(R.drawable.circle)
-                            .apply(RequestOptions.circleCropTransform()).into(closet);
+                            .into(closet)
+
+                           // .apply(RequestOptions.circleCropTransform()).into(closet);
 
                     }
 
