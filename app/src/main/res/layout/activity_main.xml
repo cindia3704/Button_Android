@@ -13,11 +13,30 @@
         android:orientation="vertical"
         android:paddingTop="10dp">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/main_logo" />
+        <LinearLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+            <ImageView
+                android:id="@+id/user_profile_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/person__icon1"
+                android:layout_marginRight="50dp"
+                android:layout_gravity="start"/>
+            <ImageView
+                android:id="@+id/top_logo_icon"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+                android:layout_marginRight="150dp"
+                android:layout_marginLeft="50dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/main_logo" />
+        </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
