@@ -35,15 +35,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <!--            <de.hdodenhof.circleimageview.CircleImageView-->
-        <!--                android:id="@+id/cloth_image"-->
-        <!--                android:layout_width="80dp"-->
-        <!--                android:layout_height="80dp"-->
-        <!--                android:src="@drawable/circle"-->
-        <!--                android:scaleType="fitCenter"-->
-        <!--                android:layout_weight="1"/>-->
-
-
         <ImageView
             android:id="@+id/cloth_image"
             android:layout_width="match_parent"
