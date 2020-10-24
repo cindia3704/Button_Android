@@ -36,6 +36,11 @@ class MyProfile : AppCompatActivity() {
             }
         })
 
+        change_pw.setOnClickListener {
+            val intent= Intent(this@MyProfile,ChangePasswordActivity::class.java)
+            intent.putExtra("userId",userId)
+            startActivity(intent)
+        }
         logout.setOnClickListener {
             val intent= Intent(this@MyProfile,SplashActivity::class.java)
             startActivity(intent)
