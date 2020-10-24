@@ -12,12 +12,14 @@ object RetrofitClient {
     //    val baseUrl = "http://18.191.146.76:9999/"
     val baseUrl = "http://141.223.121.111:9999/"
     val imageBaseUrl = "http://141.223.121.111:9999"
+
+    var retrofit : Retrofit
     init {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val logger = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
-        val retrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(logger)
@@ -25,5 +27,10 @@ object RetrofitClient {
 
         retrofitService = retrofit.create(RetrofitService::class.java)
         Log.d("tokenn",token)
+    }
+
+    class ErrorResponse {
+        var email = 0
+
     }
 }
