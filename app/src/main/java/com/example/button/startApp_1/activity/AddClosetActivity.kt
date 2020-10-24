@@ -13,6 +13,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -67,8 +68,10 @@ class AddClosetActivity : AppCompatActivity() {
         initUi()
         if (select_item == null) {
             checkPermission()
+            delete.visibility = View.GONE
         } else {
             setUi(select_item!!)
+            delete.visibility = View.VISIBLE
         }
 
 
@@ -102,6 +105,35 @@ class AddClosetActivity : AppCompatActivity() {
 
     private fun initUi() {
         closer_category.text = category
+
+        delete.setOnClickListener {
+            RetrofitClient.retrofitService.deleteCloset(
+                "Token " + RetrofitClient.token,
+                user_id,
+                clothID = select_item?.clothID ?: 0
+            ).enqueue(object :
+                retrofit2.Callback<Void> {
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Log.d("response", "response=${response}")
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@AddClosetActivity,
+                            "정상적으로 삭제 되었습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        finish()
+                    } else {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("error", t.toString())
+                }
+            })
+        }
 
         save.setOnClickListener {
             updateCloset()
@@ -141,23 +173,6 @@ class AddClosetActivity : AppCompatActivity() {
             )
             dialog.show()
         }
-
-//        closer_category.setOnClickListener {
-//
-//            var category_item = arrayOf("TOP","BOTTOM","ONEPIECE","OUTER")
-//            var dialog_builder = AlertDialog.Builder(this)
-//            dialog_builder.setTitle("카테고리 선택")
-//            dialog_builder.setItems(category_item,object : DialogInterface.OnClickListener{
-//                override fun onClick(p0: DialogInterface?, p1: Int) {
-//                    category = category_item[p1]
-//                    closer_category.text = category_item[p1]
-//                }
-//
-//            })
-//
-//            dialog_builder.show()
-//
-//        }
     }
 
 
@@ -280,7 +295,10 @@ class AddClosetActivity : AppCompatActivity() {
                 }
             })
         } else {
-
+            var coordi = mutableListOf<RequestBody>()
+            for(i in 0 until select_item!!.outfit!!.size){
+                coordi.add(RequestBody.create(MediaType.parse("text/plain"), "${select_item!!.outfit.get(i)}"))
+            }
             var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (user_id).toString())
             // 옷 수정
             RetrofitClient.retrofitService.updateCloset(
@@ -292,6 +310,7 @@ class AddClosetActivity : AppCompatActivity() {
                 season = season,
                 dateBought = dateBought,
                 dateLastWorn = dateLastWorn,
+                coordiList = coordi,
                 photo = photo
             ).enqueue(object :
                 retrofit2.Callback<Void> {
