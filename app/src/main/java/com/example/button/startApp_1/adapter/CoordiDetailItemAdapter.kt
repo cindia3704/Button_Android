@@ -21,6 +21,9 @@ class CoordiDetailItemAdapter(val activity: CoordiDetailActivity, val type : Int
 
         val TYPE_TOP = 0
         val TYPE_BOTTOM = 1
+        val TYPE_OUTER = 2
+        val TYPE_DRESS = 3
+
 
 
 
@@ -59,6 +62,14 @@ class CoordiDetailItemAdapter(val activity: CoordiDetailActivity, val type : Int
 
                 TYPE_BOTTOM -> {
                     activity.clickBottom(clothList[position])
+                }
+
+                CoordiItemAdapter.TYPE_DRESS -> {
+                    activity.clickDress(clothList[position])
+                }
+
+                CoordiItemAdapter.TYPE_OUTER -> {
+                    activity.clickOuter(clothList[position])
                 }
             }
         }
