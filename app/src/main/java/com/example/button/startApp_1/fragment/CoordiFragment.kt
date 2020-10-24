@@ -40,12 +40,18 @@ class CoordiFragment : Fragment() {
 
     private var topAdapter = CoordiItemAdapter(this,CoordiItemAdapter.TYPE_TOP)
     private var bottomAdapter = CoordiItemAdapter(this,CoordiItemAdapter.TYPE_BOTTOM)
+    private var outerAdapter = CoordiItemAdapter(this,CoordiItemAdapter.TYPE_OUTER)
+    private var dressAdapter = CoordiItemAdapter(this,CoordiItemAdapter.TYPE_DRESS)
 
 
 
     private var selectTopId = 0
     private var selectBottomId = 0
+    private var selectOuterId = 0
+    private var selectDressId = 0
+
     private var uploadClosetCount = 0
+    private var totalUploadClosetCount = 0
     companion object{
 
         private const val MY_INT = "userId"
@@ -87,6 +93,14 @@ class CoordiFragment : Fragment() {
             adapter = bottomAdapter
             layoutManager = LinearLayoutManager(context,  RecyclerView.HORIZONTAL, false)
         }
+        recyclerView_category_outer.apply {
+            adapter = outerAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        }
+        recyclerView_category_onepiece.apply {
+            adapter = dressAdapter
+            layoutManager = LinearLayoutManager(context,  RecyclerView.HORIZONTAL, false)
+        }
 
 
         tv_list.setOnClickListener {
@@ -102,8 +116,8 @@ class CoordiFragment : Fragment() {
 
     private fun uploadCloth(closetID : Int,outFitID : Int){
 
-        RetrofitClient.retrofitService.uploadOutfit(
-            "Token "+ RetrofitClient.token,userId, closetID,userId, outFitID)
+        RetrofitClient.retrofitService.addClothCoordi(
+            "Token "+ RetrofitClient.token,userId, closetID,outFitID)
             .enqueue(object : retrofit2.Callback<Void> {
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     t.printStackTrace()
@@ -116,7 +130,9 @@ class CoordiFragment : Fragment() {
                     val data = response.body()
                     if(response.isSuccessful){
                         uploadClosetCount++
-                        if(uploadClosetCount == 2){
+                        if(uploadClosetCount ==totalUploadClosetCount){
+                            resetCoordi()
+                            Toast.makeText(context,"코디가 정상적으로 등록됐습니다.",Toast.LENGTH_SHORT).show()
                             var intent = Intent(context,CoordiListActivity::class.java)
                             intent.putExtra(CoordiListActivity.KEY_USER_ID,userId)
                             startActivity(intent)
@@ -126,6 +142,25 @@ class CoordiFragment : Fragment() {
                 }
 
             })
+    }
+
+    private fun resetCoordi(){
+        selectTopId = 0
+        selectBottomId = 0
+        selectDressId = 0
+        selectOuterId = 0
+
+        coordiBottom.setImageResource(0)
+        coordiTop.setImageResource(0)
+        coordiDress.setImageResource(0)
+        coordiOuter.setImageResource(0)
+
+        coordiBottom.visibility = View.INVISIBLE
+        coordiTop.visibility = View.INVISIBLE
+        coordiDress.visibility = View.INVISIBLE
+        coordiOuter.visibility = View.INVISIBLE
+
+        coordiName.setText("")
     }
 
     private fun saveCloth(){
@@ -148,12 +183,27 @@ class CoordiFragment : Fragment() {
                     val data = response.body()
                     data?.let{
                         uploadClosetCount = 0
+                        totalUploadClosetCount = 0
 
-                        uploadCloth(selectTopId,it.outfitID)
-                        uploadCloth(selectBottomId,it.outfitID)
+                        if(selectTopId != 0){
+                            totalUploadClosetCount++
+                            uploadCloth(selectTopId,it.outfitID)
+                        }
+                        if(selectBottomId != 0){
+                            totalUploadClosetCount++
+                            uploadCloth(selectBottomId,it.outfitID)
+                        }
+                        if(selectDressId != 0){
+                            totalUploadClosetCount++
+                            uploadCloth(selectDressId,it.outfitID)
+                        }
+                        if(selectOuterId != 0){
+                            totalUploadClosetCount++
+                            uploadCloth(selectOuterId,it.outfitID)
+                        }
+
 
                     }
-                    Log.e("resopone","data="+data)
                 }
 
             })
@@ -173,19 +223,53 @@ class CoordiFragment : Fragment() {
                     val data = response.body()
                     var topItem = mutableListOf<Cloth>()
                     var bottomItem = mutableListOf<Cloth>()
+                    var outerItem = mutableListOf<Cloth>()
+                    var dressItem = mutableListOf<Cloth>()
                     topItem.addAll(data?.filter {  TextUtils.equals(it.category,"TOP") } ?: mutableListOf())
                     topAdapter.clothList = topItem
 
                     bottomItem.addAll(data?.filter {  TextUtils.equals(it.category,"BOTTOM") } ?: mutableListOf())
                     bottomAdapter.clothList = bottomItem
+
+                    outerItem.addAll(data?.filter {  TextUtils.equals(it.category,"OUTER") } ?: mutableListOf())
+                    outerAdapter.clothList = outerItem
+
+                    dressItem.addAll(data?.filter {  TextUtils.equals(it.category,"DRESS") } ?: mutableListOf())
+                    dressAdapter.clothList = dressItem
                 }
 
             })
     }
 
+    fun clickDress(item : Cloth){
+        coordiBottom.visibility = View.INVISIBLE
+        coordiTop.visibility = View.INVISIBLE
+        coordiDress.visibility = View.VISIBLE
+        selectTopId = 0
+        selectBottomId = 0
+        selectDressId = item.clothID
+        Glide.with(this)
+            .load(RetrofitClient.imageBaseUrl+item.photo)
+            .placeholder(R.drawable.circle)
+            .apply(RequestOptions.circleCropTransform()).into(coordiDress)
+
+    }
+
+    fun clickOuter(item: Cloth){
+
+        coordiOuter.visibility = View.VISIBLE
+        selectOuterId = item.clothID
+        Glide.with(this)
+            .load(RetrofitClient.imageBaseUrl+item.photo)
+            .placeholder(R.drawable.circle)
+            .apply(RequestOptions.circleCropTransform()).into(coordiOuter)
+    }
 
     fun clickTop(item : Cloth){
-        Log.e("fragment","clickTop id=${item.clothID}")
+        coordiDress.visibility = View.INVISIBLE
+        coordiBottom.visibility = View.VISIBLE
+        coordiTop.visibility = View.VISIBLE
+        selectDressId = 0
         selectTopId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
@@ -194,6 +278,10 @@ class CoordiFragment : Fragment() {
     }
 
     fun clickBottom(item : Cloth){
+        coordiDress.visibility = View.INVISIBLE
+        coordiBottom.visibility = View.VISIBLE
+        coordiTop.visibility = View.VISIBLE
+        selectDressId = 0
         Log.e("fragment","clickBottom id=${item.clothID}")
         selectBottomId = item.clothID
         Glide.with(this)
