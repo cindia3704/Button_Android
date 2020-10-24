@@ -1,5 +1,6 @@
 package com.example.button.startApp_1.adapter
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,33 +53,57 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
 
         var closetLists = coordItem.clothes
 
-        when(closetLists.size){
-            0 -> {
-                holder.closetTop.setImageResource(R.drawable.circle)
-                holder.closetBottom.setImageResource(R.drawable.circle)
-            }
+        holder.closetDress.visibility = View.INVISIBLE
+        holder.closetTop.visibility = View.INVISIBLE
+        holder.closetBottom.visibility = View.INVISIBLE
+        holder.closetOuter.visibility = View.INVISIBLE
 
-            1 -> {
+        for(i in 0 until closetLists.size){
+            if(TextUtils.equals(closetLists[i].category,"TOP")){
+                holder.closetDress.visibility = View.INVISIBLE
+
+                holder.closetTop.visibility = View.VISIBLE
+                holder.closetBottom.visibility = View.VISIBLE
+
                 Glide.with(activity)
-                    .load(RetrofitClient.imageBaseUrl + closetLists[0].photo)
+                    .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                     .placeholder(R.drawable.circle)
                     .apply(RequestOptions.circleCropTransform()).into(holder.closetTop)
-
-                holder.closetBottom.setImageResource(R.drawable.circle)
             }
 
-            else -> {
-                Glide.with(activity)
-                    .load(RetrofitClient.imageBaseUrl + closetLists[closetLists.size -2].photo)
-                    .placeholder(R.drawable.circle)
-                    .apply(RequestOptions.circleCropTransform()).into(holder.closetTop)
+            if(TextUtils.equals(closetLists[i].category,"BOTTOM")){
+                holder.closetDress.visibility = View.INVISIBLE
+
+                holder.closetTop.visibility = View.VISIBLE
+                holder.closetBottom.visibility = View.VISIBLE
 
                 Glide.with(activity)
-                    .load(RetrofitClient.imageBaseUrl + closetLists[closetLists.size -1].photo)
+                    .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                     .placeholder(R.drawable.circle)
                     .apply(RequestOptions.circleCropTransform()).into(holder.closetBottom)
             }
 
+            if(TextUtils.equals(closetLists[i].category,"OUTER")){
+
+                holder.closetOuter.visibility = View.VISIBLE
+
+                Glide.with(activity)
+                    .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
+                    .placeholder(R.drawable.circle)
+                    .apply(RequestOptions.circleCropTransform()).into(holder.closetOuter)
+            }
+
+            if(TextUtils.equals(closetLists[i].category,"DRESS")){
+                holder.closetDress.visibility = View.VISIBLE
+
+                holder.closetTop.visibility = View.INVISIBLE
+                holder.closetBottom.visibility = View.INVISIBLE
+
+                Glide.with(activity)
+                    .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
+                    .placeholder(R.drawable.circle)
+                    .apply(RequestOptions.circleCropTransform()).into(holder.closetDress)
+            }
         }
 
 
@@ -100,6 +125,8 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
         val content: ConstraintLayout = view.findViewById(R.id.content)
         val closetTop: ImageView = view.findViewById(R.id.closetTop)
         val closetBottom: ImageView = view.findViewById(R.id.closetBottom)
+        val closetDress: ImageView = view.findViewById(R.id.closetDress)
+        val closetOuter: ImageView = view.findViewById(R.id.closetOuter)
         val delete: ImageView = view.findViewById(R.id.delete)
         val closetName: TextView = view.findViewById(R.id.closetName)
     }
