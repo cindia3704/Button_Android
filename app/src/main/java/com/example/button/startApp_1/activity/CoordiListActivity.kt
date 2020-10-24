@@ -51,6 +51,11 @@ class CoordiListActivity : AppCompatActivity() {
             })
     }
 
+    override fun onResume() {
+        super.onResume()
+        getCoordiList();
+    }
+
 
     private fun layoutInit() {
 
