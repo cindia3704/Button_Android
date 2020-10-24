@@ -67,6 +67,12 @@ interface RetrofitService {
         @Part photo: MultipartBody.Part?
     ): Call<Void>
 
+    @DELETE("/closet/{id}/{clothID}/")
+    fun deleteCloset(
+        @Header("Authorization") token: String,
+        @Path("id") user_id: Int,
+        @Path("clothID") clothID: Int
+    ): Call<Void>
     @Multipart
     @PUT("/closet/{id}/{clothID}/")
     fun updateCloset(
@@ -78,6 +84,7 @@ interface RetrofitService {
         @Part("season") season: MutableList<RequestBody>,
         @Part("dateBought") dateBought: RequestBody,
         @Part("dateLastWorn") dateLastWorn: RequestBody,
+        @Part("outfit") coordiList: MutableList<RequestBody>?,
         @Part photo: MultipartBody.Part?
     ): Call<Void>
 
@@ -102,6 +109,21 @@ interface RetrofitService {
     ): Call<Void>
 
 
+    @POST("/{id}/{outfitID}/addcloth/{clothID}/")
+    fun addClothCoordi(
+        @Header("Authorization") token: String,
+        @Path("id") user_id: Int,// 유저 아이디
+        @Path("clothID") clothID: Int,// 옷 아이디
+        @Path("outfitID") outfitID: Int// 유저 아이디
+    ): Call<Void>
+    @DELETE("/{id}/{outfitID}/delcloth/{clothID}/")
+    fun deleteClothCoordi(
+        @Header("Authorization") token: String,
+        @Path("id") user_id: Int,// 유저 아이디
+        @Path("clothID") clothID: Int,// 옷 아이디
+        @Path("outfitID") outfitID: Int// 유저 아이디
+    ): Call<Void>
+
     @GET("/{id}/outfit/list")
     fun getCoordiList(
         @Path("id") userId: Int,
@@ -116,10 +138,11 @@ interface RetrofitService {
     ): Call<Void>
 
 
-    @GET("/{id}/outfit/list/{outfitID}")
+    @GET("/{id}/outfit/list/{outfitID}/")
     fun getOutFitDetail(
         @Path("id") userID: Int,
-        @Path("outfitID") outfitID: Int
+        @Path("outfitID") outfitID: Int,
+        @Header("Authorization") token: String
     ): Call<CoordiList>
 
 
@@ -128,7 +151,7 @@ interface RetrofitService {
         @Path("id") userId: Int,
         @Path("email") email: String,
         @Header("Authorization") token: String
-    ): Call<Void>
+    ): Call<FriendAddResponse>
 
     @GET("/friendlist/accepted/{id}")
     fun getFriendList(
@@ -136,4 +159,16 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Call<MutableList<Friend>>
 
+
+    @POST("/{id}/changepassword/")
+    fun changePassword(
+        @Path("id") id : Int,
+        @Body body : ReqChangePasswordBody,
+        @Header("Authorization") token: String
+    ) : Call<Void>
+
+    @POST("/passwordfind/{email}/")
+    fun findPassword(
+        @Path("email") id : String
+    ) : Call<Void>
 }
