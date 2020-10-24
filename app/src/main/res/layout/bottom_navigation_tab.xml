@@ -16,10 +16,10 @@
         android:layout_weight="1">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/tab_recommend"/>
+            android:src="@drawable/mycloth"/>
 
     </RelativeLayout>
 
@@ -31,10 +31,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/tab_outfit_by_myself"/>
+            android:src="@drawable/self"/>
 
     </RelativeLayout>
 
@@ -63,10 +63,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/person__icon1"/>
+            android:src="@drawable/friend"/>
 
     </RelativeLayout>
 
@@ -76,10 +76,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/tab_calendar"/>
+            android:src="@drawable/cal"/>
 
     </RelativeLayout>
 
