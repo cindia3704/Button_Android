@@ -24,10 +24,15 @@ class LoginActivity : AppCompatActivity() {
             //confirmLog()
             val intent1 = Intent(
                 this@LoginActivity,
-                ReMainActivity::class.java
+                MainActivity2::class.java
             )
             requestLogin(intent1)
 
+        }
+        // 비밀번호 찾기
+        lost_pw.setOnClickListener {
+            val intent = Intent(this, FindPasswordActivity::class.java)
+            startActivity(intent)
         }
         // 회원가입
         register.setOnClickListener {
