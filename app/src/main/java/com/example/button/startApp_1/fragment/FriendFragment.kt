@@ -13,13 +13,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.button.R
 import com.example.button.startApp_1.adapter.FriendAdatper
 import com.example.button.startApp_1.data.Friend
+import com.example.button.startApp_1.data.FriendAddResponse
 import com.example.button.startApp_1.data.User
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.fragment_friend.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 
@@ -81,7 +82,7 @@ class FriendFragment : Fragment() {
 
         context?.let{
 
-            context ->
+                context ->
             var dialog = Dialog(context)
             dialog.apply {
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -92,19 +93,41 @@ class FriendFragment : Fragment() {
 
             confirm.setOnClickListener {
                 RetrofitClient.retrofitService.addFriend(userId, friendEmail.text.toString(),"Token " + RetrofitClient.token)
-                    .enqueue(object : retrofit2.Callback<Void> {
-                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                    .enqueue(object : retrofit2.Callback<FriendAddResponse> {
+                        override fun onFailure(call: Call<FriendAddResponse>, t: Throwable) {
                         }
 
                         override fun onResponse(
-                            call: Call<Void>,
-                            response: Response<Void>
+                            call: Call<FriendAddResponse>,
+                            response: Response<FriendAddResponse>
                         ) {
                             val data = response.message()
                             if(response.isSuccessful){
                                 Toast.makeText(context,"친구추가가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show()
+
+
+                            }else{
+
+                                var errorBody = response.errorBody()
+                                errorBody?.let{
+                                    when (getErrorResponse(it).email){
+                                        "already friend" -> {
+                                            Toast.makeText(context,"친구로 등록되어 있는 사용자입니다.",Toast.LENGTH_SHORT).show()
+                                        }
+
+                                        "already sent request" -> {
+                                            Toast.makeText(context,"친구 요청 전송을 완료 한 사용자입니다.",Toast.LENGTH_SHORT).show()
+                                        }
+                                        "user not found" -> {
+                                            Toast.makeText(context,"해당 아이디를 가진 사용자가 없습니다.",Toast.LENGTH_SHORT).show()
+                                        }
+                                        else -> {
+                                            Toast.makeText(context,"친구추가가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }
+
                             }
-                            Log.e("data","respon="+data)
 
                         }
                     })
@@ -118,6 +141,17 @@ class FriendFragment : Fragment() {
 
 
 
+
+    }
+    fun getErrorResponse(errorBody: ResponseBody): ErrorResponse {
+        return RetrofitClient.retrofit.responseBodyConverter<ErrorResponse>(
+            ErrorResponse::class.java,
+            ErrorResponse::class.java.annotations
+        ).convert(errorBody)
+    }
+
+    inner class ErrorResponse {
+        var email = ""
 
     }
 
