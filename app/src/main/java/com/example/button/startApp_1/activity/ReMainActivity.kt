@@ -24,6 +24,8 @@ class  ReMainActivity : AppCompatActivity() {
 
         val bottomNaviLayout: View =
             this.layoutInflater.inflate(R.layout.bottom_navigation_tab, null, false)
+
+
         tl_ac_main_bottom_menu.getTabAt(0)!!.customView =
             bottomNaviLayout.findViewById(R.id.btn_bottom_navi_recommend_tab) as RelativeLayout
         tl_ac_main_bottom_menu.getTabAt(1)!!.customView =
