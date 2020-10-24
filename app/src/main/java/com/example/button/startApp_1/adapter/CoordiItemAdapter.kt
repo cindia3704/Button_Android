@@ -20,6 +20,8 @@ class CoordiItemAdapter(val fragment: CoordiFragment,val type : Int) :
 
         val TYPE_TOP = 0
         val TYPE_BOTTOM = 1
+        val TYPE_OUTER = 2
+        val TYPE_DRESS = 3
 
 
 
@@ -27,10 +29,10 @@ class CoordiItemAdapter(val fragment: CoordiFragment,val type : Int) :
 
 
     var clothList = mutableListOf<Cloth>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -58,6 +60,14 @@ class CoordiItemAdapter(val fragment: CoordiFragment,val type : Int) :
 
                 TYPE_BOTTOM -> {
                     fragment.clickBottom(clothList[position])
+                }
+
+                TYPE_DRESS -> {
+                    fragment.clickDress(clothList[position])
+                }
+
+                TYPE_OUTER -> {
+                    fragment.clickOuter(clothList[position])
                 }
             }
         }
