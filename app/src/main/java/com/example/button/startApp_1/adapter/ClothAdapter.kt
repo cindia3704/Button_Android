@@ -42,8 +42,6 @@ class ClothAdapter(val inflater: LayoutInflater, val context : Context) : Recycl
             //.apply(RequestOptions.circleCropTransform()).into(holder.clothImage)
 
         holder.clothImage.setOnClickListener {
-            Log.e("user_id","ClothAdapter user_id="+user_id)
-
             var intent = Intent(context, AddClosetActivity::class.java)
             intent.putExtra("userId",user_id)
             intent.putExtra("item",clothList[position])
