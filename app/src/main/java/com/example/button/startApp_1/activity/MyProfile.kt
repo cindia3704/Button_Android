@@ -18,7 +18,7 @@ class MyProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
         userId=getIntent().getIntExtra("id",3)
-        Toast.makeText(this@MyProfile,"id:"+userId,Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this@MyProfile,"id:"+userId,Toast.LENGTH_SHORT).show()
         RetrofitClient.retrofitService.getUserSpecific(
             userId,
             "Token " + RetrofitClient.token

@@ -71,6 +71,7 @@ class FindEmailActivity : AppCompatActivity() {
         go_back_to_login.setOnClickListener({
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         })
     }
 

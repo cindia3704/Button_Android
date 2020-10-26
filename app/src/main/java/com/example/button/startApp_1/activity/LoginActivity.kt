@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         lost_id.setOnClickListener {
             val intent = Intent(this, FindEmailActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 

@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint=" 아이디"
-            android:text="buttoncap2018@gmail.com"
             android:textSize="16dp"
             android:textColorHint="#000000"
             android:background="@drawable/edit"
