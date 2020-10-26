@@ -68,7 +68,32 @@ class FriendFragment : Fragment() {
         }
         recyclerview_friend.adapter = adapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         reqFriendList()
+    }
+
+    fun deleteFriend(friendId : Int){
+        RetrofitClient.retrofitService.deleteFriend(userId, friendId,"Token " + RetrofitClient.token)
+            .enqueue(object : retrofit2.Callback<Void> {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                }
+
+                override fun onResponse(
+                    call: Call<Void>,
+                    response: Response<Void>
+                ) {
+                    val data = response.message()
+                    if(response.isSuccessful){
+                        Toast.makeText(context,"친구삭제가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show()
+                        reqFriendList()
+                    }
+
+                }
+            })
     }
 
     private fun addFriend(){
@@ -105,6 +130,7 @@ class FriendFragment : Fragment() {
                             if(response.isSuccessful){
                                 Toast.makeText(context,"친구추가가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show()
 
+                                reqFriendList()
 
                             }else{
 
