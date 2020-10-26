@@ -153,6 +153,13 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Call<FriendAddResponse>
 
+    @DELETE("/friendlist/{id}/{friendId}/")
+    fun deleteFriend(
+        @Path("id") userId: Int,
+        @Path("friendId") friendId: Int,
+        @Header("Authorization") token: String
+    ): Call<Void>
+
     @GET("/friendlist/accepted/{id}")
     fun getFriendList(
         @Path("id") userId: Int,
