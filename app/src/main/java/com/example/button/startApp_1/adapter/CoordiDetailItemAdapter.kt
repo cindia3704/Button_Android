@@ -50,7 +50,7 @@ class CoordiDetailItemAdapter(val activity: CoordiDetailActivity, val type : Int
         Glide.with(activity)
             .load(RetrofitClient.imageBaseUrl+clothList[position].photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(holder.clothImage)
+            .into(holder.clothImage)
 
 
         holder.clothImage.setOnClickListener {
