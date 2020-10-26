@@ -10,9 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,8 +24,20 @@ import com.example.button.startApp_1.data.CoordiList
 import com.example.button.startApp_1.data.GetOutfitIdResponse
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.fragment_coordi.*
-import okhttp3.MediaType
-import okhttp3.RequestBody
+import kotlinx.android.synthetic.main.fragment_coordi.coordiBottom
+import kotlinx.android.synthetic.main.fragment_coordi.coordiDress
+import kotlinx.android.synthetic.main.fragment_coordi.coordiName
+import kotlinx.android.synthetic.main.fragment_coordi.coordiOuter
+import kotlinx.android.synthetic.main.fragment_coordi.coordiTop
+import kotlinx.android.synthetic.main.fragment_coordi.cvBottom
+import kotlinx.android.synthetic.main.fragment_coordi.cvDress
+import kotlinx.android.synthetic.main.fragment_coordi.cvOuter
+import kotlinx.android.synthetic.main.fragment_coordi.cvTop
+import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_bottom
+import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_onepiece
+import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_outer
+import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_top
+import kotlinx.android.synthetic.main.fragment_coordi.save
 import retrofit2.Call
 import retrofit2.Response
 
@@ -81,6 +90,11 @@ class CoordiFragment : Fragment() {
         layoutInit()
 
         userId = arguments?.getInt(MY_INT) ?: 0
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         reqCloth(userId)
     }
 
@@ -100,6 +114,11 @@ class CoordiFragment : Fragment() {
         recyclerView_category_onepiece.apply {
             adapter = dressAdapter
             layoutManager = LinearLayoutManager(context,  RecyclerView.HORIZONTAL, false)
+        }
+
+        cvOuter.setOnClickListener {
+            selectOuterId = 0
+            cvOuter.visibility = View.GONE
         }
 
 
@@ -155,9 +174,9 @@ class CoordiFragment : Fragment() {
         coordiDress.setImageResource(0)
         coordiOuter.setImageResource(0)
 
-        coordiBottom.visibility = View.INVISIBLE
-        coordiTop.visibility = View.INVISIBLE
-        coordiDress.visibility = View.INVISIBLE
+        cvBottom.visibility = View.INVISIBLE
+        cvTop.visibility = View.INVISIBLE
+        cvDress.visibility = View.INVISIBLE
         coordiOuter.visibility = View.INVISIBLE
 
         coordiName.setText("")
@@ -242,9 +261,9 @@ class CoordiFragment : Fragment() {
     }
 
     fun clickDress(item : Cloth){
-        coordiBottom.visibility = View.INVISIBLE
-        coordiTop.visibility = View.INVISIBLE
-        coordiDress.visibility = View.VISIBLE
+        cvBottom.visibility = View.INVISIBLE
+        cvTop.visibility = View.INVISIBLE
+        cvDress.visibility = View.VISIBLE
         selectTopId = 0
         selectBottomId = 0
         selectDressId = item.clothID
@@ -257,37 +276,37 @@ class CoordiFragment : Fragment() {
 
     fun clickOuter(item: Cloth){
 
-        coordiOuter.visibility = View.VISIBLE
+        cvOuter.visibility = View.VISIBLE
         selectOuterId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiOuter)
+            .into(coordiOuter)
     }
 
     fun clickTop(item : Cloth){
-        coordiDress.visibility = View.INVISIBLE
-        coordiBottom.visibility = View.VISIBLE
-        coordiTop.visibility = View.VISIBLE
+        cvDress.visibility = View.INVISIBLE
+        cvBottom.visibility = View.VISIBLE
+        cvTop.visibility = View.VISIBLE
         selectDressId = 0
         selectTopId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiTop)
+            .into(coordiTop)
     }
 
     fun clickBottom(item : Cloth){
-        coordiDress.visibility = View.INVISIBLE
-        coordiBottom.visibility = View.VISIBLE
-        coordiTop.visibility = View.VISIBLE
+        cvDress.visibility = View.INVISIBLE
+        cvBottom.visibility = View.VISIBLE
+        cvTop.visibility = View.VISIBLE
         selectDressId = 0
         Log.e("fragment","clickBottom id=${item.clothID}")
         selectBottomId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiBottom)
+            .into(coordiBottom)
     }
 
 
