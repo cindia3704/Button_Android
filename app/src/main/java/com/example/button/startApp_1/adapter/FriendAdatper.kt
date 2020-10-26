@@ -27,7 +27,7 @@ class FriendAdatper(val fragment : FriendFragment) :RecyclerView.Adapter<FriendA
 
         var friendName : TextView = view.findViewById(R.id.friendName)
         var coordi : ImageView = view.findViewById(R.id.cordiFriend)
-        var coordiList : ImageView = view.findViewById(R.id.cordiListFirend)
+        var coordiDeleteFriend : ImageView = view.findViewById(R.id.cordiFriendDelete)
 
 
     }
@@ -47,7 +47,6 @@ class FriendAdatper(val fragment : FriendFragment) :RecyclerView.Adapter<FriendA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.run {
-
             friendName.setText("${friendItems[position].friendName}")
             coordi.setOnClickListener {
                 var intent = Intent(fragment.context,CoordiDetailActivity::class.java)
@@ -56,12 +55,13 @@ class FriendAdatper(val fragment : FriendFragment) :RecyclerView.Adapter<FriendA
                 fragment.startActivity(intent)
             }
 
-            coordiList.setOnClickListener {
+            coordiDeleteFriend.setOnClickListener {
 
-                var intent = Intent(fragment.context,CoordiListActivity::class.java)
-
-                intent.putExtra("KEY_USER_ID",friendItems[position].frienduser)
-                fragment.startActivity(intent)
+                fragment.deleteFriend(friendItems[position].frienduser)
+//                var intent = Intent(fragment.context,CoordiListActivity::class.java)
+//
+//                intent.putExtra("KEY_USER_ID",friendItems[position].frienduser)
+//                fragment.startActivity(intent)
             }
         }
     }
