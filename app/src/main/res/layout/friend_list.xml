@@ -40,11 +40,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/cordiListFirend"
+        android:id="@+id/cordiFriendDelete"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_marginRight="15dp"
-        android:src="@drawable/view_list"
+        android:src="@drawable/delete_friend"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/cordiFriend"
