@@ -48,7 +48,7 @@ class CoordiItemAdapter(val fragment: CoordiFragment,val type : Int) :
         Glide.with(fragment)
             .load(RetrofitClient.imageBaseUrl+clothList[position].photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(holder.clothImage)
+            .into(holder.clothImage)
 
 
         holder.clothImage.setOnClickListener {
