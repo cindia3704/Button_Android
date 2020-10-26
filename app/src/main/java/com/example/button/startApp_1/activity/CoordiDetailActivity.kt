@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_catego
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_outer
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_top
 import kotlinx.android.synthetic.main.activity_coordi_detail.save
-import kotlinx.android.synthetic.main.fragment_coordi.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -107,7 +106,16 @@ class CoordiDetailActivity : AppCompatActivity() {
 
         coordiOuter.setOnClickListener {
             selectOuterId = 0
-            coordiOuter.visibility = View.GONE
+            cvOuter.visibility = View.GONE
+        }
+
+        if(friendID != 0){
+            list.visibility = View.VISIBLE
+            list.setOnClickListener {
+                var intent = Intent(this,CoordiListActivity::class.java)
+                intent.putExtra("KEY_USER_ID",friendID)
+                startActivity(intent)
+            }
         }
 
         if(coordiID == 0){
@@ -120,7 +128,7 @@ class CoordiDetailActivity : AppCompatActivity() {
 
         coordiOuter.setOnClickListener {
             selectOuterId = 0
-            coordiOuter.visibility = View.GONE
+            cvOuter.visibility = View.GONE
         }
 
         save.setOnClickListener {
@@ -176,7 +184,7 @@ class CoordiDetailActivity : AppCompatActivity() {
                 }
 
                 if(selectedOuterId != 0){
-                    if(coordiOuter.visibility == View.GONE){
+                    if(cvOuter.visibility == View.GONE){
                         totalDeleteClosetCount++
                         deleteCloth(selectedOuterId,coordiID)
                     }else if(selectOuterId != 0){
@@ -369,7 +377,6 @@ class CoordiDetailActivity : AppCompatActivity() {
                                 Glide.with(this@CoordiDetailActivity)
                                     .load(RetrofitClient.imageBaseUrl + item.photo)
                                     .placeholder(R.drawable.circle)
-                                    .apply(RequestOptions.circleCropTransform())
                                     .into(coordiTop)
                             }
                             if(TextUtils.equals(item.category, "BOTTOM")) {
@@ -378,7 +385,6 @@ class CoordiDetailActivity : AppCompatActivity() {
                                 Glide.with(this@CoordiDetailActivity)
                                     .load(RetrofitClient.imageBaseUrl + item.photo)
                                     .placeholder(R.drawable.circle)
-                                    .apply(RequestOptions.circleCropTransform())
                                     .into(coordiBottom)
                             }
                             if(TextUtils.equals(item.category, "OUTER")) {
@@ -387,17 +393,15 @@ class CoordiDetailActivity : AppCompatActivity() {
                                 Glide.with(this@CoordiDetailActivity)
                                     .load(RetrofitClient.imageBaseUrl + item.photo)
                                     .placeholder(R.drawable.circle)
-                                    .apply(RequestOptions.circleCropTransform())
                                     .into(coordiOuter)
                             }
                             if(TextUtils.equals(item.category, "DRESS")) {
                                 selectedDressId = item.clothID
 
-                                coordiDress.visibility = View.VISIBLE
+                                cvDress.visibility = View.VISIBLE
                                 Glide.with(this@CoordiDetailActivity)
                                     .load(RetrofitClient.imageBaseUrl + item.photo)
                                     .placeholder(R.drawable.circle)
-                                    .apply(RequestOptions.circleCropTransform())
                                     .into(coordiDress)
                             }
                         }
@@ -446,51 +450,59 @@ class CoordiDetailActivity : AppCompatActivity() {
 
 
     fun clickTop(item: Cloth) {
-        coordiDress.visibility = View.INVISIBLE
-        coordiBottom.visibility = View.VISIBLE
-        coordiTop.visibility = View.VISIBLE
+        coordiTop.setImageResource(0)
+        
+        cvDress.visibility = View.INVISIBLE
+        cvBottom.visibility = View.VISIBLE
+        cvTop.visibility = View.VISIBLE
         selectDressId = 0
         selectTopId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl + item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiTop)
+            .into(coordiTop)
         selectTopId = item.clothID
     }
 
     fun clickBottom(item: Cloth) {
-        coordiDress.visibility = View.INVISIBLE
-        coordiBottom.visibility = View.VISIBLE
-        coordiTop.visibility = View.VISIBLE
+
+        coordiDress.setImageResource(0)
+
+        cvDress.visibility = View.INVISIBLE
+        cvBottom.visibility = View.VISIBLE
+        cvTop.visibility = View.VISIBLE
         selectDressId = 0
         selectBottomId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl + item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiBottom)
+            .into(coordiBottom)
         selectBottomId = item.clothID
     }
     fun clickDress(item : Cloth){
-        coordiBottom.visibility = View.INVISIBLE
-        coordiTop.visibility = View.INVISIBLE
-        coordiDress.visibility = View.VISIBLE
+        coordiBottom.setImageResource(0)
+        coordiTop.setImageResource(0)
+
+        cvBottom.visibility = View.INVISIBLE
+        cvTop.visibility = View.INVISIBLE
+        cvDress.visibility = View.VISIBLE
         selectTopId = 0
         selectBottomId = 0
         selectDressId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiDress)
+            .into(coordiDress)
 
     }
 
     fun clickOuter(item: Cloth){
 
-        coordiOuter.visibility = View.VISIBLE
+        cvOuter.visibility = View.VISIBLE
         selectOuterId = item.clothID
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiOuter)
+            .into(coordiOuter)
     }
 }
