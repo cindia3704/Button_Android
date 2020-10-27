@@ -270,7 +270,7 @@ class CoordiFragment : Fragment() {
         Glide.with(this)
             .load(RetrofitClient.imageBaseUrl+item.photo)
             .placeholder(R.drawable.circle)
-            .apply(RequestOptions.circleCropTransform()).into(coordiDress)
+            .into(coordiDress)
 
     }
 
