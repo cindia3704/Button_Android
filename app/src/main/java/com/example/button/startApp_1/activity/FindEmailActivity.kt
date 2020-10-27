@@ -79,4 +79,3 @@ class FindEmailActivity : AppCompatActivity() {
 class ExistsOrNot(var exists:String){
 
 }
-
