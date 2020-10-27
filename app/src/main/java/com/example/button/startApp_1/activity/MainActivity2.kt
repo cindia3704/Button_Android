@@ -34,7 +34,6 @@ class MainActivity2 : AppCompatActivity() {
                 userId
             )
 
-            currentItem = 0
         }
 
         user_profile_image.setOnClickListener {
