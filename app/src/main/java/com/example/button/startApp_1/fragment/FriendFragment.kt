@@ -128,7 +128,7 @@ class FriendFragment : Fragment() {
                         ) {
                             val data = response.message()
                             if(response.isSuccessful){
-                                Toast.makeText(context,"친구추가가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context,"친구요청을 성공적으로 보냈습니다.",Toast.LENGTH_SHORT).show()
 
                                 reqFriendList()
 
