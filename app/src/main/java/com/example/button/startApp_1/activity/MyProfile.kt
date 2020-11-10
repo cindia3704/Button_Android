@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.button.R
 import com.example.button.startApp_1.data.User
@@ -34,6 +35,26 @@ class MyProfile : AppCompatActivity() {
                 profile_name.setText(nickname_)
             }
         })
+
+        withdrawal.setOnClickListener {
+            RetrofitClient.retrofitService.withdrawal(userId,"Token " + RetrofitClient.token)
+                .enqueue(object : retrofit2.Callback<Void> {
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                    }
+
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>
+                    ) {
+                        val data = response.message()
+                        if(response.isSuccessful){
+                            Toast.makeText(this@MyProfile,"회원탈퇴가 정상적으로 처라됐습니다.", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+
+                    }
+                })
+        }
 
         change_pw.setOnClickListener {
             val intent= Intent(this@MyProfile,ChangePasswordActivity::class.java)
