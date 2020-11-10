@@ -451,7 +451,7 @@ class CoordiDetailActivity : AppCompatActivity() {
 
     fun clickTop(item: Cloth) {
         coordiTop.setImageResource(0)
-        
+
         cvDress.visibility = View.INVISIBLE
         cvBottom.visibility = View.VISIBLE
         cvTop.visibility = View.VISIBLE
