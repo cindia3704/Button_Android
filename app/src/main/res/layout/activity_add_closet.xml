@@ -59,11 +59,19 @@
         android:textColor="#000000"
         android:textSize="13dp" />
 
+    <EditText
+        android:id="@+id/et_weather"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
 
@@ -120,47 +128,61 @@
         android:text="카테고리를 선택해주세요"
         android:textSize="13dp" />
 
+
     <TextView
+        android:id="@+id/tv_style"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:text="구입 날짜"
+        android:text="스타일"
         android:textColor="#000000"
         android:textSize="13dp" />
-    <TextView
-        android:id="@+id/closer_buy_day"
+
+    <LinearLayout
+        android:id="@+id/ll_style"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edit"
-        android:gravity="center_vertical"
-        android:text="구입한 날짜를 선택해주세요"
-        android:textSize="13dp" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="착용 날짜 "
-        android:textColor="#000000"
-        android:textSize="13dp" />
-    <TextView
-        android:id="@+id/closer_dress_day"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/edit"
-        android:gravity="center_vertical"
-        android:text="착용날짜를 선택해주세요"
-        android:textSize="13dp" />
+        android:orientation="horizontal">
 
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/suit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="정장"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/semi_suit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="semi 정장"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/casual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="casual"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/outdoor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="outdoor"
+            android:textSize="13dp" />
+
+    </LinearLayout>
 
 
     <TextView
