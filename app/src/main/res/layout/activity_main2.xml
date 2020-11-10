@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:orientation="vertical"
-        android:paddingTop="10dp">
-
+        android:paddingTop="3dp">
         <LinearLayout
             android:id="@+id/banner"
             android:layout_width="match_parent"
@@ -20,37 +19,40 @@
             android:layout_gravity="top"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:paddingTop="3dp">
+
+            <ImageView
+                android:id="@+id/top_logo_icon"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="190dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/main_logo" />
+
             <ImageView
                 android:id="@+id/user_profile_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
                 android:background="@drawable/person__icon1"
-                android:layout_marginRight="50dp"
-                android:layout_gravity="start"/>
-            <ImageView
-                android:id="@+id/top_logo_icon"
-                android:layout_width="100dp"
-                android:layout_height="56dp"
-                android:layout_marginRight="150dp"
-                android:layout_marginLeft="50dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/main_logo" />
-        </LinearLayout>
+                android:layout_gravity="end"/>
 
+        </LinearLayout>
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:background="#302F2F" />
 
     </LinearLayout>
+
     <androidx.viewpager.widget.ViewPager
-        android:layout_below="@+id/top_logo"
         android:id="@+id/vp_ac_main_frag_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tl_ac_main_bottom_menu"/>
+        android:layout_above="@+id/tl_ac_main_bottom_menu"
+        android:layout_below="@+id/top_logo"
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_ac_main_bottom_menu"
