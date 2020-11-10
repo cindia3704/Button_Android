@@ -3,11 +3,14 @@ package com.example.button.startApp_1.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +39,13 @@ class MyclosetFragment : Fragment() {
     private val categoryList = mutableListOf("TOP", "BOTTOM", "OUTER", "DRESS")
     var userId: Int? = 5
 
+
+    private val weatherList = arrayOf("전체","여름","겨울","환절기(봄, 가을)")
+    private val weatherValueList = arrayOf("ALL","SUMMER","WINTER","HWAN")
+    private var selectWeatherIndex = 0
+    private var weatherAdapter : ArrayAdapter<String>? = null
+
+
     companion object {
         private const val MY_INT = "userId"
         fun newInstance(userId: Int): MyclosetFragment {
@@ -52,20 +62,6 @@ class MyclosetFragment : Fragment() {
 //        }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            this.userId = it.getInt(MY_INT, 0)
-//        }
-//        if(arguments!=null){
-//
-//            userId= arguments!!.getInt("userId")
-//        }
-//        else{
-        // Log.d("user",""+userId)
-//        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,10 +74,27 @@ class MyclosetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         layoutInit()
-        reqUser()
     }
 
     private fun layoutInit() {
+        weatherAdapter = ArrayAdapter(context,android.R.layout.simple_spinner_dropdown_item,weatherList)
+        select_weather.adapter = weatherAdapter
+        select_weather.onItemSelectedListener = object : AdapterView.OnItemClickListener,
+            AdapterView.OnItemSelectedListener {
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                selectWeatherIndex = p2
+                userId?.let { reqCloth(it) }
+            }
+
+        }
+
         topClothadapter = ClothAdapter(
             LayoutInflater.from(activity), mContext
         )
@@ -112,6 +125,13 @@ class MyclosetFragment : Fragment() {
             ClothAdapter(
                 LayoutInflater.from(activity), mContext
             )
+
+//        if(!TextUtils.equals(RetrofitClient.gender,"FEMALE")){
+//            recyclerView_category_onepiece.visibility = View.GONE
+//            ll_onepice.visibility = View.GONE
+//        }else{
+//
+//        }
         recyclerView_category_onepiece.apply {
             adapter = onepieceClothadapter
             layoutManager = GridLayoutManager(activity, 2, RecyclerView.HORIZONTAL, false)
@@ -152,29 +172,6 @@ class MyclosetFragment : Fragment() {
         }
     }
 
-    private fun reqUser() {
-
-        Log.e("user_id","reqUser user_id="+userId)
-//        userId?.let {
-//            RetrofitClient.retrofitService.getUserSpecific(it, "Token " + RetrofitClient.token)
-//                .enqueue(object : retrofit2.Callback<MutableList<User>> {
-//                    override fun onFailure(call: Call<MutableList<User>>, t: Throwable) {
-//                    }
-//
-//                    override fun onResponse(
-//                        call: Call<MutableList<User>>,
-//                        response: Response<MutableList<User>>
-//                    ) {
-//                        val data = response.body()?.get(0)
-//                        Toast.makeText(getActivity(), "user id is : " + userId, Toast.LENGTH_SHORT)
-//                            .show()
-//                        Log.e("user_id","reqUser res user_id="+userId)
-//
-//                        reqCloth(userId!!)
-//                    }
-//                })
-//        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -182,7 +179,7 @@ class MyclosetFragment : Fragment() {
     }
 
     private fun reqCloth(id: Int) {
-        RetrofitClient.retrofitService.getCloth(id, "Token " + RetrofitClient.token)
+        RetrofitClient.retrofitService.getCloth(id,"Token " + RetrofitClient.token)
             .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
                 override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
                     t.printStackTrace()
