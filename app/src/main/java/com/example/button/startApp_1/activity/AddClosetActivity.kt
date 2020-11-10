@@ -62,7 +62,6 @@ class AddClosetActivity : AppCompatActivity() {
         select_item = intent.getParcelableExtra("item")
 
 
-        Log.e("select_item", "select_item=" + select_item?.toString() + "\ncategory=" + category)
 
 
         initUi()
@@ -79,8 +78,6 @@ class AddClosetActivity : AppCompatActivity() {
 
     private fun setUi(item: Cloth) {
         closer_category.text = item.category
-        closer_buy_day.text = item.dateBought
-        closer_dress_day.text = item.dateLastWorn
 
         if (item.season.contains("SUMMER")) {
             summer.isChecked = true
@@ -105,6 +102,18 @@ class AddClosetActivity : AppCompatActivity() {
 
     private fun initUi() {
         closer_category.text = category
+
+        var month = Calendar.getInstance().get(Calendar.MONTH)
+        when(month){
+            2,3,4,8,9,10 -> et_weather.setText("HWAN")
+            0,1,11 -> et_weather.setText("WINTER")
+            5,6,7 -> et_weather.setText("SUMMER")
+        }
+
+        if(TextUtils.equals("TOP",category) || TextUtils.equals("DRESS",category)){
+            ll_style.visibility = View.VISIBLE
+            tv_style.visibility = View.VISIBLE
+        }
 
         delete.setOnClickListener {
             RetrofitClient.retrofitService.deleteCloset(
@@ -141,38 +150,8 @@ class AddClosetActivity : AppCompatActivity() {
         closet.setOnClickListener {
             checkPermission()
         }
-        closer_dress_day.setOnClickListener {
-            var calendar = Calendar.getInstance()
-            var dialog = DatePickerDialog(
-                this,
-                object : DatePickerDialog.OnDateSetListener {
-                    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-                        closer_dress_day.text = "${p1}-${p2 + 1}-${p3}"
-                    }
 
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_WEEK)
-            )
-            dialog.show()
-        }
-        closer_buy_day.setOnClickListener {
-            var calendar = Calendar.getInstance()
-            var dialog = DatePickerDialog(
-                this,
-                object : DatePickerDialog.OnDateSetListener {
-                    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-                        closer_buy_day.text = "${p1}-${p2 + 1}-${p3}"
-                    }
 
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_WEEK)
-            )
-            dialog.show()
-        }
     }
 
 
@@ -241,10 +220,23 @@ class AddClosetActivity : AppCompatActivity() {
             MediaType.parse("text/plain"),
             (select_item?.clothID ?: user_id).toString()
         )
-        var dateBought =
-            RequestBody.create(MediaType.parse("text/plain"), closer_buy_day.text.toString())
-        var dateLastWorn =
-            RequestBody.create(MediaType.parse("text/plain"), closer_dress_day.text.toString())
+        var style = mutableListOf<RequestBody>()
+        if(casual.isChecked){
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "CASUAL"))
+        }
+
+        if(semi_suit.isChecked){
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "CASUAL"))
+        }
+
+        if(suit.isChecked){
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "CASUAL"))
+        }
+
+        if(outdoor.isChecked){
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "OUTDOOR"))
+        }
+
         var season = mutableListOf<RequestBody>()
         if (spring.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "SPRING"))
@@ -269,8 +261,7 @@ class AddClosetActivity : AppCompatActivity() {
                 clothID = closeIdBody,
                 category = categoryBody,
                 season = season,
-                dateBought = dateBought,
-                dateLastWorn = dateLastWorn,
+                style = style,
                 photo = photo
             ).enqueue(object :
                 retrofit2.Callback<Void> {
@@ -308,8 +299,6 @@ class AddClosetActivity : AppCompatActivity() {
                 id = userIdBody,
                 category = categoryBody,
                 season = season,
-                dateBought = dateBought,
-                dateLastWorn = dateLastWorn,
                 coordiList = coordi,
                 photo = photo
             ).enqueue(object :
