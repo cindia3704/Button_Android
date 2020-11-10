@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
 import com.example.button.startApp_1.data.LoggedUserInfo
 import com.example.button.startApp_1.data.LoginResponse
+import com.example.button.startApp_1.data.User
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_my_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,6 +51,33 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun getUserInfo(userId : Int){
+        RetrofitClient.retrofitService.getUserSpecific(
+            userId,
+            "Token " + RetrofitClient.token
+        ).enqueue(object :
+            retrofit2.Callback<User> {
+            override fun onFailure(call: Call<User>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+
+                if(response.isSuccessful){
+                    RetrofitClient.gender = response.body()?.userGender?:""
+                    val intent1 = Intent(
+                        this@LoginActivity,
+                        MainActivity2::class.java
+                    )
+                    intent1.putExtra("userId", userId)
+                    startActivity(intent1)
+                    finish()
+                }
+
+            }
+        })
+    }
+
     private fun requestLogin(intent1:Intent){
         RetrofitClient.retrofitService.logIn(enter_ID.text.toString(), enter_PW.text.toString()).enqueue(object : Callback<LoginResponse>{
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -81,9 +110,9 @@ class LoginActivity : AppCompatActivity() {
                             if(confirmedEmail==false){
                                 Toast.makeText(this@LoginActivity,"이메일을 인증한 후 다시 시도해 주세요",Toast.LENGTH_SHORT).show()
                             }else {
-                                intent1.putExtra("userId", userId)
-                                startActivity(intent1)
-                                finish()
+
+                                getUserInfo(userId)
+
                             }
                         }
                     })
