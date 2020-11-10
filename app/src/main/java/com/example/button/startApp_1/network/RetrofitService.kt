@@ -40,19 +40,18 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Call<User>
 
+//    @GET("/closet/{id}/getseason/{weather}")
+//    fun getCloth(
+//        @Path("id") id: Int,
+//        @Path("weather") weather: String,
+//        @Header("Authorization") token: String
+//    ): Call<MutableList<Cloth>>
+
     @GET("/closet/{id}")
     fun getCloth(
         @Path("id") id: Int,
         @Header("Authorization") token: String
     ): Call<MutableList<Cloth>>
-    @Multipart
-    @POST("/closet/{id}/")
-    fun insertCloset(
-        @Header("Authorization") token: String,
-        @Path("id") user_id: Int,
-        @Part("id") clothID: RequestBody,
-        @Part photo: MultipartBody.Part?
-    ): Call<Void>
 
     @Multipart
     @POST("/closet/{id}/")
@@ -61,9 +60,8 @@ interface RetrofitService {
         @Path("id") user_id: Int,
         @Part("id") clothID: RequestBody,
         @Part("category") category: RequestBody,
+        @Part("style") style: MutableList<RequestBody>,
         @Part("season") season: MutableList<RequestBody>,
-        @Part("dateBought") dateBought: RequestBody,
-        @Part("dateLastWorn") dateLastWorn: RequestBody,
         @Part photo: MultipartBody.Part?
     ): Call<Void>
 
@@ -73,6 +71,7 @@ interface RetrofitService {
         @Path("id") user_id: Int,
         @Path("clothID") clothID: Int
     ): Call<Void>
+
     @Multipart
     @PUT("/closet/{id}/{clothID}/")
     fun updateCloset(
@@ -82,8 +81,6 @@ interface RetrofitService {
         @Part("id") id: RequestBody,
         @Part("category") category: RequestBody,
         @Part("season") season: MutableList<RequestBody>,
-        @Part("dateBought") dateBought: RequestBody,
-        @Part("dateLastWorn") dateLastWorn: RequestBody,
         @Part("outfit") coordiList: MutableList<RequestBody>?,
         @Part photo: MultipartBody.Part?
     ): Call<Void>
@@ -116,6 +113,7 @@ interface RetrofitService {
         @Path("clothID") clothID: Int,// 옷 아이디
         @Path("outfitID") outfitID: Int// 유저 아이디
     ): Call<Void>
+
     @DELETE("/{id}/{outfitID}/delcloth/{clothID}/")
     fun deleteClothCoordi(
         @Header("Authorization") token: String,
@@ -169,13 +167,42 @@ interface RetrofitService {
 
     @POST("/{id}/changepassword/")
     fun changePassword(
-        @Path("id") id : Int,
-        @Body body : ReqChangePasswordBody,
+        @Path("id") id: Int,
+        @Body body: ReqChangePasswordBody,
         @Header("Authorization") token: String
-    ) : Call<Void>
+    ): Call<Void>
 
     @POST("/passwordfind/{email}/")
     fun findPassword(
-        @Path("email") id : String
-    ) : Call<Void>
+        @Path("email") id: String
+    ): Call<Void>
+
+    @GET("/getCalendar/{id}/{year}/{month}/")
+    fun getCoordiForMonth(
+        @Path("id") id: Int,
+        @Path("year") year: Int,
+        @Path("month") month: Int,
+        @Header("Authorization") token: String
+    ): Call<CoordiListForCalendar>
+
+
+    @GET("/outfitStatsBest/{id}/")
+    fun getBestCoordi(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String
+    ): Call<MutableList<CoordiList>>
+
+    @GET("/outfitStatsWorst/{id}/")
+    fun getWorstCoordi(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String
+    ): Call<MutableList<CoordiList>>
+
+    @DELETE("/user/{id}/delete/")
+    fun withdrawal(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String)
+    : Call<Void>
+
+
 }
