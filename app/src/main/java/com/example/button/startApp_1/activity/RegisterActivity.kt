@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.button.R
 import com.example.button.startApp_1.network.RetrofitClient
+import com.example.button.startApp_1.network.RetrofitService
+import kotlinx.android.synthetic.main.activity_find_email.*
 import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,6 +38,43 @@ class RegisterActivity : AppCompatActivity() {
                         .show()
                     passwordValid = false
                 }
+        }
+        findEmail.setOnClickListener {
+            var userEmail = initial_enter_ID.text.toString()
+
+            RetrofitClient.retrofitService.findUserEmail(userEmail).enqueue(object : Callback<ExistsOrNot> {
+                override fun onResponse(call: Call<ExistsOrNot>, response: Response<ExistsOrNot>) {
+                    if (response.isSuccessful) {
+                        var exists_text = response.body()!!.exists
+                        Log.d("emailtext",exists_text.toString())
+                        var exists_string = exists_text.toString()
+                        Log.d("eText", exists_text.toString())
+                        if (exists_string.equals("true")) {
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "중복된 아이디입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "해당 아이디는 사용 가능합니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "해당 아이디는 사용 가능합니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ExistsOrNot>, t: Throwable) {
+
+                }
+            })
         }
 
         make_account.setOnClickListener {
