@@ -8,7 +8,6 @@
     tools:context=".startApp_1.activity.AddClosetActivity">
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,28 +25,28 @@
             android:id="@+id/save"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
             android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
             android:src="@drawable/button_save" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         app:cardCornerRadius="60dp"
         app:cardElevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/closet"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:scaleType="fitCenter"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter" />
     </androidx.cardview.widget.CardView>
-
 
 
     <TextView
@@ -59,55 +58,41 @@
         android:textColor="#000000"
         android:textSize="13dp" />
 
-    <EditText
-        android:id="@+id/et_weather"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:visibility="gone"
         android:orientation="horizontal">
 
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/spring"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="봄"
-            android:textSize="13dp" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/summer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="여름"
+            android:text="SUMMER"
             android:textSize="13dp" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/fall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="가을"
-            android:textSize="13dp" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/winter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="겨울"
+            android:text="WINTER"
+            android:textSize="13dp" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/hwan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="HWAN"
             android:textSize="13dp" />
 
     </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,6 +101,7 @@
         android:text="카테고리"
         android:textColor="#000000"
         android:textSize="13dp" />
+
     <TextView
         android:id="@+id/closer_category"
         android:layout_width="match_parent"
@@ -131,23 +117,25 @@
 
     <TextView
         android:id="@+id/tv_style"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:text="스타일"
         android:textColor="#000000"
-        android:textSize="13dp" />
+        android:textSize="13dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/ll_style"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
 
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -182,16 +170,24 @@
             android:text="outdoor"
             android:textSize="13dp" />
 
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/vacance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="바캉스"
+            android:textSize="13dp" />
+
     </LinearLayout>
 
 
     <TextView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
-        android:text="삭제하기"
-        android:padding="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        android:text="삭제하기" />
 
 </LinearLayout>
