@@ -40,12 +40,12 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Call<User>
 
-//    @GET("/closet/{id}/getseason/{weather}")
-//    fun getCloth(
-//        @Path("id") id: Int,
-//        @Path("weather") weather: String,
-//        @Header("Authorization") token: String
-//    ): Call<MutableList<Cloth>>
+    @GET("/closet/{id}/getseason/{weather}/")
+    fun getCloth(
+        @Path("id") id: Int,
+        @Path("weather") weather: String,
+        @Header("Authorization") token: String
+    ): Call<MutableList<Cloth>>
 
     @GET("/closet/{id}")
     fun getCloth(
@@ -62,6 +62,7 @@ interface RetrofitService {
         @Part("category") category: RequestBody,
         @Part("style") style: MutableList<RequestBody>,
         @Part("season") season: MutableList<RequestBody>,
+        @Part("outfit") coordiList: MutableList<RequestBody>?,
         @Part photo: MultipartBody.Part?
     ): Call<Void>
 
@@ -91,6 +92,7 @@ interface RetrofitService {
     fun getOutfitId(
         @Path("id") user_id: Int,
         @Part("id") id: Int,
+        @Part("outfitBy") outfitBy: Int,
         @Header("Authorization") token: String,
         @Part("outfitName") outfitName: String
     ): Call<GetOutfitIdResponse>
@@ -183,7 +185,7 @@ interface RetrofitService {
         @Path("year") year: Int,
         @Path("month") month: Int,
         @Header("Authorization") token: String
-    ): Call<CoordiListForCalendar>
+    ): Call<MutableList<CoordiListForCalendar>>
 
 
     @GET("/outfitStatsBest/{id}/")
@@ -204,5 +206,22 @@ interface RetrofitService {
         @Header("Authorization") token: String)
     : Call<Void>
 
+
+    @POST("/addToCalendar/{id}/{outfitId}/{year}/{month}/{day}/")
+    fun selectCoordiForCalendar(
+        @Path("id") id: Int,
+        @Path("outfitId") outfitId: Int,
+        @Path("year") year: Int,
+        @Path("month") month: Int,
+        @Path("day") day: Int,
+        @Body body : SelectCoordiForCalendarBody,
+        @Header("Authorization") token: String) : Call<SelectCoordiForCalendarBody>
+
+
+    @POST("/knn/")
+    fun recommend(
+        @Body body : RecommendBody,
+        @Header("Authorization") token: String
+    ) : Call<Void>
 
 }
