@@ -11,8 +11,8 @@ object RetrofitClient {
     var token = ""
     var gender = ""
     //    val baseUrl = "http://18.191.146.76:9999/"
-    val baseUrl = "http://141.223.121.111:9999/"
-    val imageBaseUrl = "http://141.223.121.111:9999"
+    val baseUrl = "https://capstonebutton.kro.kr:9000/"
+    val imageBaseUrl = "https://capstonebutton.kro.kr:9000"
 
     var retrofit : Retrofit
     init {
