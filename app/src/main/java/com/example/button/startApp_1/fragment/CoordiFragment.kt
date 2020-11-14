@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +40,8 @@ import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_onep
 import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_outer
 import kotlinx.android.synthetic.main.fragment_coordi.recyclerView_category_top
 import kotlinx.android.synthetic.main.fragment_coordi.save
+import kotlinx.android.synthetic.main.fragment_coordi.select_weather
+import kotlinx.android.synthetic.main.fragment_mycloset.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -61,6 +65,13 @@ class CoordiFragment : Fragment() {
 
     private var uploadClosetCount = 0
     private var totalUploadClosetCount = 0
+
+
+    private val weatherList = arrayOf("전체","여름","겨울","환절기(봄, 가을)")
+    private val weatherValueList = arrayOf("ALL","SUMMER","WINTER","HWAN")
+    private var selectWeatherIndex = 0
+    private var weatherAdapter : ArrayAdapter<String>? = null
+
     companion object{
 
         private const val MY_INT = "userId"
@@ -99,6 +110,25 @@ class CoordiFragment : Fragment() {
     }
 
     fun layoutInit(){
+        weatherAdapter = ArrayAdapter(context,android.R.layout.simple_spinner_dropdown_item,weatherList)
+        select_weather.adapter = weatherAdapter
+        select_weather.onItemSelectedListener = object : AdapterView.OnItemClickListener,
+            AdapterView.OnItemSelectedListener {
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                selectWeatherIndex = p2
+                userId?.let { reqCloth(it) }
+            }
+
+        }
+
+
         recyclerView_category_top.apply {
             adapter = topAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -189,7 +219,7 @@ class CoordiFragment : Fragment() {
             return
         }
 //        var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (userId).toString())
-        RetrofitClient.retrofitService.getOutfitId(userId, userId,"Token " + RetrofitClient.token,outfitName)
+        RetrofitClient.retrofitService.getOutfitId(userId, userId,userId,"Token " + RetrofitClient.token,outfitName)
             .enqueue(object : retrofit2.Callback<GetOutfitIdResponse> {
                 override fun onFailure(call: Call<GetOutfitIdResponse>, t: Throwable) {
                     t.printStackTrace()
@@ -229,35 +259,69 @@ class CoordiFragment : Fragment() {
     }
 
     private fun reqCloth(id : Int){
-        RetrofitClient.retrofitService.getCloth(id, "Token " + RetrofitClient.token)
-            .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
-                override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
-                    t.printStackTrace()
-                }
 
-                override fun onResponse(
-                    call: Call<MutableList<Cloth>>,
-                    response: Response<MutableList<Cloth>>
-                ) {
-                    val data = response.body()
-                    var topItem = mutableListOf<Cloth>()
-                    var bottomItem = mutableListOf<Cloth>()
-                    var outerItem = mutableListOf<Cloth>()
-                    var dressItem = mutableListOf<Cloth>()
-                    topItem.addAll(data?.filter {  TextUtils.equals(it.category,"TOP") } ?: mutableListOf())
-                    topAdapter.clothList = topItem
+        if(selectWeatherIndex == 0){
+            RetrofitClient.retrofitService.getCloth(id,"Token " + RetrofitClient.token)
+                .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
+                    override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
+                        t.printStackTrace()
+                    }
 
-                    bottomItem.addAll(data?.filter {  TextUtils.equals(it.category,"BOTTOM") } ?: mutableListOf())
-                    bottomAdapter.clothList = bottomItem
+                    override fun onResponse(
+                        call: Call<MutableList<Cloth>>,
+                        response: Response<MutableList<Cloth>>
+                    ) {
+                        val data = response.body()
+                        var topItem = mutableListOf<Cloth>()
+                        var bottomItem = mutableListOf<Cloth>()
+                        var outerItem = mutableListOf<Cloth>()
+                        var dressItem = mutableListOf<Cloth>()
+                        topItem.addAll(data?.filter {  TextUtils.equals(it.category,"TOP") } ?: mutableListOf())
+                        topAdapter.clothList = topItem
 
-                    outerItem.addAll(data?.filter {  TextUtils.equals(it.category,"OUTER") } ?: mutableListOf())
-                    outerAdapter.clothList = outerItem
+                        bottomItem.addAll(data?.filter {  TextUtils.equals(it.category,"BOTTOM") } ?: mutableListOf())
+                        bottomAdapter.clothList = bottomItem
 
-                    dressItem.addAll(data?.filter {  TextUtils.equals(it.category,"DRESS") } ?: mutableListOf())
-                    dressAdapter.clothList = dressItem
-                }
+                        outerItem.addAll(data?.filter {  TextUtils.equals(it.category,"OUTER") } ?: mutableListOf())
+                        outerAdapter.clothList = outerItem
 
-            })
+                        dressItem.addAll(data?.filter {  TextUtils.equals(it.category,"DRESS") } ?: mutableListOf())
+                        dressAdapter.clothList = dressItem
+                    }
+
+                })
+        }else{
+            RetrofitClient.retrofitService.getCloth(id, weatherValueList[selectWeatherIndex],"Token " + RetrofitClient.token)
+                .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
+                    override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
+                        t.printStackTrace()
+                    }
+
+                    override fun onResponse(
+                        call: Call<MutableList<Cloth>>,
+                        response: Response<MutableList<Cloth>>
+                    ) {
+                        val data = response.body()
+                        var topItem = mutableListOf<Cloth>()
+                        var bottomItem = mutableListOf<Cloth>()
+                        var outerItem = mutableListOf<Cloth>()
+                        var dressItem = mutableListOf<Cloth>()
+                        topItem.addAll(data?.filter {  TextUtils.equals(it.category,"TOP") } ?: mutableListOf())
+                        topAdapter.clothList = topItem
+
+                        bottomItem.addAll(data?.filter {  TextUtils.equals(it.category,"BOTTOM") } ?: mutableListOf())
+                        bottomAdapter.clothList = bottomItem
+
+                        outerItem.addAll(data?.filter {  TextUtils.equals(it.category,"OUTER") } ?: mutableListOf())
+                        outerAdapter.clothList = outerItem
+
+                        dressItem.addAll(data?.filter {  TextUtils.equals(it.category,"DRESS") } ?: mutableListOf())
+                        dressAdapter.clothList = dressItem
+                    }
+
+                })
+        }
+
     }
 
     fun clickDress(item : Cloth){
