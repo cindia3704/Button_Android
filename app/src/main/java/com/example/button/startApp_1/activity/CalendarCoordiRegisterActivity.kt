@@ -2,13 +2,15 @@ package com.example.button.startApp_1.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.button.R
 import com.example.button.startApp_1.adapter.CalendarCoordiRegisterListItemAdapter
 import com.example.button.startApp_1.data.CoordiList
+import com.example.button.startApp_1.data.SelectCoordiForCalendarBody
 import com.example.button.startApp_1.network.RetrofitClient
-import kotlinx.android.synthetic.main.activity_coordi_list.*
+import kotlinx.android.synthetic.main.activity_calendar_coordi_register.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -23,12 +25,14 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
 
     private var year = 0
     private var month = 0
+    private var day = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_coordi_register)
         userID = intent.getIntExtra(KEY_USER_ID, 0)
         year = intent.getIntExtra("year",0)
         month = intent.getIntExtra("month",0)
+        day = intent.getIntExtra("day",0)
 
         layoutInit()
         getCoordiList()
@@ -45,9 +49,30 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
         }
 
 
-//        edit.setOnClickListener {
-//            listAdapter.updateEdit()
-//        }
+        register.setOnClickListener {
+
+            var selectOutfitId = listAdapter.selectItemId()
+
+            if(selectOutfitId == -1) return@setOnClickListener
+
+            var body = SelectCoordiForCalendarBody(userID,et_memo.text.toString())
+
+            RetrofitClient.retrofitService.selectCoordiForCalendar(userID,selectOutfitId,year,month,day,body,"Token " + RetrofitClient.token)
+                .enqueue(object : retrofit2.Callback<SelectCoordiForCalendarBody> {
+                    override fun onFailure(call: Call<SelectCoordiForCalendarBody>, t: Throwable) {
+                    }
+
+                    override fun onResponse(
+                        call: Call<SelectCoordiForCalendarBody>,
+                        response: Response<SelectCoordiForCalendarBody>
+                    ) {
+                        if(response.isSuccessful){
+                            finish()
+                        }
+
+                    }
+                })
+        }
         back.setOnClickListener {
             finish()
         }
