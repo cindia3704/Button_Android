@@ -28,6 +28,13 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
         notifyDataSetChanged()
     }
 
+    fun selectItemId() : Int {
+        if(selectPosition >= 0){
+            return myCoordiList[selectPosition].outfitID
+        }else{
+            return -1
+        }
+    }
     fun updateEdit() {
         isEdit = !isEdit
         notifyDataSetChanged()
@@ -109,18 +116,18 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
 
         holder.delete.visibility = if (isEdit) View.VISIBLE else View.GONE
 
+        holder.bind(position)
         holder.content.setOnClickListener {
 
-//            if (isEdit) {
-//                activity.deleteItem(myCoordiList[position])
-//            } else {
-//                activity.clickItem(myCoordiList[position])
-//            }
+            selectPosition = position
+            notifyDataSetChanged()
         }
     }
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ctSelect: ConstraintLayout = view.findViewById(R.id.ct_select)
+
         val cvTop: CardView = view.findViewById(R.id.cvTop)
         val cvBottom: CardView = view.findViewById(R.id.cvBottom)
         val cvDress: CardView = view.findViewById(R.id.cvDress)
@@ -134,6 +141,14 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
 
         val delete: ImageView = view.findViewById(R.id.delete)
         val closetName: TextView = view.findViewById(R.id.closetName)
+
+        fun bind(position : Int){
+            if(selectPosition == position){
+                ctSelect.visibility = View.VISIBLE
+            }else{
+                ctSelect.visibility = View.GONE
+            }
+        }
     }
 
 }
