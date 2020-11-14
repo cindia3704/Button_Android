@@ -227,7 +227,8 @@ class CoordiDetailActivity : AppCompatActivity() {
             Toast.makeText(this,"코디 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
             return
         }
-        RetrofitClient.retrofitService.getOutfitId(if(friendID == 0 )userID else friendID, if(friendID == 0 )userID else friendID,"Token " + RetrofitClient.token,outfitName)
+        var id=  if(friendID == 0 )userID else friendID
+        RetrofitClient.retrofitService.getOutfitId(id, id,id,"Token " + RetrofitClient.token,outfitName)
             .enqueue(object : retrofit2.Callback<GetOutfitIdResponse> {
                 override fun onFailure(call: Call<GetOutfitIdResponse>, t: Throwable) {
                     t.printStackTrace()
