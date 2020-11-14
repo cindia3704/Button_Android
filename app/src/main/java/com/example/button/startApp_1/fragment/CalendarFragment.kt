@@ -16,12 +16,14 @@ import com.example.button.startApp_1.adapter.CalendarCoordiListItemAdapter
 import com.example.button.startApp_1.adapter.CalendarDayItem
 import com.example.button.startApp_1.data.CoordiList
 import com.example.button.startApp_1.data.CoordiListForCalendar
+import com.example.button.startApp_1.data.ResInsertCoordiForCalendar
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.fragment_calendar_item.*
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.HashMap
 
 class CalendarFragment : Fragment() {
 
@@ -42,6 +44,7 @@ class CalendarFragment : Fragment() {
     private var userId = 0
     private var worstAdapter = CalendarCoordiListItemAdapter(this)
     private var bestAdatper = CalendarCoordiListItemAdapter(this)
+    private var coordiList = HashMap<String,MutableList<CoordiListForCalendar>>()
 
 
     override fun onCreateView(
@@ -69,6 +72,12 @@ class CalendarFragment : Fragment() {
 
     inner class ItemAdapter(var year: Int, var month: Int) : RecyclerView.Adapter<ItemVieHolder>() {
 
+        init {
+            for(i in 0 until 12){
+                getCoordiForCalendar(year,   month - i)
+            }
+
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemVieHolder {
             val view =
@@ -83,20 +92,28 @@ class CalendarFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ItemVieHolder, position: Int) {
             val realMonth = month - position
-            getCoordiForCalendar(year, realMonth)
             holder.bind(position, year, realMonth)
         }
 
         private fun getCoordiForCalendar(year: Int, month: Int) {
+            Log.e("setCalendar","req data year=${year},month=${month}")
             RetrofitClient.retrofitService.getCoordiForMonth(userId, year, month,"Token " + RetrofitClient.token)
-                .enqueue(object : retrofit2.Callback<CoordiListForCalendar> {
-                    override fun onFailure(call: Call<CoordiListForCalendar>, t: Throwable) {
+                .enqueue(object : retrofit2.Callback<MutableList<CoordiListForCalendar>> {
+                    override fun onFailure(call: Call<MutableList<CoordiListForCalendar>>, t: Throwable) {
+                        Log.e("error","onfail message=${t.message}")
                     }
 
                     override fun onResponse(
-                        call: Call<CoordiListForCalendar>,
-                        response: Response<CoordiListForCalendar>
+                        call: Call<MutableList<CoordiListForCalendar>>,
+                        response: Response<MutableList<CoordiListForCalendar>>
                     ) {
+                        if(response.isSuccessful){
+                            response.body()?.let{
+                                Log.e("setCalendar","result size="+it.size)
+                                coordiList.put("$year-$month",it)
+                                notifyDataSetChanged()
+                            }
+                        }
 
 
                     }
@@ -126,7 +143,6 @@ class CalendarFragment : Fragment() {
         RetrofitClient.retrofitService.getWorstCoordi(userId, "Token " + RetrofitClient.token)
             .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
                 override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
-                    t.printStackTrace()
                 }
 
                 override fun onResponse(
@@ -156,10 +172,21 @@ class CalendarFragment : Fragment() {
             adapter = CalendarDayItem(this@CalendarFragment,year,month,userId)
             adapter?.items = daylist
 
+            var coordiItem = coordiList["$year-$month"]
+            Log.e("getCalendar","year=${year},month=${month},coordiItem=${coordiItem.toString()}")
+            coordiItem?.let{
+                var coordiList = HashMap<String,CoordiList>()
+                for(i in 0 until it.size){
+                    coordiList.put(it[i].date,it[i].outfit_worn)
+                }
+                adapter?.outfitList = coordiList
+            }
+
             tv_day.text = "${month}월 ${year}년"
             rv_day.adapter = adapter
 
         }
+
     }
 }
 
