@@ -10,7 +10,7 @@ class MainFragmentStatePagerAdapter(fm: FragmentManager, val fragmentCount : Int
         when(position){
             0->return MyclosetFragment.newInstance(userId)
             1->return CoordiFragment.newInstance(userId)
-            2->return RecommendFragment()
+            2->return RecommendFragment.newInstance(userId)
             3->return FriendFragment.newInstance(userId)
             else->return CalendarFragment.newInstance(userId)
         }
