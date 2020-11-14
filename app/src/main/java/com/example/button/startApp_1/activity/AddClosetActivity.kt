@@ -7,6 +7,7 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -43,6 +44,8 @@ class AddClosetActivity : AppCompatActivity() {
 
     private var REQ_CAMERA_PERMISSION = 1001
     private var REQ_IMAGE_CAPTURE = 2001
+    private var REQ_IMAGE_GAEERY = 2002
+
     private var imagePath = ""
 
 
@@ -64,7 +67,6 @@ class AddClosetActivity : AppCompatActivity() {
 
 
 
-        initUi()
         if (select_item == null) {
             checkPermission()
             delete.visibility = View.GONE
@@ -72,25 +74,42 @@ class AddClosetActivity : AppCompatActivity() {
             setUi(select_item!!)
             delete.visibility = View.VISIBLE
         }
+        initUi()
 
 
     }
 
     private fun setUi(item: Cloth) {
-        closer_category.text = item.category
+        category = item.category
+        closer_category.text = category
 
         if (item.season.contains("SUMMER")) {
             summer.isChecked = true
         }
-        if (item.season.contains("SPRING")) {
-            spring.isChecked = true
-        }
-        if (item.season.contains("FALL")) {
-            fall.isChecked = true
+        if (item.season.contains("HWAN")) {
+            hwan.isChecked = true
         }
         if (item.season.contains("WINTER")) {
             winter.isChecked = true
         }
+
+        if(item.style.contains("CASUAL")){
+            casual.isChecked = true
+        }
+
+        if(item.style.contains("FORMAL")){
+            suit.isChecked = true
+        }
+        if(item.style.contains("SEMI-FORMAL")){
+            semi_suit.isChecked = true
+        }
+        if(item.style.contains("OUTDOOR")){
+            outdoor.isChecked = true
+        }
+        if(item.style.contains("VACANCE")){
+            vacance.isChecked = true
+        }
+
 
         Glide.with(this@AddClosetActivity)
             .load(RetrofitClient.imageBaseUrl + item.photo)
@@ -102,13 +121,7 @@ class AddClosetActivity : AppCompatActivity() {
 
     private fun initUi() {
         closer_category.text = category
-
-        var month = Calendar.getInstance().get(Calendar.MONTH)
-        when(month){
-            2,3,4,8,9,10 -> et_weather.setText("HWAN")
-            0,1,11 -> et_weather.setText("WINTER")
-            5,6,7 -> et_weather.setText("SUMMER")
-        }
+        Log.e("testset","category="+category)
 
         if(TextUtils.equals("TOP",category) || TextUtils.equals("DRESS",category)){
             ll_style.visibility = View.VISIBLE
@@ -171,7 +184,7 @@ class AddClosetActivity : AppCompatActivity() {
             )
         } else {
             // 권한 있는 경우
-            selectPhoto()
+            showPhotoDialog()
         }
     }
 
@@ -226,31 +239,34 @@ class AddClosetActivity : AppCompatActivity() {
         }
 
         if(semi_suit.isChecked){
-            style.add(RequestBody.create(MediaType.parse("text/plain"), "CASUAL"))
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "SEMI-FORMAL"))
         }
 
         if(suit.isChecked){
-            style.add(RequestBody.create(MediaType.parse("text/plain"), "CASUAL"))
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "FORMAL"))
         }
 
         if(outdoor.isChecked){
             style.add(RequestBody.create(MediaType.parse("text/plain"), "OUTDOOR"))
         }
 
+        if(vacance.isChecked){
+            style.add(RequestBody.create(MediaType.parse("text/plain"), "VACANCE"))
+        }
+
+
         var season = mutableListOf<RequestBody>()
-        if (spring.isChecked) {
-            season.add(RequestBody.create(MediaType.parse("text/plain"), "SPRING"))
+        if (hwan.isChecked) {
+            season.add(RequestBody.create(MediaType.parse("text/plain"), "HWAN"))
         }
         if (summer.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "SUMMER"))
-        }
-        if (fall.isChecked) {
-            season.add(RequestBody.create(MediaType.parse("text/plain"), "FALL"))
         }
         if (winter.isChecked) {
             season.add(RequestBody.create(MediaType.parse("text/plain"), "WINTER"))
         }
 
+        Log.d("season size","season size="+season.size+"\nseason="+season.toString())
 
 
         if (select_item == null) {
@@ -262,7 +278,8 @@ class AddClosetActivity : AppCompatActivity() {
                 category = categoryBody,
                 season = season,
                 style = style,
-                photo = photo
+                photo = photo,
+                coordiList = null
             ).enqueue(object :
                 retrofit2.Callback<Void> {
 
@@ -328,6 +345,32 @@ class AddClosetActivity : AppCompatActivity() {
 
     }
 
+    private fun showPhotoDialog(){
+        var items = arrayOf("사진 촬영 ","갤러리")
+
+        var builder = AlertDialog.Builder(this);
+        builder.setTitle("사진")
+        builder.setItems(items, { dialogInterface, i ->
+
+            if(i == 0){
+                selectPhoto()
+            }else{
+                selectGallery()
+            }
+
+        })
+
+        builder.show()
+
+    }
+    private fun selectGallery(){
+        var intent = Intent(Intent.ACTION_PICK)
+        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        intent.type = "image/*"
+        startActivityForResult(intent, REQ_IMAGE_GAEERY)
+
+    }
+
     private fun selectPhoto() {
         var state = Environment.getExternalStorageState()
         if (TextUtils.equals(state, Environment.MEDIA_MOUNTED)) {
@@ -376,10 +419,30 @@ class AddClosetActivity : AppCompatActivity() {
 
                 }
 
+                REQ_IMAGE_GAEERY -> {
+                    data?.data?.let{
+                        imagePath = getRealPathFromURI(it)
+                        Log.e("test","imagePath="+imagePath)
+                        Glide.with(this@AddClosetActivity)
+                            .load(imagePath)
+                            .placeholder(R.drawable.circle)
+                            .into(closet)
+
+                    }
+
+                }
+
             }
         }
 
 
+    }
+    private fun getRealPathFromURI(uri: Uri): String {
+        var columnIndex = 0
+        var proj = arrayOf(MediaStore.Images.Media.DATA)
+        var cursor = contentResolver.query(uri, proj, null, null, null)
+        if (cursor.moveToFirst()) { columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA) }
+        return cursor.getString(columnIndex)
     }
 
     // 권한 요청한 결과 ㄱ밧 리턴
@@ -396,7 +459,7 @@ class AddClosetActivity : AppCompatActivity() {
 
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 동의 했을 경우
-                    selectPhoto()
+                    showPhotoDialog()
                 } else {
                     // 동의 안했을 경우
                     Toast.makeText(this, "권한 동의를 해야 가능합니다", Toast.LENGTH_SHORT).show()
