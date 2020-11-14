@@ -5,5 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class Cloth(val id: Int,val clothID:Int,val color:String?,val season:MutableList<String>,val category : String, val photo : String,val outfit : MutableList<Int>) :
+data class Cloth(val id: Int,val clothID:Int,val color:String?,val season:MutableList<String>,val category : String, val photo : String,val outfit : MutableList<Int>
+,val style : MutableList<String>) :
     Parcelable
