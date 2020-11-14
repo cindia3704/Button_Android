@@ -179,23 +179,47 @@ class MyclosetFragment : Fragment() {
     }
 
     private fun reqCloth(id: Int) {
-        RetrofitClient.retrofitService.getCloth(id,"Token " + RetrofitClient.token)
-            .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
-                override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
-                    t.printStackTrace()
-                }
-
-                override fun onResponse(
-                    call: Call<MutableList<Cloth>>,
-                    response: Response<MutableList<Cloth>>
-                ) {
-                    val data = response.body()
-                    for (i in 0 until categoryList.size) {
-                        sortData(i, data)
+        if(selectWeatherIndex == 0){
+            // 전체 불러올때
+            RetrofitClient.retrofitService.getCloth(id,"Token " + RetrofitClient.token)
+                .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
+                    override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
+                        t.printStackTrace()
                     }
-                }
 
-            })
+                    override fun onResponse(
+                        call: Call<MutableList<Cloth>>,
+                        response: Response<MutableList<Cloth>>
+                    ) {
+                        val data = response.body()
+                        for (i in 0 until categoryList.size) {
+                            sortData(i, data)
+                        }
+                    }
+
+                })
+        }else{
+            RetrofitClient.retrofitService.getCloth(id,weatherValueList[selectWeatherIndex],"Token " + RetrofitClient.token)
+                .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
+                    override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
+                        t.printStackTrace()
+                    }
+
+                    override fun onResponse(
+                        call: Call<MutableList<Cloth>>,
+                        response: Response<MutableList<Cloth>>
+                    ) {
+                        val data = response.body()
+                        for (i in 0 until categoryList.size) {
+                            sortData(i, data)
+                        }
+                    }
+
+                })
+        }
+
+
+
     }
 
     private fun sortData(index: Int, list: MutableList<Cloth>?) {
