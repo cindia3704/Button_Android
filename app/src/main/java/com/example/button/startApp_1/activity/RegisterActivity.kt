@@ -2,6 +2,7 @@ package com.example.button.startApp_1.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -42,6 +43,15 @@ class RegisterActivity : AppCompatActivity() {
         findEmail.setOnClickListener {
             var userEmail = initial_enter_ID.text.toString()
 
+            if(TextUtils.isEmpty(userEmail)){
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "이메일을 입력해주세요.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
             RetrofitClient.retrofitService.findUserEmail(userEmail).enqueue(object : Callback<ExistsOrNot> {
                 override fun onResponse(call: Call<ExistsOrNot>, response: Response<ExistsOrNot>) {
                     if (response.isSuccessful) {
@@ -52,20 +62,20 @@ class RegisterActivity : AppCompatActivity() {
                         if (exists_string.equals("true")) {
                             Toast.makeText(
                                 this@RegisterActivity,
-                                "중복된 아이디입니다.",
+                                "이미 등록된 아이디입니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
                             Toast.makeText(
                                 this@RegisterActivity,
-                                "해당 아이디는 사용 가능합니다.",
+                                "등록되지 않은 아이디 입니다. 회원가입을 진행해주세요",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     } else {
                         Toast.makeText(
                             this@RegisterActivity,
-                            "해당 아이디는 사용 가능합니다.",
+                            "등록되지 않은 아이디 입니다. 회원가입을 진행해주세요",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -110,6 +120,12 @@ class RegisterActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
                             val editor = pref.edit()
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "히원가입이 성공적으로 완료되었습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
                             editor.putString("username", initial_enter_ID.text.toString())
                             editor.commit()
                             finish()
