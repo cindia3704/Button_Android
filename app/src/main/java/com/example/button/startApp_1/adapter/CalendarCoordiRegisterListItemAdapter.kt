@@ -118,7 +118,7 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
 
         holder.bind(position)
         holder.content.setOnClickListener {
-
+            activity.selectCoordi(closetLists)
             selectPosition = position
             notifyDataSetChanged()
         }
@@ -143,11 +143,11 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
         val closetName: TextView = view.findViewById(R.id.closetName)
 
         fun bind(position : Int){
-            if(selectPosition == position){
-                ctSelect.visibility = View.VISIBLE
-            }else{
-                ctSelect.visibility = View.GONE
-            }
+//            if(selectPosition == position){
+//                ctSelect.visibility = View.VISIBLE
+//            }else{
+//                ctSelect.visibility = View.GONE
+//            }
         }
     }
 
