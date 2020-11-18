@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.button.R
+import com.example.button.startApp_1.network.RetrofitClient
 import com.example.button.startApp_1.network.RetrofitService
 import kotlinx.android.synthetic.main.activity_find_email.*
 import retrofit2.Call
@@ -19,16 +20,10 @@ class FindEmailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_email)
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://141.223.121.111:9999/admin/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
         yes_to_find_id.setOnClickListener {
-            val service = retrofit.create(RetrofitService::class.java)
             var userEmail = enter_email_to_find_id.text.toString()
 
-            service.findUserEmail(userEmail.toString()).enqueue(object : Callback<ExistsOrNot> {
+            RetrofitClient.retrofitService.findUserEmail(userEmail.toString()).enqueue(object : Callback<ExistsOrNot> {
                 override fun onResponse(call: Call<ExistsOrNot>, response: Response<ExistsOrNot>) {
                     if (response.isSuccessful) {
                         var exists_text = response.body()!!.exists
@@ -38,20 +33,20 @@ class FindEmailActivity : AppCompatActivity() {
                         if (exists_string.equals("true")) {
                             Toast.makeText(
                                 this@FindEmailActivity,
-                                "해당 아이디가 존재합니다",
+                                "이미 등록된 아이디입니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
                             Toast.makeText(
                                 this@FindEmailActivity,
-                                "해당 아이디는 존재하지 않습니다.",
+                                "등록되지 않은 아이디 입니다. 회원가입을 진행해주세요",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     } else {
                         Toast.makeText(
                             this@FindEmailActivity,
-                            "해당 아이디는 존재하지 않습니다.",
+                            "등록되지 않은 아이디 입니다. 회원가입을 진행해주세요",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
