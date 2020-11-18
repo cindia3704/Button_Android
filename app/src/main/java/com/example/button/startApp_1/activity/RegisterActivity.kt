@@ -122,7 +122,7 @@ class RegisterActivity : AppCompatActivity() {
                             val editor = pref.edit()
                             Toast.makeText(
                                 this@RegisterActivity,
-                                "히원가입이 성공적으로 완료되었습니다.",
+                                "회원가입이 성공적으로 완료되었습니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
 

@@ -9,15 +9,16 @@
     android:layout_gravity="bottom"
     android:orientation="horizontal">
 
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/btn_bottom_navi_recommend_tab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
             android:src="@drawable/mycloth" />
 
     </RelativeLayout>
@@ -30,8 +31,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerInParent="true"
             android:src="@drawable/self"/>
 
@@ -45,8 +46,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerInParent="true"
             android:src="@drawable/tab_button_icon"/>
 
@@ -62,9 +63,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/friend"/>
 
     </RelativeLayout>
@@ -75,8 +77,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_centerInParent="true"
             android:src="@drawable/cal"/>
 
