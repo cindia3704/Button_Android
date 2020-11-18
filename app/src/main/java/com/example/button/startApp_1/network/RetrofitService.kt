@@ -129,7 +129,11 @@ interface RetrofitService {
         @Path("id") userId: Int,
         @Header("Authorization") token: String
     ): Call<MutableList<CoordiList>>
-
+    @GET("/{id}/outfit/friendlist")
+    fun getFriendCoordiList(
+        @Path("id") userId: Int,
+        @Header("Authorization") token: String
+    ): Call<MutableList<CoordiList>>
     @DELETE("/{id}/outfit/list/{outfitID}/")
     fun deleteOutfit(
         @Path("id") userID: Int,
@@ -187,6 +191,15 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Call<MutableList<CoordiListForCalendar>>
 
+    @GET("/getCalendar/{id}/{year}/{month}/{day}")
+    fun getCoordiForDay(
+        @Path("id") id: Int,
+        @Path("year") year: Int,
+        @Path("month") month: Int,
+        @Path("day") day: Int,
+        @Header("Authorization") token: String
+    ): Call<CoordiListForCalendar>
+
 
     @GET("/outfitStatsBest/{id}/")
     fun getBestCoordi(
@@ -203,8 +216,9 @@ interface RetrofitService {
     @DELETE("/user/{id}/delete/")
     fun withdrawal(
         @Path("id") id: Int,
-        @Header("Authorization") token: String)
-    : Call<Void>
+        @Header("Authorization") token: String
+    )
+            : Call<Void>
 
 
     @POST("/addToCalendar/{id}/{outfitId}/{year}/{month}/{day}/")
@@ -214,14 +228,34 @@ interface RetrofitService {
         @Path("year") year: Int,
         @Path("month") month: Int,
         @Path("day") day: Int,
-        @Body body : SelectCoordiForCalendarBody,
-        @Header("Authorization") token: String) : Call<SelectCoordiForCalendarBody>
+        @Body body: SelectCoordiForCalendarBody,
+        @Header("Authorization") token: String
+    ): Call<SelectCoordiForCalendarBody>
 
+
+    @PATCH("/getCalendar/{id}/{year}/{month}/{day}/")
+    fun updateCalendarMemo(
+        @Path("id") id: Int,
+        @Path("year") year: Int,
+        @Path("month") month: Int,
+        @Path("day") day: Int,
+        @Body body: SelectCoordiForCalendarBody,
+        @Header("Authorization") token: String
+    ): Call<Void>
+
+    @POST("/changeCalendar/{id}/{calendarId}/{outfitId}/")
+    fun updateCoordiForCalendar(
+        @Path("id") id: Int,
+        @Path("calendarId") calendarId: Int,
+        @Path("outfitId") outfitId: Int,
+        @Header("Authorization") token: String
+    )
+            : Call<Void>
 
     @POST("/knn/")
     fun recommend(
-        @Body body : RecommendBody,
+        @Body body: RecommendBody,
         @Header("Authorization") token: String
-    ) : Call<Void>
+    ): Call<Void>
 
 }
