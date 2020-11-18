@@ -12,6 +12,7 @@ import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.CoordiList
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.activity_coordi_list.*
+import kotlinx.android.synthetic.main.fragment_recommend.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -21,6 +22,7 @@ class CoordiListActivity : AppCompatActivity() {
     }
 
     var listAdapter = CoordiListItemAdapter(this)
+    var friendListAdpater = CoordiListItemAdapter(this)
     var userID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +32,27 @@ class CoordiListActivity : AppCompatActivity() {
         userID = intent.getIntExtra(KEY_USER_ID, 0)
         layoutInit()
         getCoordiList()
+        getFriendCoordiList()
     }
 
+    private fun getFriendCoordiList(){
+        RetrofitClient.retrofitService.getFriendCoordiList(userID, "Token " + RetrofitClient.token)
+            .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
+                override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(
+                    call: Call<MutableList<CoordiList>>,
+                    response: Response<MutableList<CoordiList>>
+                ) {
+                    val data = response.body()
+                    friendListAdpater.myCoordiList = data ?: mutableListOf()
+                }
+
+            })
+
+    }
     private fun getCoordiList() {
         RetrofitClient.retrofitService.getCoordiList(userID, "Token " + RetrofitClient.token)
             .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
@@ -61,11 +82,12 @@ class CoordiListActivity : AppCompatActivity() {
 
         recyclerviewList.apply {
             adapter = listAdapter
-            layoutManager =
-                GridLayoutManager(this@CoordiListActivity, 3, RecyclerView.VERTICAL, false)
-
         }
 
+
+        friendList.apply {
+            adapter = friendListAdpater
+        }
 
         edit.setOnClickListener {
             listAdapter.updateEdit()
