@@ -141,19 +141,19 @@ class CalendarFragment : Fragment() {
 
     private fun getWorstCoordiList() {
         RetrofitClient.retrofitService.getWorstCoordi(userId, "Token " + RetrofitClient.token)
-            .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
-                override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
-                }
+        .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
+            override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
+            }
 
-                override fun onResponse(
-                    call: Call<MutableList<CoordiList>>,
-                    response: Response<MutableList<CoordiList>>
-                ) {
-                    val data = response.body()
-                    worstAdapter.myCoordiList = data ?: mutableListOf()
-                }
+            override fun onResponse(
+                call: Call<MutableList<CoordiList>>,
+                response: Response<MutableList<CoordiList>>
+            ) {
+                val data = response.body()
+                worstAdapter.myCoordiList = data ?: mutableListOf()
+            }
 
-            })
+        })
     }
 
     inner class ItemVieHolder(view: View) : RecyclerView.ViewHolder(view) {
