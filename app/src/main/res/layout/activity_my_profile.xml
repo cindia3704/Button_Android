@@ -18,9 +18,9 @@
         <ImageView
             android:id="@+id/top_logo_icon"
             android:layout_width="100dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/main_logo" />
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/main_logo_clear" />
 
         <View
             android:layout_width="fill_parent"
@@ -33,12 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <Button
+        <ImageButton
             android:id="@+id/change_myinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="내 정보 수정"
+            android:src="@drawable/change_info"
             android:background="#ffffff"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
             android:layout_gravity="end"
             />
     </LinearLayout>
@@ -61,8 +63,8 @@
 
             <ImageView
                 android:id="@+id/my_profile_pic"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:scaleType="fitCenter"
@@ -181,37 +183,33 @@
         android:layout_marginTop="40dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/change_pw"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/buttonColor"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:background="#ffffff"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="비밀번호 바꾸기"
-            android:textSize="15dp" />
+            android:src="@drawable/change_pw" />
 
 
-        <Button
+        <ImageButton
+            android:background="#ffffff"
+            android:layout_marginLeft="30dp"
             android:id="@+id/withdrawal"
-            android:layout_width="120dp"
-            android:text="회원탈퇴"
-            android:background="@color/buttonColor"
+            android:layout_width="wrap_content"
+            android:src="@drawable/nomore"
             android:layout_gravity="center"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
-        <Button
+        <ImageButton
+            android:background="#ffffff"
             android:id="@+id/logout"
+            android:src="@drawable/logoutt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/buttonColor"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="로그아웃"
-            android:textSize="15dp" />
+            />
 
 
     </LinearLayout>
