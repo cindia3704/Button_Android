@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.button.R
 import com.example.button.startApp_1.activity.AddCoordiActivity
 import com.example.button.startApp_1.activity.CoordiDetailActivity
@@ -15,6 +17,8 @@ import com.example.button.startApp_1.activity.CoordiListActivity
 import com.example.button.startApp_1.data.Friend
 import com.example.button.startApp_1.data.User
 import com.example.button.startApp_1.fragment.FriendFragment
+import com.example.button.startApp_1.network.RetrofitClient
+import kotlinx.android.synthetic.main.activity_main2.*
 
 
 class FriendAdatper(val fragment : FriendFragment) :RecyclerView.Adapter<FriendAdatper.ViewHolder>() {
@@ -24,7 +28,7 @@ class FriendAdatper(val fragment : FriendFragment) :RecyclerView.Adapter<FriendA
 
     inner class ViewHolder(view : View)  : RecyclerView.ViewHolder(view){
 
-
+        var friendphoto:ImageView=view.findViewById(R.id.friend_image)
         var friendName : TextView = view.findViewById(R.id.friendName)
         var coordi : ImageView = view.findViewById(R.id.cordiFriend)
         var coordiDeleteFriend : ImageView = view.findViewById(R.id.cordiFriendDelete)
@@ -45,8 +49,12 @@ class FriendAdatper(val fragment : FriendFragment) :RecyclerView.Adapter<FriendA
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.run {
+//            friendphoto.setImageURI(friendphoto)
+            Glide.with(fragment)
+                .load(RetrofitClient.imageBaseUrl+friendItems[position].photo)
+                .placeholder(R.drawable.person__icon1)
+                .apply(RequestOptions.circleCropTransform()).into(friendphoto)
             friendName.setText("${friendItems[position].friendName}")
             coordi.setOnClickListener {
                 var intent = Intent(fragment.context,CoordiDetailActivity::class.java)

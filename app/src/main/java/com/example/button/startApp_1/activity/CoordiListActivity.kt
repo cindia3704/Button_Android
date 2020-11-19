@@ -82,11 +82,13 @@ class CoordiListActivity : AppCompatActivity() {
 
         recyclerviewList.apply {
             adapter = listAdapter
+            layoutManager=GridLayoutManager(this@CoordiListActivity,2,RecyclerView.HORIZONTAL,false)
         }
 
 
         friendList.apply {
             adapter = friendListAdpater
+            layoutManager=GridLayoutManager(this@CoordiListActivity,2,RecyclerView.HORIZONTAL,false)
         }
 
         edit.setOnClickListener {

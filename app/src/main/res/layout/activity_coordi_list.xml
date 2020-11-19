@@ -47,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_weight="1" />
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,10 +60,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendList"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            />
     </LinearLayout>
 
 

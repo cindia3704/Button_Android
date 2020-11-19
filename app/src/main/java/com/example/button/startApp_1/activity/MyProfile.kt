@@ -33,7 +33,9 @@ import retrofit2.Response
 import java.io.File
 import java.net.URLEncoder
 import androidx.core.content.FileProvider
+import com.bumptech.glide.request.RequestOptions
 import com.example.button.startApp_1.data.Cloth
+import kotlinx.android.synthetic.main.activity_main2.*
 import retrofit2.Callback
 import retrofit2.Retrofit
 
@@ -79,8 +81,8 @@ class MyProfile : AppCompatActivity() {
                 if(photo!="media/button/default.jpg") {
                     Glide.with(this@MyProfile)
                         .load(RetrofitClient.imageBaseUrl + photo)
-                        .placeholder(R.drawable.circle)
-                        .into(my_profile_pic)
+                        .placeholder(R.drawable.person__icon1)
+                        .apply(RequestOptions.circleCropTransform()).into(my_profile_pic)
                 }
 
             }
