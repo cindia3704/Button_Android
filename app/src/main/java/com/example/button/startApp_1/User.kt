@@ -10,6 +10,7 @@ class User(
     var userNickName : String? = null,
     var userGender : String? = null,
     var dateRegistered : String? = null,
-    var confirmedEmail : Boolean? = null
+    var confirmedEmail : Boolean? = null,
+    var photo:String?=null
 ):Serializable
 
