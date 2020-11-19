@@ -214,6 +214,7 @@ class FriendFragment : Fragment() {
                                     for(i in 0 until friendList.size){
                                         Log.e("friendFragment","i="+i+"\nfriendList[i].frienduser="+friendList[i].frienduser+"\ndata?.id="+data?.id)
                                         if(friendList[i].frienduser == data?.id){
+                                            adapter.friendItems[i].photo=data?.photo
                                             adapter.friendItems[i].friendName = data?.userNickName
                                             adapter.notifyDataSetChanged()
                                             break

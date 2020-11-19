@@ -8,5 +8,5 @@ data class Friend(
     var frienduser : Int,
     var accepted : Boolean,
     var friendName : String?,
-    var timestamp : String
+    var photo:String
 )
