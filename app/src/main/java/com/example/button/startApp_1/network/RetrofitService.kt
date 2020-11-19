@@ -40,6 +40,23 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Call<User>
 
+    @Multipart
+    @PATCH("/user/{id}/changeInfo/")
+    fun changeUserSpecific(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String,
+        @Part("userNickName") userNickName: RequestBody,
+        @Part("userGender") userGender: RequestBody,
+        @Part photo: MultipartBody.Part?
+    ): Call<Void>
+
+
+//    @GET("/{id}/friendrequest/")
+//    fun getFriendRequest(
+//        @Path("id") id:Int,
+//        @Header("Authorization") token: String
+//    ):Call<FriendRequest>
+
     @GET("/closet/{id}/getseason/{weather}/")
     fun getCloth(
         @Path("id") id: Int,

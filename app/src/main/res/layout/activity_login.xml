@@ -40,7 +40,6 @@
             android:hint=" 아이디"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:text="buttoncap2018@gmail.com"
             android:textColorHint="#000000"
             android:textSize="16dp" />
 
@@ -53,7 +52,6 @@
             android:hint=" 패스워드"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:text="button"
             android:textColorHint="#000000"
             android:textSize="16dp" />
 
