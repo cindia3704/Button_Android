@@ -79,7 +79,7 @@ class MyProfile : AppCompatActivity() {
                 if(photo!="media/button/default.jpg") {
                     Glide.with(this@MyProfile)
                         .load(RetrofitClient.imageBaseUrl + photo)
-                        .placeholder(R.drawable.circle)
+                        .placeholder(R.drawable.person__icon1)
                         .into(my_profile_pic)
                 }
 
