@@ -27,7 +27,7 @@
                 android:layout_height="50dp"
                 android:layout_marginRight="190dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/main_logo" />
+                android:src="@drawable/main_logo_clear" />
 
             <ImageView
                 android:id="@+id/user_profile_image"
