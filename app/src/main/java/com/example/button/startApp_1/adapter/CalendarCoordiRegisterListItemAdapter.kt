@@ -23,18 +23,19 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
     var selectPosition = -1
     var isEdit = false
     var myCoordiList = mutableListOf<CoordiList>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
-    fun selectItemId() : Int {
-        if(selectPosition >= 0){
+    fun selectItemId(): Int {
+        if (selectPosition >= 0) {
             return myCoordiList[selectPosition].outfitID
-        }else{
+        } else {
             return -1
         }
     }
+
     fun updateEdit() {
         isEdit = !isEdit
         notifyDataSetChanged()
@@ -49,7 +50,8 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
     override fun getItemCount(): Int {
         return myCoordiList.size
     }
-    fun deleteItem(item : CoordiList){
+
+    fun deleteItem(item: CoordiList) {
         myCoordiList.remove(item)
         notifyDataSetChanged()
     }
@@ -66,8 +68,8 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
         holder.cvBottom.visibility = View.INVISIBLE
         holder.cvOuter.visibility = View.INVISIBLE
 
-        for(i in 0 until closetLists.size){
-            if(TextUtils.equals(closetLists[i].category,"TOP")){
+        for (i in 0 until closetLists.size) {
+            if (TextUtils.equals(closetLists[i].category, "TOP")) {
                 holder.cvDress.visibility = View.INVISIBLE
 
                 holder.cvTop.visibility = View.VISIBLE
@@ -79,7 +81,7 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
                     .into(holder.closetTop)
             }
 
-            if(TextUtils.equals(closetLists[i].category,"BOTTOM")){
+            if (TextUtils.equals(closetLists[i].category, "BOTTOM")) {
                 holder.cvDress.visibility = View.INVISIBLE
 
                 holder.cvTop.visibility = View.VISIBLE
@@ -91,7 +93,7 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
                     .into(holder.closetBottom)
             }
 
-            if(TextUtils.equals(closetLists[i].category,"OUTER")){
+            if (TextUtils.equals(closetLists[i].category, "OUTER")) {
 
                 holder.cvOuter.visibility = View.VISIBLE
 
@@ -100,7 +102,7 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
                     .placeholder(R.drawable.circle).into(holder.closetOuter)
             }
 
-            if(TextUtils.equals(closetLists[i].category,"DRESS")){
+            if (TextUtils.equals(closetLists[i].category, "DRESS")) {
                 holder.cvDress.visibility = View.VISIBLE
 
                 holder.cvTop.visibility = View.INVISIBLE
@@ -119,6 +121,7 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
         holder.bind(position)
         holder.content.setOnClickListener {
             activity.selectCoordi(closetLists)
+            activity.setCoordiName(coordItem.outfitName)
             selectPosition = position
             notifyDataSetChanged()
         }
@@ -142,7 +145,7 @@ class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegister
         val delete: ImageView = view.findViewById(R.id.delete)
         val closetName: TextView = view.findViewById(R.id.closetName)
 
-        fun bind(position : Int){
+        fun bind(position: Int) {
 //            if(selectPosition == position){
 //                ctSelect.visibility = View.VISIBLE
 //            }else{
