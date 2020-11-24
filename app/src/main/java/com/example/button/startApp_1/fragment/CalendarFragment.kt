@@ -114,7 +114,7 @@ class CalendarFragment : Fragment() {
                     ) {
                         if(response.isSuccessful){
                             response.body()?.let{
-                                Log.e("setCalendar","result size="+it.size)
+                                Log.e("setCalendar","res data year=${year},month=${month} result size="+it.size)
                                 coordiList.put("$year-$month",it)
                                 notifyDataSetChanged()
                             }
@@ -179,6 +179,7 @@ class CalendarFragment : Fragment() {
 
             var coordiItem = coordiList["$year-$month"]
             coordiItem?.let{
+                Log.e("test","year=${year},month=${month}\nit=${it.toString()}")
                 var coordiList = HashMap<String,CoordiList>()
                 for(i in 0 until it.size){
                     coordiList.put(it[i].date,it[i].outfit_worn)
