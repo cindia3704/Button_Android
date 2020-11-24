@@ -1,5 +1,6 @@
 package com.example.button.startApp_1.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.button.R
+import com.example.button.startApp_1.activity.RecommendResultActivity
+import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.RecommendBody
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.fragment_mycloset.*
@@ -26,13 +29,10 @@ class RecommendFragment : Fragment() {
             val frag = RecommendFragment()
             val bundle = Bundle()
             bundle.putInt(MY_INT, userId)
-            // this.userId=userId
             frag.arguments = bundle
             return frag
         }
     }
-
-
 
     private var place1 = 0
     private var place2 = 0
@@ -163,6 +163,14 @@ class RecommendFragment : Fragment() {
                 selectPlace(1)
             }else{
                 unselectPlace(1)
+            }
+        }
+
+        llSea.setOnClickListener {
+            if(!sea.isChecked){
+                selectPlace(5)
+            }else{
+                unselectPlace(5)
             }
         }
 
@@ -345,6 +353,9 @@ class RecommendFragment : Fragment() {
             4 -> {
                 park.isChecked = check
             }
+            5 -> {
+                sea.isChecked = check
+            }
         }
     }
 
@@ -385,12 +396,10 @@ class RecommendFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            var season = mutableListOf<String>()
-            season.add(weatherValueList[selectWeatherIndex])
 
             var body = RecommendBody(
                 userId,
-                season,
+                weatherValueList[selectWeatherIndex],
                 place1,
                 place2,
                 people1,
@@ -400,21 +409,14 @@ class RecommendFragment : Fragment() {
                 mood
             )
 
-            RetrofitClient.retrofitService.recommend(body,"Token " + RetrofitClient.token)
-                .enqueue(object : retrofit2.Callback<Void> {
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                    }
+            var intent = Intent(context,RecommendResultActivity::class.java)
+            intent.putExtra("recommend",body)
+            startActivity(intent)
 
-                    override fun onResponse(
-                        call: Call<Void>,
-                        response: Response<Void>
-                    ) {
-                        val data = response.message()
-                        if(response.isSuccessful){
-                        }
 
-                    }
-                })
+//            startActivity()
+
+
         }
     }
 }
