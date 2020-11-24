@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingLeft="15dp"
         android:id="@+id/recyclerview_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

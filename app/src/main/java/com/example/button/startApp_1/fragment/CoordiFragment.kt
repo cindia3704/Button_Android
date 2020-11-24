@@ -128,7 +128,6 @@ class CoordiFragment : Fragment() {
 
         }
 
-
         recyclerView_category_top.apply {
             adapter = topAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -216,6 +215,10 @@ class CoordiFragment : Fragment() {
         var outfitName = coordiName.text.toString()
         if(TextUtils.isEmpty(outfitName)){
             Toast.makeText(context,"코디 이름을 입력해주세요",Toast.LENGTH_SHORT).show()
+            return
+        }
+        else if(outfitName.length>6){
+            Toast.makeText(context,"코디 이름을 6자 이내로 입력해주세요",Toast.LENGTH_SHORT).show()
             return
         }
 //        var userIdBody = RequestBody.create(MediaType.parse("text/plain"), (userId).toString())

@@ -63,32 +63,33 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/summer"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SUMMER"
+            android:text="여름"
             android:textSize="13dp" />
 
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/winter"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="WINTER"
+            android:text="겨울"
             android:textSize="13dp" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/hwan"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="HWAN"
+            android:text="환절기"
             android:textSize="13dp" />
 
     </LinearLayout>
@@ -130,7 +131,7 @@
     <LinearLayout
         android:id="@+id/ll_style"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal"
@@ -151,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="semi 정장"
+            android:text="세미정장"
             android:textSize="13dp" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -159,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="casual"
+            android:text="캐주얼"
             android:textSize="13dp" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -167,7 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="outdoor"
+            android:text="아웃도어"
             android:textSize="13dp" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
