@@ -27,26 +27,26 @@ class MainActivity2 : AppCompatActivity() {
 
 
         userId = getIntent().getIntExtra("userId", 1)
-        RetrofitClient.retrofitService.getUserSpecific(
-            userId,
-            "Token " + RetrofitClient.token
-        ).enqueue(object :
-            retrofit2.Callback<User> {
-            override fun onFailure(call: Call<User>, t: Throwable) {
-
-            }
-
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                val photo=response.body()!!.photo
-                if(photo!="media/button/default.jpg") {
-                    Glide.with(this@MainActivity2)
-                        .load(RetrofitClient.imageBaseUrl + photo)
-                        .placeholder(R.drawable.person__icon1)
-                        .apply(RequestOptions.circleCropTransform()).into(user_profile_image)
-                }
-
-            }
-        })
+//        RetrofitClient.retrofitService.getUserSpecific(
+//            userId,
+//            "Token " + RetrofitClient.token
+//        ).enqueue(object :
+//            retrofit2.Callback<User> {
+//            override fun onFailure(call: Call<User>, t: Throwable) {
+//
+//            }
+//
+//            override fun onResponse(call: Call<User>, response: Response<User>) {
+//                val photo=response.body()!!.photo
+//                if(photo!="media/button/default.jpg") {
+//                    Glide.with(this@MainActivity2)
+//                        .load(RetrofitClient.imageBaseUrl + photo)
+//                        .placeholder(R.drawable.person__icon1)
+//                        .apply(RequestOptions.circleCropTransform()).into(user_profile_image)
+//                }
+//
+//            }
+//        })
         init()
     }
 
