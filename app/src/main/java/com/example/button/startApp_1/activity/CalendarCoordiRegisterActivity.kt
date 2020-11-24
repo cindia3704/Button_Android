@@ -88,7 +88,7 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
 
 
                         var coordiList = it.outfit_worn
-                        coordiName.setText(coordiList.outfitName)
+                        setCoordiName(coordiList.outfitName)
                         preOutfitId = coordiList.outfitID
 
                         selectCoordi(coordiList.clothes)
@@ -100,6 +100,9 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
             })
     }
 
+    fun setCoordiName(coordiname : String){
+        coordiName.setText(coordiname)
+    }
     fun selectCoordi(cloths: MutableList<Cloth>) {
         cvTop.visibility = View.INVISIBLE
         cvBottom.visibility = View.INVISIBLE
