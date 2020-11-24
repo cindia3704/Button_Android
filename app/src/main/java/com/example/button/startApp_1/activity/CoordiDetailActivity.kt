@@ -369,7 +369,7 @@ class CoordiDetailActivity : AppCompatActivity() {
                     val data = response.body()
                     data?.let {
                         coordiName.setText("${it.outfitName}")
-
+//                        coordiID.setText(${it.outfitName})
                         for(i in 0 until it.clothes.size){
                             var item = it.clothes[i]
                             if(TextUtils.equals(item.category, "TOP")) {
