@@ -88,6 +88,7 @@ interface RetrofitService {
         @Path("id") user_id: Int,
         @Path("clothID") clothID: Int,
         @Part("id") id: RequestBody,
+        @Part("style") style: MutableList<RequestBody>,
         @Part("category") category: RequestBody,
         @Part("season") season: MutableList<RequestBody>,
         @Part("outfit") coordiList: MutableList<RequestBody>?,
