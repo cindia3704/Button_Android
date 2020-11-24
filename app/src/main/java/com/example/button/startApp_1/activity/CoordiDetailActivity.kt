@@ -228,7 +228,7 @@ class CoordiDetailActivity : AppCompatActivity() {
             return
         }
         var id=  if(friendID == 0 )userID else friendID
-        RetrofitClient.retrofitService.getOutfitId(id, id,id,"Token " + RetrofitClient.token,outfitName)
+        RetrofitClient.retrofitService.getOutfitId(userID, userID,id,"Token " + RetrofitClient.token,outfitName)
             .enqueue(object : retrofit2.Callback<GetOutfitIdResponse> {
                 override fun onFailure(call: Call<GetOutfitIdResponse>, t: Throwable) {
                     t.printStackTrace()
