@@ -61,7 +61,7 @@ class MyProfile : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
-              val email = response.body()!!.userEmail
+                val email = response.body()!!.userEmail
                 val nickname_=response.body()!!.userNickName
                 val gender=response.body()!!.userGender
                 val photo=response.body()!!.photo
@@ -78,6 +78,7 @@ class MyProfile : AppCompatActivity() {
                 }
                 profile_id.setText(email.toString())
                 profile_name.setText(nickname_)
+                profile_name.setSelection(nickname_.length)
                 if(photo!="media/button/default.jpg") {
                     Glide.with(this@MyProfile)
                         .load(RetrofitClient.imageBaseUrl + photo)
