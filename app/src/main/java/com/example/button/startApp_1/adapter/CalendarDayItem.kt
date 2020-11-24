@@ -67,11 +67,13 @@ class CalendarDayItem(
                 cardView.visibility = View.INVISIBLE
             }else{
                 var day = (position - startWeek) + 1
+                var valueMonth = if(month < 10) "0$month" else "$month"
                 var valueDay = if (day < 10) "0$day" else "$day"
                 tv_day.text = "${day}"
 
                 cardView.visibility = View.GONE
-                var outfitImage = outfitList["$year-$month-$valueDay"]
+                var outfitImage = outfitList["$year-$valueMonth-$valueDay"]
+                Log.e("calendarDayItem","year=${year},month=${month},value=${valueDay}\noutfitImage=${outfitImage?.toString()}")
                 outfitImage?.let {
                     cardView.visibility = View.VISIBLE
 
@@ -110,7 +112,7 @@ class CalendarDayItem(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.size + startWeek
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
