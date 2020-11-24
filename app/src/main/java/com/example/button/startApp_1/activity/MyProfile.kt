@@ -79,12 +79,12 @@ class MyProfile : AppCompatActivity() {
                 profile_id.setText(email.toString())
                 profile_name.setText(nickname_)
                 profile_name.setSelection(nickname_.length)
-//                if(photo!="media/button/default.jpg") {
-//                    Glide.with(this@MyProfile)
-//                        .load(RetrofitClient.imageBaseUrl + photo)
-//                        .placeholder(R.drawable.person__icon1)
-//                        .apply(RequestOptions.circleCropTransform()).into(my_profile_pic)
-//                }
+                if(photo!="media/button/default.jpg") {
+                    Glide.with(this@MyProfile)
+                        .load(RetrofitClient.imageBaseUrl + photo)
+                        .placeholder(R.drawable.person__icon1)
+                        .apply(RequestOptions.circleCropTransform()).into(my_profile_pic)
+                }
 
             }
         })
