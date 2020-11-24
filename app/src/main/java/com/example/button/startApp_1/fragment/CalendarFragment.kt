@@ -60,14 +60,19 @@ class CalendarFragment : Fragment() {
 
         userId = arguments?.getInt(MY_INT) ?: 0
 
-        calendar.adapter = ItemAdapter(2020, 12)
 
 
         rv_more.adapter = bestAdatper
         rv_less.adapter = worstAdapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         getBestCoordiList()
         getWorstCoordiList()
+        calendar.adapter = ItemAdapter(2020, 12)
     }
 
     inner class ItemAdapter(var year: Int, var month: Int) : RecyclerView.Adapter<ItemVieHolder>() {
@@ -173,7 +178,6 @@ class CalendarFragment : Fragment() {
             adapter?.items = daylist
 
             var coordiItem = coordiList["$year-$month"]
-            Log.e("getCalendar","year=${year},month=${month},coordiItem=${coordiItem.toString()}")
             coordiItem?.let{
                 var coordiList = HashMap<String,CoordiList>()
                 for(i in 0 until it.size){
