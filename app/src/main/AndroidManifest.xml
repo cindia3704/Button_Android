@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".startApp_1.activity.CalendarCoordiRegisterActivity"></activity>
+        <activity android:name=".startApp_1.activity.RecommendResultActivity"></activity>
+        <activity android:name=".startApp_1.activity.CalendarCoordiRegisterActivity" />
         <activity android:name=".startApp_1.activity.MainActivity2" />
         <activity android:name=".startApp_1.activity.FindPasswordActivity" />
         <activity android:name=".startApp_1.activity.ChangePasswordActivity" />
