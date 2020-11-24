@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_mycloset.select_weather
 import kotlinx.android.synthetic.main.fragment_recommend.*
 import retrofit2.Call
 import retrofit2.Response
+import java.util.*
 
 
 class RecommendFragment : Fragment() {
@@ -43,8 +44,8 @@ class RecommendFragment : Fragment() {
     private var mood = 0
 
     var userId: Int = 5
-    private val weatherList = arrayOf("여름","겨울","환절기(봄, 가을)")
-    private val weatherValueList = arrayOf("SUMMER","WINTER","HWAN")
+    private val weatherList = arrayOf("여름","겨울","환절기(봄, 가을)","오늘의 계절")
+    private val weatherValueList = arrayOf("SUMMER","WINTER","HWAN","NOW")
     private var selectWeatherIndex = 0
     private var weatherAdapter : ArrayAdapter<String>? = null
 
@@ -123,7 +124,7 @@ class RecommendFragment : Fragment() {
             }
         }
         llDate.setOnClickListener {
-            if(!school.isChecked){
+            if(!date.isChecked){
                 selectEvent(5)
             }else{
                 unselectEvent(5)
@@ -397,9 +398,21 @@ class RecommendFragment : Fragment() {
             }
 
 
+            var weather = ""
+            if(selectWeatherIndex == 3){
+                var month = Calendar.getInstance().get(Calendar.MONTH) +1
+                weather = when(month){
+                    1,2,12 -> "WINTER"
+                    6,7,8 -> "SUMMER"
+                    else -> "HWAN"
+                }
+            }else{
+                weather = weatherValueList[selectWeatherIndex]
+            }
+
             var body = RecommendBody(
                 userId,
-                weatherValueList[selectWeatherIndex],
+                weather,
                 place1,
                 place2,
                 people1,
