@@ -108,44 +108,106 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
         cvBottom.visibility = View.INVISIBLE
         cvOuter.visibility = View.INVISIBLE
         cvDress.visibility = View.INVISIBLE
+        cvTop_only_.visibility=View.INVISIBLE
+        cvBottom_only_.visibility=View.INVISIBLE
+        cvDress_only_.visibility=View.INVISIBLE
+        if(cloths.size<=2){
+            if(cloths.size==1){
+                if(TextUtils.equals(cloths[0].category,"DRESS")){
+                    cvDress_only_.visibility = View.VISIBLE
+                    Glide.with(this@CalendarCoordiRegisterActivity)
+                        .load(RetrofitClient.imageBaseUrl + cloths[0].photo)
+                        .placeholder(R.drawable.circle)
+                        .into(coordiDress_only_)
+                }
+            }
+            else{
+                for(i in 0 until cloths.size) {
+                    if (TextUtils.equals(cloths[i].category, "TOP")) {
+//                        holder.cvDres_only.visibility = View.INVISIBLE
 
-        for (i in 0 until cloths.size) {
-            var item = cloths[i]
-            if (TextUtils.equals(item.category, "TOP")) {
+                        cvTop_only_.visibility = View.VISIBLE
+//                        holder.cvBottom.visibility = View.VISIBLE
+
+                        Glide.with(this@CalendarCoordiRegisterActivity)
+                            .load(RetrofitClient.imageBaseUrl + cloths[i].photo)
+                            .placeholder(R.drawable.circle)
+                            .into(coordiTop_only_)
+                    }
+
+                    if (TextUtils.equals(cloths[i].category, "BOTTOM")) {
+//                        holder.cvDress.visibility = View.INVISIBLE
+//
+//                        holder.cvTop.visibility = View.VISIBLE
+                        cvBottom_only_.visibility = View.VISIBLE
+
+                        Glide.with(this@CalendarCoordiRegisterActivity)
+                            .load(RetrofitClient.imageBaseUrl + cloths[i].photo)
+                            .placeholder(R.drawable.circle)
+                            .into(coordiBottom_only_)
+                    }
+                    if(TextUtils.equals(cloths[i].category,"OUTER")){
+
+                        cvOuter.visibility = View.VISIBLE
+
+                        Glide.with(this@CalendarCoordiRegisterActivity)
+                            .load(RetrofitClient.imageBaseUrl + cloths[i].photo)
+                            .placeholder(R.drawable.circle).into(coordiOuter)
+                    }
+
+                    if(TextUtils.equals(cloths[i].category,"DRESS")){
+                        cvDress.visibility = View.VISIBLE
+
+//                        cvTop.visibility = View.INVISIBLE
+//                        cvBottom.visibility = View.INVISIBLE
+
+                        Glide.with(this@CalendarCoordiRegisterActivity)
+                            .load(RetrofitClient.imageBaseUrl + cloths[i].photo)
+                            .placeholder(R.drawable.circle)
+                            .into(coordiDress)
+                    }
+                }
+            }
+        }
+        else {
+            for (i in 0 until cloths.size) {
+                var item = cloths[i]
+                if (TextUtils.equals(item.category, "TOP")) {
 //                                selectedTopId = item.clothID
 
-                cvTop.visibility = View.VISIBLE
+                    cvTop.visibility = View.VISIBLE
 
-                Glide.with(this@CalendarCoordiRegisterActivity)
-                    .load(RetrofitClient.imageBaseUrl + item.photo)
-                    .placeholder(R.drawable.circle)
-                    .into(coordiTop)
-            }
-            if (TextUtils.equals(item.category, "BOTTOM")) {
+                    Glide.with(this@CalendarCoordiRegisterActivity)
+                        .load(RetrofitClient.imageBaseUrl + item.photo)
+                        .placeholder(R.drawable.circle)
+                        .into(coordiTop)
+                }
+                if (TextUtils.equals(item.category, "BOTTOM")) {
 //                                selectedBottomId = item.clothID
-                cvBottom.visibility = View.VISIBLE
+                    cvBottom.visibility = View.VISIBLE
 
-                Glide.with(this@CalendarCoordiRegisterActivity)
-                    .load(RetrofitClient.imageBaseUrl + item.photo)
-                    .placeholder(R.drawable.circle)
-                    .into(coordiBottom)
-            }
-            if (TextUtils.equals(item.category, "OUTER")) {
+                    Glide.with(this@CalendarCoordiRegisterActivity)
+                        .load(RetrofitClient.imageBaseUrl + item.photo)
+                        .placeholder(R.drawable.circle)
+                        .into(coordiBottom)
+                }
+                if (TextUtils.equals(item.category, "OUTER")) {
 //                                selectedOuterId = item.clothID
-                cvOuter.visibility = View.VISIBLE
-                Glide.with(this@CalendarCoordiRegisterActivity)
-                    .load(RetrofitClient.imageBaseUrl + item.photo)
-                    .placeholder(R.drawable.circle)
-                    .into(coordiOuter)
-            }
-            if (TextUtils.equals(item.category, "DRESS")) {
+                    cvOuter.visibility = View.VISIBLE
+                    Glide.with(this@CalendarCoordiRegisterActivity)
+                        .load(RetrofitClient.imageBaseUrl + item.photo)
+                        .placeholder(R.drawable.circle)
+                        .into(coordiOuter)
+                }
+                if (TextUtils.equals(item.category, "DRESS")) {
 //                                selectedDressId = item.clothID
 
-                cvDress.visibility = View.VISIBLE
-                Glide.with(this@CalendarCoordiRegisterActivity)
-                    .load(RetrofitClient.imageBaseUrl + item.photo)
-                    .placeholder(R.drawable.circle)
-                    .into(coordiDress)
+                    cvDress.visibility = View.VISIBLE
+                    Glide.with(this@CalendarCoordiRegisterActivity)
+                        .load(RetrofitClient.imageBaseUrl + item.photo)
+                        .placeholder(R.drawable.circle)
+                        .into(coordiDress)
+                }
             }
         }
     }

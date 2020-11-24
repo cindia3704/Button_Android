@@ -255,9 +255,9 @@ class RecommendResultActivity : AppCompatActivity() {
                             cvBottom.visibility = View.INVISIBLE
                             cvOuter.visibility = View.INVISIBLE
                             cvDress.visibility = View.INVISIBLE
-                            cvTop_only.visibility = View.INVISIBLE
-                            cvBottom_only.visibility = View.INVISIBLE
-                            cvDress_only.visibility = View.INVISIBLE
+                            cvTop_only_.visibility = View.INVISIBLE
+                            cvBottom_only_.visibility = View.INVISIBLE
+                            cvDress_only_.visibility = View.INVISIBLE
 
                             response.body()?.let{
                                 Log.e("recommd","it="+it.toString())
@@ -268,11 +268,11 @@ class RecommendResultActivity : AppCompatActivity() {
                                     if(it.size==1){
                                         if (TextUtils.equals(it[0].category, "DRESS")) {
                                             selectDressId = it[0].clothID
-                                            cvDress_only.visibility = View.VISIBLE
+                                            cvDress_only_.visibility = View.VISIBLE
                                             Glide.with(this@RecommendResultActivity)
                                                 .load(RetrofitClient.imageBaseUrl + it[0].photo)
                                                 .placeholder(R.drawable.circle)
-                                                .into(coordiDress_only)
+                                                .into(coordiDress_only_)
                                         }
                                     }
                                     else {
@@ -280,19 +280,19 @@ class RecommendResultActivity : AppCompatActivity() {
                                             var item1 = it[i]
                                             if (TextUtils.equals(item1.category, "TOP")) {
                                                 selectTopId = item1.clothID
-                                                cvTop_only.visibility = View.VISIBLE
+                                                cvTop_only_.visibility = View.VISIBLE
                                                 Glide.with(this@RecommendResultActivity)
                                                     .load(RetrofitClient.imageBaseUrl + item1.photo)
                                                     .placeholder(R.drawable.circle)
-                                                    .into(coordiTop_only)
+                                                    .into(coordiTop_only_)
                                             }
                                             if (TextUtils.equals(item1.category, "BOTTOM")) {
                                                 selectBottomId = item1.clothID
-                                                cvBottom_only.visibility = View.VISIBLE
+                                                cvBottom_only_.visibility = View.VISIBLE
                                                 Glide.with(this@RecommendResultActivity)
                                                     .load(RetrofitClient.imageBaseUrl + item1.photo)
                                                     .placeholder(R.drawable.circle)
-                                                    .into(coordiBottom_only)
+                                                    .into(coordiBottom_only_)
                                             }
                                             if (TextUtils.equals(item1.category, "DRESS")) {
                                                 selectDressId = item1.clothID
