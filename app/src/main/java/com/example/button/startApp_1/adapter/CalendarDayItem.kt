@@ -1,5 +1,6 @@
 package com.example.button.startApp_1.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.button.R
@@ -60,6 +62,7 @@ class CalendarDayItem(
         var ivCoordi = view.findViewById<ImageView>(R.id.ivCoordi)
         var cardView = view.findViewById<CardView>(R.id.cardview)
 
+        @SuppressLint("ResourceAsColor")
         fun bind(position: Int) {
             if(position < startWeek){
                 tv_day.visibility = View.INVISIBLE
@@ -76,7 +79,6 @@ class CalendarDayItem(
                 Log.e("calendarDayItem","year=${year},month=${month},value=${valueDay}\noutfitImage=${outfitImage?.toString()}")
                 outfitImage?.let {
                     cardView.visibility = View.VISIBLE
-
                     var cloth = it.clothes[0]
                     for( item in it.clothes){
                         if(TextUtils.equals("TOP",item.category)){
@@ -84,13 +86,13 @@ class CalendarDayItem(
                             break
                         }
                     }
-
+                    tv_day.setTextColor(ContextCompat.getColor(fragment.context!!,R.color.buttonColor))
                     Glide.with(fragment)
                         .load(RetrofitClient.imageBaseUrl + cloth.photo)
                         .placeholder(R.drawable.circle)
                         .into(ivCoordi)
-                }
 
+                }
                 tv_day.setOnClickListener {
                     var intent = Intent(fragment.context, CalendarCoordiRegisterActivity::class.java)
                     intent.putExtra("year", year)
