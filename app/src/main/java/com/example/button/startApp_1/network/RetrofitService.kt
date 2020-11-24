@@ -39,7 +39,6 @@ interface RetrofitService {
         @Path("id") id: Int,
         @Header("Authorization") token: String
     ): Call<User>
-
     @Multipart
     @PATCH("/user/{id}/changeInfo/")
     fun changeUserSpecific(
@@ -49,14 +48,6 @@ interface RetrofitService {
         @Part("userGender") userGender: RequestBody,
         @Part photo: MultipartBody.Part?
     ): Call<Void>
-
-
-//    @GET("/{id}/friendrequest/")
-//    fun getFriendRequest(
-//        @Path("id") id:Int,
-//        @Header("Authorization") token: String
-//    ):Call<FriendRequest>
-
     @GET("/closet/{id}/getseason/{weather}/")
     fun getCloth(
         @Path("id") id: Int,
@@ -273,6 +264,6 @@ interface RetrofitService {
     fun recommend(
         @Body body: RecommendBody,
         @Header("Authorization") token: String
-    ): Call<Void>
+    ): Call<MutableList<Cloth>>
 
 }
