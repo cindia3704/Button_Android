@@ -40,6 +40,7 @@
             android:hint=" 아이디"
             android:inputType="textEmailAddress"
             android:padding="10dp"
+            android:text="cindia3704@gmail.com"
             android:textColorHint="#000000"
             android:textSize="16dp" />
 
@@ -52,6 +53,7 @@
             android:hint=" 패스워드"
             android:inputType="textPassword"
             android:padding="10dp"
+            android:text="capstone2020"
             android:textColorHint="#000000"
             android:textSize="16dp" />
 
