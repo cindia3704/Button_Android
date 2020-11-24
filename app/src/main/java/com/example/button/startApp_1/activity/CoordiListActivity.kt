@@ -31,8 +31,6 @@ class CoordiListActivity : AppCompatActivity() {
 
         userID = intent.getIntExtra(KEY_USER_ID, 0)
         layoutInit()
-        getCoordiList()
-        getFriendCoordiList()
     }
 
     private fun getFriendCoordiList(){
@@ -75,6 +73,8 @@ class CoordiListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getCoordiList();
+
+        getFriendCoordiList()
     }
 
 
