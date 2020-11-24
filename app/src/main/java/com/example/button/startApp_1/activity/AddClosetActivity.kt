@@ -223,8 +223,6 @@ class AddClosetActivity : AppCompatActivity() {
                 URLEncoder.encode(imageFile.name, "utf-8"),
                 fileBody
             )
-        }else{
-            Log.e("addClosetActivity","imagePath is empty imagePath="+imagePath)
         }
 
 
@@ -316,6 +314,7 @@ class AddClosetActivity : AppCompatActivity() {
                 id = userIdBody,
                 category = categoryBody,
                 season = season,
+                style = style,
                 coordiList = coordi,
                 photo = photo
             ).enqueue(object :
