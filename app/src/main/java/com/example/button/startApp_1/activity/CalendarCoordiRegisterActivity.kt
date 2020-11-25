@@ -227,6 +227,35 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
 
         }
 
+        delete.setOnClickListener {
+            RetrofitClient.retrofitService.deleteCalendarMemo(
+                userID,
+                year,
+                month,
+                day,
+                "Token " + RetrofitClient.token
+            )
+                .enqueue(object : retrofit2.Callback<Void> {
+                    override fun onFailure(
+                        call: Call<Void>,
+                        t: Throwable
+                    ) {
+                    }
+
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>
+                    ) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@CalendarCoordiRegisterActivity,"삭제가 정상적으로 되었습니다.",Toast.LENGTH_SHORT).show()
+                            finish()
+
+                        }
+
+                    }
+                })
+        }
+
 
         register.setOnClickListener {
 
