@@ -242,6 +242,15 @@ interface RetrofitService {
     ): Call<SelectCoordiForCalendarBody>
 
 
+    @DELETE("/getCalendar/{id}/{year}/{month}/{day}/")
+    fun deleteCalendarMemo(
+        @Path("id") id: Int,
+        @Path("year") year: Int,
+        @Path("month") month: Int,
+        @Path("day") day: Int,
+        @Header("Authorization") token: String
+    ): Call<Void>
+
     @PATCH("/getCalendar/{id}/{year}/{month}/{day}/")
     fun updateCalendarMemo(
         @Path("id") id: Int,
