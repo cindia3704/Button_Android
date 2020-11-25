@@ -148,7 +148,6 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
             for (i in 0 until closetLists.size) {
                 if (TextUtils.equals(closetLists[i].category, "TOP")) {
                     holder.cvDress.visibility = View.INVISIBLE
-
                     holder.cvTop.visibility = View.VISIBLE
                     holder.cvBottom.visibility = View.VISIBLE
 
