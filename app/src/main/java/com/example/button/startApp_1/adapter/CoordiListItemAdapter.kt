@@ -1,7 +1,6 @@
 package com.example.button.startApp_1.adapter
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import com.example.button.startApp_1.activity.CoordiListActivity
 import com.example.button.startApp_1.data.CoordiList
 import com.example.button.startApp_1.data.User
 import com.example.button.startApp_1.network.RetrofitClient
-import kotlinx.android.synthetic.main.activity_main2.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -28,11 +26,13 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
 
 
     var isEdit = false
+    var userId = 0
+    var friendId = 0// 0 이 아닐 경우 친구 코디를 로딩한 경우
     var myCoordiList = mutableListOf<CoordiList>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     fun updateEdit() {
         isEdit = !isEdit
@@ -40,14 +40,16 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.coordi_list,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.coordi_list, parent, false)
         return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return myCoordiList.size
     }
-    fun deleteItem(item : CoordiList){
+
+    fun deleteItem(item: CoordiList) {
         myCoordiList.remove(item)
         notifyDataSetChanged()
     }
@@ -56,7 +58,6 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
 
         var coordItem = myCoordiList[position]
         holder.closetName.setText(coordItem.outfitName + "")
-        Log.d("cordby",""+coordItem.outfitBy.toString())
         if(coordItem.id==coordItem.outfitBy){
 
         }
@@ -77,8 +78,10 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
                 }
             })
         }
+
         var closetLists = coordItem.clothes
         var corby=coordItem.outfitBy
+
         holder.cvDress.visibility = View.INVISIBLE
         holder.cvTop.visibility = View.INVISIBLE
         holder.cvBottom.visibility = View.INVISIBLE
@@ -86,6 +89,9 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
         holder.cvTop_only.visibility = View.INVISIBLE
         holder.cvBottom_only.visibility = View.INVISIBLE
         holder.cvDress_only.visibility = View.INVISIBLE
+
+
+
         if(closetLists.size<=2){
             if(closetLists.size==1){
                 if(TextUtils.equals(closetLists[0].category,"DRESS")){
@@ -148,6 +154,7 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
             for (i in 0 until closetLists.size) {
                 if (TextUtils.equals(closetLists[i].category, "TOP")) {
                     holder.cvDress.visibility = View.INVISIBLE
+
                     holder.cvTop.visibility = View.VISIBLE
                     holder.cvBottom.visibility = View.VISIBLE
 
@@ -194,7 +201,16 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
         }
 
 
-        holder.delete.visibility = if (isEdit) View.VISIBLE else View.GONE
+        holder.delete.visibility = if (isEdit) {
+            if (friendId != 0 && coordItem.outfitBy == userId) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        } else {
+            View.GONE
+        }
+
 
         holder.content.setOnClickListener {
 
@@ -215,12 +231,12 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
         val cvTop_only:CardView = view.findViewById(R.id.cvTop_only)
         val cvBottom_only: CardView = view.findViewById(R.id.cvBottom_only)
         val cvDress_only: CardView = view.findViewById(R.id.cvDress_only)
+
         val content: ConstraintLayout = view.findViewById(R.id.content)
         val closetTop: ImageView = view.findViewById(R.id.closetTop)
         val closetBottom: ImageView = view.findViewById(R.id.closetBottom)
         val closetDress: ImageView = view.findViewById(R.id.closetDress)
         val closetOuter: ImageView = view.findViewById(R.id.closetOuter)
-
         val closetTop_only: ImageView = view.findViewById(R.id.closetTop_only)
         val closetBottom_only: ImageView = view.findViewById(R.id.closetBottom_only)
         val closetDress_only: ImageView = view.findViewById(R.id.closetDress_only)
@@ -228,7 +244,7 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
         val delete: ImageView = view.findViewById(R.id.delete)
         val closetName: TextView = view.findViewById(R.id.closetName)
         val closetfrom_id:TextView=view.findViewById(R.id.closetfrom_id)
-        val outfitBy:LinearLayout=view.findViewById(R.id.coordiBY)
+        val outfitBy: LinearLayout =view.findViewById(R.id.coordiBY)
     }
 
 }
