@@ -110,6 +110,11 @@ class CoordiFragment : Fragment() {
     }
 
     fun layoutInit(){
+
+        if(!TextUtils.equals(RetrofitClient.gender,"FEMALE")){
+            tv_dress.visibility = View.GONE
+            recyclerView_category_onepiece.visibility = View.GONE
+        }
         weatherAdapter = ArrayAdapter(context,android.R.layout.simple_spinner_dropdown_item,weatherList)
         select_weather.adapter = weatherAdapter
         select_weather.onItemSelectedListener = object : AdapterView.OnItemClickListener,
