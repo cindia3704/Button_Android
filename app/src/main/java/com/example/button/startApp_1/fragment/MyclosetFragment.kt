@@ -126,12 +126,9 @@ class MyclosetFragment : Fragment() {
                 LayoutInflater.from(activity), mContext
             )
 
-//        if(!TextUtils.equals(RetrofitClient.gender,"FEMALE")){
-//            recyclerView_category_onepiece.visibility = View.GONE
-//            ll_onepice.visibility = View.GONE
-//        }else{
-//
-//        }
+        if(!TextUtils.equals(RetrofitClient.gender,"FEMALE")){
+            clothList_onepiece.visibility = View.GONE
+        }
         recyclerView_category_onepiece.apply {
             adapter = onepieceClothadapter
             layoutManager = GridLayoutManager(activity, 2, RecyclerView.HORIZONTAL, false)
