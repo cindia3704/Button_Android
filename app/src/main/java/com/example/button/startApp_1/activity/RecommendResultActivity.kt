@@ -114,34 +114,34 @@ class RecommendResultActivity : AppCompatActivity() {
 
 
         var body = SelectCoordiForCalendarBody(userId, "")
-            if (selectOutfitId == -1) return
+        if (selectOutfitId == -1) return
 
-            RetrofitClient.retrofitService.selectCoordiForCalendar(
-                userId,
-                selectOutfitId,
-                selectYear,
-                selectMonth,
-                selectDay,
-                body,
-                "Token " + RetrofitClient.token
-            )
-                .enqueue(object : retrofit2.Callback<SelectCoordiForCalendarBody> {
-                    override fun onFailure(
-                        call: Call<SelectCoordiForCalendarBody>,
-                        t: Throwable
-                    ) {
+        RetrofitClient.retrofitService.selectCoordiForCalendar(
+            userId,
+            selectOutfitId,
+            selectYear,
+            selectMonth,
+            selectDay,
+            body,
+            "Token " + RetrofitClient.token
+        )
+            .enqueue(object : retrofit2.Callback<SelectCoordiForCalendarBody> {
+                override fun onFailure(
+                    call: Call<SelectCoordiForCalendarBody>,
+                    t: Throwable
+                ) {
+                }
+
+                override fun onResponse(
+                    call: Call<SelectCoordiForCalendarBody>,
+                    response: Response<SelectCoordiForCalendarBody>
+                ) {
+                    if (response.isSuccessful) {
+                        finish()
                     }
 
-                    override fun onResponse(
-                        call: Call<SelectCoordiForCalendarBody>,
-                        response: Response<SelectCoordiForCalendarBody>
-                    ) {
-                        if (response.isSuccessful) {
-                            finish()
-                        }
-
-                    }
-                })
+                }
+            })
     }
     private fun saveCloth(){
         var outfitName = coordiName.text.toString()
