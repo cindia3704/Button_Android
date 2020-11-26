@@ -36,7 +36,6 @@ import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_catego
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_top
 import kotlinx.android.synthetic.main.activity_coordi_detail.save
 import kotlinx.android.synthetic.main.activity_coordi_detail.select_weather
-import kotlinx.android.synthetic.main.fragment_coordi.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -102,6 +101,10 @@ class CoordiDetailActivity : AppCompatActivity() {
 
     fun layoutInit() {
 
+        if(!TextUtils.equals(RetrofitClient.gender,"FEMALE")){
+            tv_dress.visibility = View.GONE
+            recyclerView_category_onepiece.visibility = View.GONE
+        }
         weatherAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,weatherList)
         select_weather.adapter = weatherAdapter
         select_weather.onItemSelectedListener = object : AdapterView.OnItemClickListener,
