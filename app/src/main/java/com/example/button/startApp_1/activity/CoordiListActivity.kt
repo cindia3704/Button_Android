@@ -19,22 +19,27 @@ import retrofit2.Response
 class CoordiListActivity : AppCompatActivity() {
     companion object {
         const val KEY_USER_ID = "KEY_USER_ID"
+        const val KEY_FRIEND_ID = "KEY_FRIEND_ID"
     }
 
     var listAdapter = CoordiListItemAdapter(this)
     var friendListAdpater = CoordiListItemAdapter(this)
     var userID = 0
+    var friendID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coordi_list)
 
         userID = intent.getIntExtra(KEY_USER_ID, 0)
+        friendID = intent.getIntExtra(KEY_FRIEND_ID, 0)
+
         layoutInit()
     }
 
     private fun getFriendCoordiList(){
-        RetrofitClient.retrofitService.getFriendCoordiList(userID, "Token " + RetrofitClient.token)
+        var id = if(friendID==0) userID else friendID
+        RetrofitClient.retrofitService.getFriendCoordiList(id, "Token " + RetrofitClient.token)
             .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
                 override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
                     t.printStackTrace()
@@ -80,6 +85,8 @@ class CoordiListActivity : AppCompatActivity() {
 
     private fun layoutInit() {
 
+        friendListAdpater.userId = userID
+        friendListAdpater.friendId = friendID
         recyclerviewList.apply {
             adapter = listAdapter
             layoutManager=GridLayoutManager(this@CoordiListActivity,2,RecyclerView.HORIZONTAL,false)
