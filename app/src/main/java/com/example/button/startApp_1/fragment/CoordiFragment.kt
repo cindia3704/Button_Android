@@ -128,6 +128,7 @@ class CoordiFragment : Fragment() {
 
         }
 
+
         recyclerView_category_top.apply {
             adapter = topAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
