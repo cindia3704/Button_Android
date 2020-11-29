@@ -145,11 +145,6 @@ class MyProfile : AppCompatActivity() {
                     URLEncoder.encode(imageFile.name, "utf-8"),
                     fileBody
                 )
-                Toast.makeText(
-                    this@MyProfile,
-                    "사진 셀렉 완 료",
-                    Toast.LENGTH_SHORT
-                ).show()
             }else{
                 Log.e("addClosetActivity","imagePath is empty imagePath="+imagePath)
             }
