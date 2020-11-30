@@ -72,8 +72,6 @@ class MainActivity2 : AppCompatActivity() {
             }
         })
     }
-
-
     private fun init() {
         vp_ac_main_frag_pager.run {
 
