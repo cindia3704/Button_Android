@@ -60,6 +60,10 @@ class RecommendResultActivity : AppCompatActivity() {
 
         setClick()
         selectData = intent.getParcelableExtra("recommend")
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.loading_new)
+            .into(img_loading)
         selectCoordi()
     }
 
