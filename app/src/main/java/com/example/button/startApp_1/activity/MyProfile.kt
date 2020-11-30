@@ -310,7 +310,7 @@ class MyProfile : AppCompatActivity() {
                         Glide.with(this@MyProfile)
                             .load(this)
                             .placeholder(R.drawable.circle)
-                            .apply(RequestOptions.circleCropTransform()).into(my_profile_pic)
+                            .into(my_profile_pic)
 
                         // .apply(RequestOptions.circleCropTransform()).into(closet);
 
@@ -326,7 +326,7 @@ class MyProfile : AppCompatActivity() {
                         Glide.with(this@MyProfile)
                             .load(imagePath)
                             .placeholder(R.drawable.circle)
-                            .apply(RequestOptions.circleCropTransform()).into(my_profile_pic)
+                            .into(my_profile_pic)
 
                     }
 
