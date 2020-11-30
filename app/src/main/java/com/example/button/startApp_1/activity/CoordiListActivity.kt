@@ -33,6 +33,7 @@ class CoordiListActivity : AppCompatActivity() {
 
         userID = intent.getIntExtra(KEY_USER_ID, 0)
         friendID = intent.getIntExtra(KEY_FRIEND_ID, 0)
+        Log.e("CoordiListActivity","userID="+userID+"\nfriendID="+friendID)
 
         layoutInit()
     }
@@ -57,7 +58,8 @@ class CoordiListActivity : AppCompatActivity() {
 
     }
     private fun getCoordiList() {
-        RetrofitClient.retrofitService.getCoordiList(userID, "Token " + RetrofitClient.token)
+        var id = if(friendID==0) userID else friendID
+        RetrofitClient.retrofitService.getCoordiList(id, "Token " + RetrofitClient.token)
             .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
                 override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
                     t.printStackTrace()
@@ -84,6 +86,9 @@ class CoordiListActivity : AppCompatActivity() {
 
 
     private fun layoutInit() {
+
+        listAdapter.userId = userID
+        listAdapter.friendId = friendID
 
         friendListAdpater.userId = userID
         friendListAdpater.friendId = friendID
