@@ -361,7 +361,7 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
     }
 
     private fun getCoordiList() {
-        RetrofitClient.retrofitService.getCoordiList(userID, "Token " + RetrofitClient.token)
+        RetrofitClient.retrofitService.getallCoordiList(userID, "Token " + RetrofitClient.token)
             .enqueue(object : retrofit2.Callback<MutableList<CoordiList>> {
                 override fun onFailure(call: Call<MutableList<CoordiList>>, t: Throwable) {
                     t.printStackTrace()

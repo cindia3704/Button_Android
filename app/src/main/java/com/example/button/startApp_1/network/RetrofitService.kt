@@ -138,6 +138,11 @@ interface RetrofitService {
         @Path("id") userId: Int,
         @Header("Authorization") token: String
     ): Call<MutableList<CoordiList>>
+    @GET("/{id}/outfit/alllist/")
+    fun getallCoordiList(
+        @Path("id") userId: Int,
+        @Header("Authorization") token: String
+    ): Call<MutableList<CoordiList>>
     @GET("/{id}/outfit/friendlist")
     fun getFriendCoordiList(
         @Path("id") userId: Int,
