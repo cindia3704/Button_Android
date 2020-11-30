@@ -428,6 +428,10 @@ class CoordiDetailActivity : AppCompatActivity() {
                                         .load(RetrofitClient.imageBaseUrl + item1.photo)
                                         .placeholder(R.drawable.circle)
                                         .into(coordiDress_only__)
+                                    Glide.with(this@CoordiDetailActivity)
+                                        .load(RetrofitClient.imageBaseUrl + item1.photo)
+                                        .placeholder(R.drawable.circle)
+                                        .into(coordiDress)
                                 }
                             }
                             else {
@@ -440,6 +444,11 @@ class CoordiDetailActivity : AppCompatActivity() {
                                             .load(RetrofitClient.imageBaseUrl + item1.photo)
                                             .placeholder(R.drawable.circle)
                                             .into(coordiTop_only__)
+
+                                        Glide.with(this@CoordiDetailActivity)
+                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
+                                            .placeholder(R.drawable.circle)
+                                            .into(coordiTop)
                                     }
                                     if (TextUtils.equals(item1.category, "BOTTOM")) {
                                         selectBottomId = item1.clothID
@@ -448,6 +457,10 @@ class CoordiDetailActivity : AppCompatActivity() {
                                             .load(RetrofitClient.imageBaseUrl + item1.photo)
                                             .placeholder(R.drawable.circle)
                                             .into(coordiBottom_only__)
+                                        Glide.with(this@CoordiDetailActivity)
+                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
+                                            .placeholder(R.drawable.circle)
+                                            .into(coordiBottom)
                                     }
                                     if (TextUtils.equals(item1.category, "DRESS")) {
                                         selectDressId = item1.clothID
@@ -587,7 +600,9 @@ class CoordiDetailActivity : AppCompatActivity() {
 
     fun clickTop(item: Cloth) {
         coordiTop.setImageResource(0)
-
+        cvTop_only.visibility = View.INVISIBLE
+        cvBottom_only.visibility = View.INVISIBLE
+        cvDress_only.visibility = View.INVISIBLE
         cvDress.visibility = View.INVISIBLE
         cvBottom.visibility = View.VISIBLE
         cvTop.visibility = View.VISIBLE
@@ -603,7 +618,9 @@ class CoordiDetailActivity : AppCompatActivity() {
     fun clickBottom(item: Cloth) {
 
         coordiDress.setImageResource(0)
-
+        cvTop_only.visibility = View.INVISIBLE
+        cvBottom_only.visibility = View.INVISIBLE
+        cvDress_only.visibility = View.INVISIBLE
         cvDress.visibility = View.INVISIBLE
         cvBottom.visibility = View.VISIBLE
         cvTop.visibility = View.VISIBLE
@@ -618,7 +635,9 @@ class CoordiDetailActivity : AppCompatActivity() {
     fun clickDress(item : Cloth){
         coordiBottom.setImageResource(0)
         coordiTop.setImageResource(0)
-
+        cvTop_only.visibility = View.INVISIBLE
+        cvBottom_only.visibility = View.INVISIBLE
+        cvDress_only.visibility = View.INVISIBLE
         cvBottom.visibility = View.INVISIBLE
         cvTop.visibility = View.INVISIBLE
         cvDress.visibility = View.VISIBLE
@@ -633,7 +652,9 @@ class CoordiDetailActivity : AppCompatActivity() {
     }
 
     fun clickOuter(item: Cloth){
-
+        cvTop_only.visibility = View.INVISIBLE
+        cvBottom_only.visibility = View.INVISIBLE
+        cvDress_only.visibility = View.INVISIBLE
         cvOuter.visibility = View.VISIBLE
         selectOuterId = item.clothID
         Glide.with(this)
