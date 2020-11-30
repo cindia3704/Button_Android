@@ -1,6 +1,7 @@
 package com.example.button.startApp_1.adapter
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -201,8 +202,9 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
         }
 
 
+        Log.e("CoordiListItemAdapter","isEdit="+isEdit+"\nfriendId="+friendId+"\nuserId="+userId+"\nitem position="+position+"\ncoordItem.outfitBy="+coordItem.outfitBy)
         holder.delete.visibility = if (isEdit) {
-            if (friendId != 0 && coordItem.outfitBy == userId) {
+            if (friendId == 0 && coordItem.outfitBy == userId) {
                 View.VISIBLE
             } else {
                 View.GONE
