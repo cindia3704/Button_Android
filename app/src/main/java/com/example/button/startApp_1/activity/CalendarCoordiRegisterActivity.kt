@@ -287,6 +287,7 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
                             response: Response<SelectCoordiForCalendarBody>
                         ) {
                             if (response.isSuccessful) {
+                                Toast.makeText(this@CalendarCoordiRegisterActivity,"등록이 정상적으로 되었습니다.",Toast.LENGTH_SHORT).show()
                                 finish()
                             }
 
@@ -313,10 +314,12 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
                             ) {
                                 if (response.isSuccessful) {
                                     isUdapteCoordi = true
-
-                                    if (isUdapteCoordi && isUpdateMemo) {
-                                        finish()
-                                    }
+                                    Toast.makeText(this@CalendarCoordiRegisterActivity,"수정이 정상적으로 되었습니다.",Toast.LENGTH_SHORT).show()
+                                    finish()
+//                                    if (isUdapteCoordi && isUpdateMemo) {
+//
+//                                        finish()
+//                                    }
 
                                 }
 
@@ -341,8 +344,12 @@ class CalendarCoordiRegisterActivity : AppCompatActivity() {
                         ) {
                             if (response.isSuccessful) {
                                 isUpdateMemo = true
+                                Toast.makeText(this@CalendarCoordiRegisterActivity,"수정이 정상적으로 되었습니다.",Toast.LENGTH_SHORT).show()
 
                                 if (isUdapteCoordi && isUpdateMemo) {
+                                    finish()
+                                }
+                                else{
                                     finish()
                                 }
                             }
