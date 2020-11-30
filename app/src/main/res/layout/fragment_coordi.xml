@@ -9,7 +9,6 @@
         android:id="@+id/save"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
         android:src="@drawable/button_save"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,16 +18,15 @@
         android:id="@+id/tv_list"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:layout_marginRight="10dp"
         android:src="@drawable/view_list"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvTop"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="35dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="50dp"
         app:cardElevation="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -37,8 +35,8 @@
 
         <ImageView
             android:id="@+id/coordiTop"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,8 +45,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvBottom"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         app:cardCornerRadius="50dp"
         app:cardElevation="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -57,15 +55,15 @@
 
         <ImageView
             android:id="@+id/coordiBottom"
-            android:layout_width="110dp"
-            android:layout_height="110dp" />
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvOuter"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         app:cardCornerRadius="50dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/cvBottom"
@@ -74,14 +72,14 @@
 
         <ImageView
             android:id="@+id/coordiOuter"
-            android:layout_width="110dp"
-            android:layout_height="110dp" />
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvDress"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:visibility="gone"
         app:cardCornerRadius="50dp"
         app:cardElevation="0dp"
@@ -92,8 +90,8 @@
 
         <ImageView
             android:id="@+id/coordiDress"
-            android:layout_width="110dp"
-            android:layout_height="110dp" />
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
     </androidx.cardview.widget.CardView>
 
     <EditText
@@ -109,7 +107,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/coordiName">
 
