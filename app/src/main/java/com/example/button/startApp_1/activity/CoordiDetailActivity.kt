@@ -27,19 +27,15 @@ import kotlinx.android.synthetic.main.activity_coordi_detail.coordiName
 import kotlinx.android.synthetic.main.activity_coordi_detail.coordiOuter
 import kotlinx.android.synthetic.main.activity_coordi_detail.coordiTop
 import kotlinx.android.synthetic.main.activity_coordi_detail.cvBottom
-import kotlinx.android.synthetic.main.activity_coordi_detail.cvBottom_only
 import kotlinx.android.synthetic.main.activity_coordi_detail.cvDress
-import kotlinx.android.synthetic.main.activity_coordi_detail.cvDress_only
 import kotlinx.android.synthetic.main.activity_coordi_detail.cvOuter
 import kotlinx.android.synthetic.main.activity_coordi_detail.cvTop
-import kotlinx.android.synthetic.main.activity_coordi_detail.cvTop_only
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_bottom
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_onepiece
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_outer
 import kotlinx.android.synthetic.main.activity_coordi_detail.recyclerView_category_top
 import kotlinx.android.synthetic.main.activity_coordi_detail.save
 import kotlinx.android.synthetic.main.activity_coordi_detail.select_weather
-import kotlinx.android.synthetic.main.activity_recommend_result.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -410,114 +406,42 @@ class CoordiDetailActivity : AppCompatActivity() {
                     val data = response.body()
                     data?.let {
                         coordiName.setText("${it.outfitName}")
-                        cvTop.visibility = View.INVISIBLE
-                        cvBottom.visibility = View.INVISIBLE
-                        cvOuter.visibility = View.INVISIBLE
-                        cvDress.visibility = View.INVISIBLE
-                        cvTop_only.visibility = View.INVISIBLE
-                        cvBottom_only.visibility = View.INVISIBLE
-                        cvDress_only.visibility = View.INVISIBLE
 
-                        if(it.clothes.size<=2){
-                            var item1 = it.clothes[0]
-                            if(it.clothes.size==1){
-                                if (TextUtils.equals(item1.category, "DRESS")) {
-                                    selectDressId = item1.clothID
-                                    cvDress_only.visibility = View.VISIBLE
-                                    Glide.with(this@CoordiDetailActivity)
-                                        .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                        .placeholder(R.drawable.circle)
-                                        .into(coordiDress_only__)
-                                    Glide.with(this@CoordiDetailActivity)
-                                        .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                        .placeholder(R.drawable.circle)
-                                        .into(coordiDress)
-                                }
+                        for(i in 0 until it.clothes.size){
+                            var item = it.clothes[i]
+                            if(TextUtils.equals(item.category, "TOP")) {
+                                selectedTopId = item.clothID
+                                cvTop.visibility=View.VISIBLE
+                                cvBottom.visibility=View.VISIBLE
+                                Glide.with(this@CoordiDetailActivity)
+                                    .load(RetrofitClient.imageBaseUrl + item.photo)
+                                    .placeholder(R.drawable.circle)
+                                    .into(coordiTop)
                             }
-                            else {
-                                for (i in 0 until it.clothes.size) {
-                                    var item1 = it.clothes[i]
-                                    if (TextUtils.equals(item1.category, "TOP")) {
-                                        selectTopId = item1.clothID
-                                        cvTop_only.visibility = View.VISIBLE
-                                        Glide.with(this@CoordiDetailActivity)
-                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                            .placeholder(R.drawable.circle)
-                                            .into(coordiTop_only__)
+                            if(TextUtils.equals(item.category, "BOTTOM")) {
+                                selectedBottomId = item.clothID
 
-                                        Glide.with(this@CoordiDetailActivity)
-                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                            .placeholder(R.drawable.circle)
-                                            .into(coordiTop)
-                                    }
-                                    if (TextUtils.equals(item1.category, "BOTTOM")) {
-                                        selectBottomId = item1.clothID
-                                        cvBottom_only.visibility = View.VISIBLE
-                                        Glide.with(this@CoordiDetailActivity)
-                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                            .placeholder(R.drawable.circle)
-                                            .into(coordiBottom_only__)
-                                        Glide.with(this@CoordiDetailActivity)
-                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                            .placeholder(R.drawable.circle)
-                                            .into(coordiBottom)
-                                    }
-                                    if (TextUtils.equals(item1.category, "DRESS")) {
-                                        selectDressId = item1.clothID
-                                        cvDress.visibility = View.VISIBLE
-                                        Glide.with(this@CoordiDetailActivity)
-                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                            .placeholder(R.drawable.circle)
-                                            .into(coordiDress)
-                                    }
-                                    if (TextUtils.equals(item1.category, "OUTER")) {
-                                        selectOuterId = item1.clothID
-
-                                        cvOuter.visibility = View.VISIBLE
-                                        Glide.with(this@CoordiDetailActivity)
-                                            .load(RetrofitClient.imageBaseUrl + item1.photo)
-                                            .placeholder(R.drawable.circle)
-                                            .into(coordiOuter)
-                                    }
-                                }
+                                Glide.with(this@CoordiDetailActivity)
+                                    .load(RetrofitClient.imageBaseUrl + item.photo)
+                                    .placeholder(R.drawable.circle)
+                                    .into(coordiBottom)
                             }
-                        }
-                        else {
-                            for (i in 0 until it.clothes.size) {
-                                var item = it.clothes[i]
-                                if (TextUtils.equals(item.category, "TOP")) {
-                                    selectedTopId = item.clothID
-                                    cvTop.visibility=View.VISIBLE
-                                    Glide.with(this@CoordiDetailActivity)
-                                        .load(RetrofitClient.imageBaseUrl + item.photo)
-                                        .placeholder(R.drawable.circle)
-                                        .into(coordiTop)
-                                }
-                                if (TextUtils.equals(item.category, "BOTTOM")) {
-                                    selectedBottomId = item.clothID
-                                    cvBottom.visibility=View.VISIBLE
-                                    Glide.with(this@CoordiDetailActivity)
-                                        .load(RetrofitClient.imageBaseUrl + item.photo)
-                                        .placeholder(R.drawable.circle)
-                                        .into(coordiBottom)
-                                }
-                                if (TextUtils.equals(item.category, "OUTER")) {
-                                    selectedOuterId = item.clothID
-                                    cvOuter.visibility=View.VISIBLE
-                                    Glide.with(this@CoordiDetailActivity)
-                                        .load(RetrofitClient.imageBaseUrl + item.photo)
-                                        .placeholder(R.drawable.circle)
-                                        .into(coordiOuter)
-                                }
-                                if (TextUtils.equals(item.category, "DRESS")) {
-                                    selectedDressId = item.clothID
-                                    cvDress.visibility=View.VISIBLE
-                                    cvDress.visibility = View.VISIBLE
-                                    Glide.with(this@CoordiDetailActivity)
-                                        .load(RetrofitClient.imageBaseUrl + item.photo)
-                                        .placeholder(R.drawable.circle)
-                                        .into(coordiDress)
-                                }
+                            if(TextUtils.equals(item.category, "OUTER")) {
+                                selectedOuterId = item.clothID
+                                cvOuter.visibility=View.VISIBLE
+                                Glide.with(this@CoordiDetailActivity)
+                                    .load(RetrofitClient.imageBaseUrl + item.photo)
+                                    .placeholder(R.drawable.circle)
+                                    .into(coordiOuter)
+                            }
+                            if(TextUtils.equals(item.category, "DRESS")) {
+                                selectedDressId = item.clothID
+
+                                cvDress.visibility = View.VISIBLE
+                                Glide.with(this@CoordiDetailActivity)
+                                    .load(RetrofitClient.imageBaseUrl + item.photo)
+                                    .placeholder(R.drawable.circle)
+                                    .into(coordiDress)
                             }
                         }
 
@@ -600,9 +524,7 @@ class CoordiDetailActivity : AppCompatActivity() {
 
     fun clickTop(item: Cloth) {
         coordiTop.setImageResource(0)
-        cvTop_only.visibility = View.INVISIBLE
-        cvBottom_only.visibility = View.INVISIBLE
-        cvDress_only.visibility = View.INVISIBLE
+
         cvDress.visibility = View.INVISIBLE
         cvBottom.visibility = View.VISIBLE
         cvTop.visibility = View.VISIBLE
@@ -618,9 +540,7 @@ class CoordiDetailActivity : AppCompatActivity() {
     fun clickBottom(item: Cloth) {
 
         coordiDress.setImageResource(0)
-        cvTop_only.visibility = View.INVISIBLE
-        cvBottom_only.visibility = View.INVISIBLE
-        cvDress_only.visibility = View.INVISIBLE
+
         cvDress.visibility = View.INVISIBLE
         cvBottom.visibility = View.VISIBLE
         cvTop.visibility = View.VISIBLE
@@ -635,9 +555,7 @@ class CoordiDetailActivity : AppCompatActivity() {
     fun clickDress(item : Cloth){
         coordiBottom.setImageResource(0)
         coordiTop.setImageResource(0)
-        cvTop_only.visibility = View.INVISIBLE
-        cvBottom_only.visibility = View.INVISIBLE
-        cvDress_only.visibility = View.INVISIBLE
+
         cvBottom.visibility = View.INVISIBLE
         cvTop.visibility = View.INVISIBLE
         cvDress.visibility = View.VISIBLE
@@ -652,9 +570,7 @@ class CoordiDetailActivity : AppCompatActivity() {
     }
 
     fun clickOuter(item: Cloth){
-        cvTop_only.visibility = View.INVISIBLE
-        cvBottom_only.visibility = View.INVISIBLE
-        cvDress_only.visibility = View.INVISIBLE
+
         cvOuter.visibility = View.VISIBLE
         selectOuterId = item.clothID
         Glide.with(this)
