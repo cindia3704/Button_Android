@@ -5,28 +5,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.button.R
-import com.example.button.startApp_1.activity.CoordiListActivity
+import com.example.button.startApp_1.activity.CalendarCoordiRegisterActivity
 import com.example.button.startApp_1.data.CoordiList
-import com.example.button.startApp_1.fragment.CalendarFragment
 import com.example.button.startApp_1.network.RetrofitClient
 
 
-class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
-    RecyclerView.Adapter<CalendarCoordiListItemAdapter.ViewHolder>() {
+class CalendarCoordiRegisterListItemAdapter(val activity: CalendarCoordiRegisterActivity) :
+    RecyclerView.Adapter<CalendarCoordiRegisterListItemAdapter.ViewHolder>() {
 
 
+    var selectPosition = -1
     var isEdit = false
     var myCoordiList = mutableListOf<CoordiList>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    fun selectItemId(): Int {
+        if (selectPosition >= 0) {
+            return myCoordiList[selectPosition].outfitID
+        } else {
+            return -1
+        }
     }
 
     fun updateEdit() {
@@ -43,7 +51,8 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
     override fun getItemCount(): Int {
         return myCoordiList.size
     }
-    fun deleteItem(item : CoordiList){
+
+    fun deleteItem(item: CoordiList) {
         myCoordiList.remove(item)
         notifyDataSetChanged()
     }
@@ -59,15 +68,15 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
         holder.cvTop.visibility = View.INVISIBLE
         holder.cvBottom.visibility = View.INVISIBLE
         holder.cvOuter.visibility = View.INVISIBLE
-        holder.cvDress_only.visibility = View.INVISIBLE
         holder.cvTop_only.visibility = View.INVISIBLE
         holder.cvBottom_only.visibility = View.INVISIBLE
+        holder.cvDress_only.visibility = View.INVISIBLE
 
         if(closetLists.size<=2){
             if(closetLists.size==1){
                 if(TextUtils.equals(closetLists[0].category,"DRESS")){
                     holder.cvDress_only.visibility = View.VISIBLE
-                    Glide.with(fragment)
+                    Glide.with(activity)
                         .load(RetrofitClient.imageBaseUrl + closetLists[0].photo)
                         .placeholder(R.drawable.circle)
                         .into(holder.closetDress_only)
@@ -81,7 +90,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
                         holder.cvTop_only.visibility = View.VISIBLE
 //                        holder.cvBottom.visibility = View.VISIBLE
 
-                        Glide.with(fragment)
+                        Glide.with(activity)
                             .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                             .placeholder(R.drawable.circle)
                             .into(holder.closetTop_only)
@@ -93,7 +102,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
 //                        holder.cvTop.visibility = View.VISIBLE
                         holder.cvBottom_only.visibility = View.VISIBLE
 
-                        Glide.with(fragment)
+                        Glide.with(activity)
                             .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                             .placeholder(R.drawable.circle)
                             .into(holder.closetBottom_only)
@@ -102,7 +111,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
 
                         holder.cvOuter.visibility = View.VISIBLE
 
-                        Glide.with(fragment)
+                        Glide.with(activity)
                             .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                             .placeholder(R.drawable.circle).into(holder.closetOuter)
                     }
@@ -113,7 +122,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
                         holder.cvTop.visibility = View.INVISIBLE
                         holder.cvBottom.visibility = View.INVISIBLE
 
-                        Glide.with(fragment)
+                        Glide.with(activity)
                             .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                             .placeholder(R.drawable.circle)
                             .into(holder.closetDress)
@@ -129,7 +138,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
                     holder.cvTop.visibility = View.VISIBLE
                     holder.cvBottom.visibility = View.VISIBLE
 
-                    Glide.with(fragment)
+                    Glide.with(activity)
                         .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                         .placeholder(R.drawable.circle)
                         .into(holder.closetTop)
@@ -141,7 +150,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
                     holder.cvTop.visibility = View.VISIBLE
                     holder.cvBottom.visibility = View.VISIBLE
 
-                    Glide.with(fragment)
+                    Glide.with(activity)
                         .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                         .placeholder(R.drawable.circle)
                         .into(holder.closetBottom)
@@ -151,7 +160,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
 
                     holder.cvOuter.visibility = View.VISIBLE
 
-                    Glide.with(fragment)
+                    Glide.with(activity)
                         .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                         .placeholder(R.drawable.circle).into(holder.closetOuter)
                 }
@@ -162,7 +171,7 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
                     holder.cvTop.visibility = View.INVISIBLE
                     holder.cvBottom.visibility = View.INVISIBLE
 
-                    Glide.with(fragment)
+                    Glide.with(activity)
                         .load(RetrofitClient.imageBaseUrl + closetLists[i].photo)
                         .placeholder(R.drawable.circle)
                         .into(holder.closetDress)
@@ -173,25 +182,28 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
 
         holder.delete.visibility = if (isEdit) View.VISIBLE else View.GONE
 
+        holder.bind(position)
         holder.content.setOnClickListener {
-
-//            if (isEdit) {
-//                fragment.deleteItem(myCoordiList[position])
-//            } else {
-//                fragment.clickItem(myCoordiList[position])
-//            }
+            activity.selectCoordi(closetLists)
+            activity.setCoordiName(coordItem.outfitName)
+            selectPosition = position
+            notifyDataSetChanged()
         }
     }
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ctSelect: ConstraintLayout = view.findViewById(R.id.ct_select)
+
         val cvTop: CardView = view.findViewById(R.id.cvTop)
         val cvBottom: CardView = view.findViewById(R.id.cvBottom)
         val cvDress: CardView = view.findViewById(R.id.cvDress)
         val cvOuter: CardView = view.findViewById(R.id.cvOuter)
+
         val cvTop_only: CardView = view.findViewById(R.id.cvTop_only)
         val cvBottom_only: CardView = view.findViewById(R.id.cvBottom_only)
         val cvDress_only: CardView = view.findViewById(R.id.cvDress_only)
+
         val content: ConstraintLayout = view.findViewById(R.id.content)
         val closetTop: ImageView = view.findViewById(R.id.closetTop)
         val closetBottom: ImageView = view.findViewById(R.id.closetBottom)
@@ -203,6 +215,16 @@ class CalendarCoordiListItemAdapter(val fragment: CalendarFragment) :
         val closetDress_only: ImageView = view.findViewById(R.id.closetDress_only)
         val delete: ImageView = view.findViewById(R.id.delete)
         val closetName: TextView = view.findViewById(R.id.closetName)
+
+        val closetfrom_id:TextView=view.findViewById(R.id.closetfrom_id)
+        val outfitBy: LinearLayout =view.findViewById(R.id.coordiBY)
+        fun bind(position: Int) {
+//            if(selectPosition == position){
+//                ctSelect.visibility = View.VISIBLE
+//            }else{
+//                ctSelect.visibility = View.GONE
+//            }
+        }
     }
 
 }
