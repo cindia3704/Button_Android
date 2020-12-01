@@ -217,7 +217,7 @@ class RecommendResultActivity : AppCompatActivity() {
                             if(isSelectCalendar){
                                 saveCalendar(outFitID)
                             }else{
-                                Toast.makeText(this@RecommendResultActivity,"코디가 정상적으로 등록됐습니다.",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@RecommendResultActivity,"코디가 정상적으로 등록되었습니다.",Toast.LENGTH_SHORT).show()
                                 var intent = Intent(this@RecommendResultActivity,CoordiListActivity::class.java)
                                 intent.putExtra(CoordiListActivity.KEY_USER_ID,userId)
                                 startActivity(intent)
@@ -253,7 +253,10 @@ class RecommendResultActivity : AppCompatActivity() {
                     ) {
 
                         Log.e("recommd","resoponse="+response.toString())
-                        if(response.isSuccessful){
+                        if(TextUtils.equals("not enough clothes",response.toString())){
+                            Toast.makeText(this@RecommendResultActivity,"옷이 부족합니다.",Toast.LENGTH_SHORT).show()
+                        }
+                        else if(response.isSuccessful){
 
                             cvTop.visibility = View.INVISIBLE
                             cvBottom.visibility = View.INVISIBLE
