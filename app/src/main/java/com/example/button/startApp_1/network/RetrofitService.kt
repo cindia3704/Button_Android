@@ -153,7 +153,7 @@ interface RetrofitService {
         @Path("id") userID: Int,
         @Path("outfitID") outfitID: Int,
         @Header("Authorization") token: String
-    ): Call<Void>
+    ): Call<DefaultResponse>
 
 
     @GET("/{id}/outfit/list/{outfitID}/")
