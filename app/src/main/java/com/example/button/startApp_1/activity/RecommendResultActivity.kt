@@ -233,6 +233,7 @@ class RecommendResultActivity : AppCompatActivity() {
     }
 
     fun selectCoordi(){
+        img_loading.visibility = View.VISIBLE
 
         selectData?.let{
 
@@ -245,13 +246,14 @@ class RecommendResultActivity : AppCompatActivity() {
             RetrofitClient.retrofitService.recommend(it,"Token " + RetrofitClient.token)
                 .enqueue(object : retrofit2.Callback<MutableList<Cloth>> {
                     override fun onFailure(call: Call<MutableList<Cloth>>, t: Throwable) {
+                        img_loading.visibility = View.INVISIBLE
                     }
 
                     override fun onResponse(
                         call: Call<MutableList<Cloth>>,
                         response: Response<MutableList<Cloth>>
                     ) {
-
+                        img_loading.visibility = View.INVISIBLE
                         Log.e("recommd","resoponse="+response.toString())
                         if(TextUtils.equals("not enough clothes",response.toString())){
                             Toast.makeText(this@RecommendResultActivity,"옷이 부족합니다.",Toast.LENGTH_SHORT).show()
