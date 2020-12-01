@@ -44,8 +44,8 @@ class RecommendFragment : Fragment() {
     private var mood = 0
 
     var userId: Int = 5
-    private val weatherList = arrayOf("여름","겨울","환절기(봄, 가을)","오늘의 계절")
-    private val weatherValueList = arrayOf("SUMMER","WINTER","HWAN","NOW")
+    private val weatherList = arrayOf("오늘의 계절","여름","겨울","환절기(봄, 가을)")
+    private val weatherValueList = arrayOf("NOW","SUMMER","WINTER","HWAN")
     private var selectWeatherIndex = 0
     private var weatherAdapter : ArrayAdapter<String>? = null
 
@@ -399,13 +399,15 @@ class RecommendFragment : Fragment() {
 
 
             var weather = ""
-            if(selectWeatherIndex == 3){
+            if(selectWeatherIndex == 0){
                 var month = Calendar.getInstance().get(Calendar.MONTH) +1
                 weather = when(month){
                     1,2,12 -> "WINTER"
                     6,7,8 -> "SUMMER"
                     else -> "HWAN"
+
                 }
+             //   Toast.makeText(context, weather,Toast.LENGTH_SHORT).show()
             }else{
                 weather = weatherValueList[selectWeatherIndex]
             }
