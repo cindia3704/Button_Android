@@ -212,7 +212,7 @@ class CoordiFragment : Fragment() {
         cvBottom.visibility = View.INVISIBLE
         cvTop.visibility = View.INVISIBLE
         cvDress.visibility = View.INVISIBLE
-        coordiOuter.visibility = View.INVISIBLE
+        cvOuter.visibility = View.INVISIBLE
 
         coordiName.setText("")
     }
