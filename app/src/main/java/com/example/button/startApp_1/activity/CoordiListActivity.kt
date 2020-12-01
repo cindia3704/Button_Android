@@ -3,13 +3,16 @@ package com.example.button.startApp_1.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.button.R
 import com.example.button.startApp_1.adapter.CoordiListItemAdapter
 import com.example.button.startApp_1.data.Cloth
 import com.example.button.startApp_1.data.CoordiList
+import com.example.button.startApp_1.data.DefaultResponse
 import com.example.button.startApp_1.network.RetrofitClient
 import kotlinx.android.synthetic.main.activity_coordi_list.*
 import kotlinx.android.synthetic.main.fragment_recommend.*
@@ -124,20 +127,24 @@ class CoordiListActivity : AppCompatActivity() {
             userID, item.outfitID,
             "Token " + RetrofitClient.token
         )
-            .enqueue(object : retrofit2.Callback<Void> {
-                override fun onFailure(call: Call<Void>, t: Throwable) {
+            .enqueue(object : retrofit2.Callback<DefaultResponse> {
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                     t.printStackTrace()
                 }
 
                 override fun onResponse(
-                    call: Call<Void>,
-                    response: Response<Void>
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
                 ) {
                     val data = response.body()
-                    Log.e("data", "data=" + data)
+                    Log.e("data", "data=" + data?.response?.toString())
 
-                    if (response.isSuccessful)
+                    if(TextUtils.equals("cannot delete cloth",data?.response)){
+                        Toast.makeText(this@CoordiListActivity,"자신이 직접 코디한 아웃핏만 삭제할 수 있습니다.",Toast.LENGTH_SHORT).show()
+                    }else if(response.isSuccessful){
                         listAdapter.deleteItem(item)
+                    }
+
                 }
 
             })
