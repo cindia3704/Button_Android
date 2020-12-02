@@ -88,7 +88,7 @@ class FriendFragment : Fragment() {
                 ) {
                     val data = response.message()
                     if(response.isSuccessful){
-                        Toast.makeText(context,"친구삭제가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,"친구삭제가 성공적으로 되었습니다.",Toast.LENGTH_SHORT).show()
                         reqFriendList()
                     }
 
