@@ -108,6 +108,7 @@ class CoordiListActivity : AppCompatActivity() {
 
         edit.setOnClickListener {
             listAdapter.updateEdit()
+            friendListAdpater.updateEdit()
         }
         back.setOnClickListener {
             finish()
@@ -117,12 +118,17 @@ class CoordiListActivity : AppCompatActivity() {
     fun clickItem(item: CoordiList) {
 
         var intent = Intent(this, CoordiDetailActivity::class.java)
-        intent.putExtra(CoordiDetailActivity.KEY_USER_ID, userID)
+        if(friendID==0) {
+            intent.putExtra(CoordiDetailActivity.KEY_USER_ID, userID)
+        } else {
+            intent.putExtra(CoordiDetailActivity.KEY_FRIEND_ID, friendID)
+        }
         intent.putExtra(CoordiDetailActivity.KEY_COORDI_ID, item.outfitID)
         startActivity(intent)
     }
 
     fun deleteItem(item: CoordiList) {
+
         RetrofitClient.retrofitService.deleteOutfit(
             userID, item.outfitID,
             "Token " + RetrofitClient.token
@@ -143,6 +149,7 @@ class CoordiListActivity : AppCompatActivity() {
                         Toast.makeText(this@CoordiListActivity,"자신이 직접 코디한 아웃핏만 삭제할 수 있습니다.",Toast.LENGTH_SHORT).show()
                     }else if(response.isSuccessful){
                         listAdapter.deleteItem(item)
+                        friendListAdpater.deleteItem(item)
                     }
 
                 }
