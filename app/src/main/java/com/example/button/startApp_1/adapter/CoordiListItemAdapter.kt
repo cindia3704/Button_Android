@@ -203,14 +203,12 @@ class CoordiListItemAdapter(val activity: CoordiListActivity) :
 
 
         Log.e("CoordiListItemAdapter","isEdit="+isEdit+"\nfriendId="+friendId+"\nuserId="+userId+"\nitem position="+position+"\ncoordItem.outfitBy="+coordItem.outfitBy)
-        holder.delete.visibility = if (isEdit) {
-            if (friendId == 0 && coordItem.outfitBy == userId) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        } else {
-            View.GONE
+
+        if(isEdit){
+            holder.delete.visibility=View.VISIBLE
+        }
+        else{
+            holder.delete.visibility=View.INVISIBLE
         }
 
 
