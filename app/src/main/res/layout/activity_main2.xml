@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".startApp_1.activity.MainActivity">
-    <LinearLayout
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/top_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,17 +25,16 @@
             <ImageView
                 android:id="@+id/top_logo_icon"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginRight="200dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/main_logo" />
+                android:src="@drawable/main_logo_clear" />
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:cardCornerRadius="20dp"
                 android:layout_marginLeft="50dp"
-                app:cardElevation="0dp"
+                app:cardElevation="3dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
                 <ImageView
@@ -47,13 +47,9 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="#302F2F" />
 
-    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_ac_main_frag_pager"
