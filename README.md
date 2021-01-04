@@ -2,7 +2,9 @@
   ![logo](https://user-images.githubusercontent.com/52744390/103287726-9f7e4f80-4a26-11eb-8bbb-f87c22bb296f.png)  
 > Button is an android application for managing user's closet and outfit   
 > 버튼은 사용자 옷장 관리 및 코디 어플입니다.   
-> 해당 프로젝트는 2020년 2학기 캡스톤 프로젝트로 수행되었습니다.      
+> 해당 프로젝트는 2020년 2학기 캡스톤 프로젝트로 수행되었습니다.   
+   
+> 사용 방법은 UserManual.pdf를 참고해주세요.
   
 _______________      
 #### 프로젝트 기능 
